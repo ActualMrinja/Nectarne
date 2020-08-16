@@ -1,0 +1,22 @@
+{
+  "name": "Nectarne",
+  "version": "1.0",
+  "description": "Collect, raise, breed, and battle with bugs to create the best colony there is and ever will be.",
+  "permissions": ["activeTab","storage"],
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "images/favicon/favicon16.png",
+      "32": "images/favicon/favicon32.png",
+      "48": "images/favicon/favicon48.png",
+      "128": "images/favicon/favicon128.png"
+    }
+  },
+  "icons": {
+      "16": "images/favicon/favicon16.png",
+      "32": "images/favicon/favicon32.png",
+      "48": "images/favicon/favicon48.png",
+      "128": "images/favicon/favicon128.png"
+  },
+  "manifest_version": 2
+}

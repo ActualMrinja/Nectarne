@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html lang="en" style="min-width: 528; min-height: 297;">
+
+<head>
+
+    <title>Nectarne</title>
+    <link rel="shortcut icon" href="/Favicon.ico">
+	<link rel="icon" sizes="16x16 32x32 64x64" href="favicon/Favicon.ico">
+    
+    <style>
+        #nectarneCanvas {
+            min-width: 528;
+            min-height: 297;
+            margin: auto;
+            display: block;
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            border: 3px solid #332e2f;
+        }
+
+        @font-face {
+            src: url("TovariSans.ttf") format('truetype');
+            font-family: "TovariSans";
+        }
+
+        html,
+        body {
+            width: 534px;
+            height:287px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas tabindex="1" id="nectarneCanvas" width="528px" height="297px" style='outline:none;left:0px;top:0px;'></canvas>
+
+    <!-- Misc -->
+    <script type="text/javascript" src="js/miscData.js"></script>
+    <script type="text/javascript" src="js/miscFunctions.js"></script>
+    
+    <!-- Constructors -->
+    <script type="text/javascript" src="js/bugBuild.js"></script>
+    <script type="text/javascript" src="js/facilityBuild.js"></script>
+    
+    <!-- Main -->
+    <script type="text/javascript" src="js/gameData.js"></script>
+    
+</body>
+
+</html>
