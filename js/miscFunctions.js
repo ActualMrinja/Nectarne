@@ -882,7 +882,14 @@ load = function(deleteFile = false){
     weather = JSON.parse(localStorage.getItem("Weather"));
     musicvolume = JSON.parse(localStorage.getItem("Music"));
     soundeffectvolume = JSON.parse(localStorage.getItem("Sound"));    
-        
+      
+    music.pause();
+    music = new Audio("muzak/MainTheme.mp3");
+    musicvolume = 0.7;
+    music.volume = 0.7;
+    music.loop = true;
+    music.play(); 
+     
     //resets battles
     battleEnemies = [];
     battleInfo = rooms[0].MissionList[rooms[0].MissionSelect];
