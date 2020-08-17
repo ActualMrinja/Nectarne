@@ -593,7 +593,7 @@ bugBuild.prototype.keyDown = function(event) {
     }
 
     //Code for switching bugs
-    if (boxSelector == "" && battleBugs.length > 1 && event.keyCode >= 49 && event.keyCode < 53 && event.keyCode - 48 <= battleBugs.length && !this.Attacking && this.Health > 0) {
+    if (boxSelector == "" && battleBugs.length > 1 && event.keyCode >= 49 && event.keyCode < 53 && event.keyCode - 48 < battleBugs.length && !this.Attacking && this.Health > 0) {
         this.Jump = 0;
         battleBugs[event.keyCode - 48].keyUp = this.keyUp;
         this.keyUp = {};
