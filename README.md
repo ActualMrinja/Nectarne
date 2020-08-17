@@ -7,7 +7,7 @@ Download the extension or visit https://actualmrinja.github.io/Nectarne/ on-site
 Download the code for the game
 
 # Step 2: Unzip Files
-Unzip the files and move the folder labeled "Nectarne"
+Unzip the files and move the folder labeled Nectarne-master
 
 # Step 3: Load Unpacked Extension
-Enter developer mode and click load unpacked. Select the folder labeled Nectarne
+Enter developer mode and click load unpacked. Select the folder labeled Nectarne-master
