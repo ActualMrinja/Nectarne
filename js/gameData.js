@@ -1,7 +1,5 @@
 ctx = nectarneCanvas.getContext("2d");
 
-/**Hello there! You must be one of those young queens ready to start a colony. Thats nice to see this land hasn't been forgotten. I'm Terrace the Termite. I see a lot of potential here, I've been needing to do something about these two but I never had the item - meet Antonio and Walker.**/ 
-
 date = new Date();
 months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
     
@@ -14,18 +12,18 @@ shop = [["Ant",new Date(0),1,["Ant","Termite","Fly","Wriggler","Water_Tiger"]],[
 miscNm = ["bugHeader.png","bugImgHeader.png","Health.png","Attack.png","Speed.png","Age.png","CommandCenter.png","Swim.png","Fly.png","Mandible.png","Albino.png","MaleSm.png","FemaleSm.png","ButtonHeader.png","MudBlock.png","SalivaSalvo.png","HiveBlock.png","WoodBlock.png","StoneBlock.png","DartAmbush.png","PrairieBlock.png","PoisonSting.png","BoxContainer.png","Territs.png","Population.png","Food.png","RainDroplet.png","Snowflake.png","Sunny.png","Drizzle.png","Thunderstorm.png","Snowstorm.png","NectarStick.png","NectarBranch.png","ThornstumpFruit.png","TwinbearBerry.png","PorousScreecher.png","HealingClover.png","AgingClover.png","TraitModifier.png","GeneModifier.png","SlouchingMiracle.png","ImmortalHealth.png","Mission.png","LoveField.png","TerritStronghold.png","ShadowHightail.png","NectarGrove.png","ParasiticSting.png","VenomSpray.png","VenomousAmbush.png","Settings.png","LuminescentCavern.png","Soundwave.png","StridulatingRetreat.png","WaterDome.png","DefensiveCoil.png","SpecializedAmbush.png","AirDome.png","SmugglerJunkyard.png","LifeField.png","LifeMeal.png","NoxiousWhimper.png","VitalityField.png","Time.png","CommonBanner.png","RareBanner.png","EpicBanner.png","SpecialBanner.png","HorrendousAmbush.png","Trait.png","DifficultyNormal.png","DifficultyHard.png","DifficultyImpossible.png"];
 miscImg = [];
 
+audioNm = ["MissionComplete.mp3","MissionFail.mp3","SpecializedAmbush.mp3","Death.mp3","VenomousAmbush.mp3","NoxiousWhimper.mp3","LifeMeal.mp3","DefensiveCoil.mp3","StridulatingRetreat.mp3","Hatch.mp3","Territ.mp3","HorrendousAmbush.mp3","ParasiticSting.mp3","VenomSpray.mp3","ShadowHightail","Thunder.mp3","Rain.mp3","PoisonSting.mp3","Dialogue.mp3","DartAmbush.mp3","Splash.mp3","GateClose.mp3","Zap.mp3","FlyStart.mp3","FlyEnd.mp3","MandiblePress.mp3","SalivaSalvo.mp3"];
+miscAudio = [];
+
 for(let miscImgLoad = 0;miscImgLoad < miscNm.length;miscImgLoad++){
 miscImg.push(new Image());
 miscImg[miscImg.length-1].src = "images/ui/"+miscNm[miscImgLoad];
 }
 
-//User stats
-/**Legendary team 
-new bugBuild("Berserk",190,200,"Centipede",270),new bugBuild("Webster",190,200,"Tarantula",225),new bugBuild("Blackjacket",150,200,"Wasp",180),new bugBuild("Nessie",190,200,"Giant_Water_Bug",135),new bugBuild("Meganeura",190,200,"Dragonfly",90)
-
-new bugBuild("Berserk",190,200,"Millipede",270),new bugBuild("Webster",190,200,"Spider",225),new bugBuild("Blackjacket",150,200,"Scorpion",180),new bugBuild("Nessie",190,200,"Mantis",135),new bugBuild("Meganeura",190,200,"Weta",90)
-**/
-
+for(let miscAudioLoad = 0;miscAudioLoad < audioNm.length;miscAudioLoad++){
+miscAudio.push(new Audio());
+miscAudio[miscAudio.length-1].src = "sounds/"+audioNm[miscAudioLoad];
+}
 
 bugs = [];
 bugs.push();
@@ -397,7 +395,6 @@ ctx.globalAlpha = 1;
                boxSelector = ""; 
                food += items[itemsDraw].bulk * (itemsDraw == 0 ? 100 : 1000)
                items[itemsDraw].quantity -= items[itemsDraw].bulk;
-               items[itemsDraw].bulk = 0;
                mousedown = false;
                save();
                } else {

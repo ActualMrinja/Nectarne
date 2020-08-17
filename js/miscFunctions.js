@@ -290,7 +290,7 @@ battleClose = function(){
 //global sound effects to deal with multiple sound effects efficently
 soundeffect = function(file=false) {
   if(file){
-    sounds[soundsloop] = new Audio("sounds/"+file);
+    sounds[soundsloop] = miscAudio[audioNm.indexOf(file)].cloneNode();
     sounds[soundsloop].volume = soundeffectvolume;
     sounds[soundsloop].play();
     soundsloop += 1;
@@ -826,7 +826,7 @@ tutorial = function(){
         rooms.push(new facilityBuild(4,5));
         save("Facilities", JSON.stringify(rooms));
     } else if(rooms[0].MissionList.length !== 0&&rooms[0].MissionList[0][0] == 5&&rooms.length < 7&&textInfo.length == 1){
-        textInfo.push(["Teresa","Termite","Those bees had a Territ Stronghold! I would've never expected one of these\nin a hive. They must be taking this seriously?",0],["Teresa","Termite","Anyway. You have more missions available, I suggest to stay low. The\nnorthern ponds is an isolated place...",0]);
+        textInfo.push(["Teresa","Termite","Those bees had a Territ Stronghold! I would've never expected one of these\nin a hive. They must be taking this seriously?",0],["Teresa","Termite","Anyway. You have more missions available, I suggest to stay low. The\nnorthern ponds are an isolated place...",0]);
         rooms.push(new facilityBuild(2,6));
         rooms[0].MissionList.push([19,battleLoot(19)]);
         save();
@@ -868,6 +868,7 @@ load = function(deleteFile = false){
     if(!deleteFile){
     scrollx = 0;
     bugs = JSON.parse(localStorage.getItem("Bugs"));
+    bugSelected = -1;
     battleBugs = [];
     rooms = JSON.parse(localStorage.getItem("Facilities"));
     shop = JSON.parse(localStorage.getItem("Shop"));
@@ -882,14 +883,14 @@ load = function(deleteFile = false){
     weather = JSON.parse(localStorage.getItem("Weather"));
     musicvolume = JSON.parse(localStorage.getItem("Music"));
     soundeffectvolume = JSON.parse(localStorage.getItem("Sound"));    
-      
+        
     music.pause();
     music = new Audio("muzak/MainTheme.mp3");
     musicvolume = 0.7;
     music.volume = 0.7;
     music.loop = true;
-    music.play(); 
-     
+    music.play();   
+        
     //resets battles
     battleEnemies = [];
     battleInfo = rooms[0].MissionList[rooms[0].MissionSelect];

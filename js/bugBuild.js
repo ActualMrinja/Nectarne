@@ -616,6 +616,7 @@ bugBuild.prototype.draw = function(){
   if(!this.Enemy&&!battleMode){ 
     this.constants((date-this.DateRecord)/(1000/30));
     this.DateRecord = date;
+    save("Bugs", JSON.stringify(bugs));
    }  
     
     ctx.save();
