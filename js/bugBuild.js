@@ -92,7 +92,7 @@ bugBuild.prototype.collision = function(collisionIndex) {
     if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 2 && collision(collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3], this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
         this.Swimming = true;
         this.SwimmingDistance = collisionIndex[3] == 25 && this.Y < (collisionIndex[1] + 30) ? Math.abs(collisionIndex[1] - this.Y) + 25 : 40;
-        if (Math.abs(this.SwimmingDistance - 25) <= 10 && !this.Attacking) {
+        if (Math.abs(this.SwimmingDistance - 25) <= 10 && !this.Attacking && boxSelector == "") {
             soundeffect("Splash.mp3");
         }
     }
@@ -593,7 +593,7 @@ bugBuild.prototype.keyDown = function(event) {
     }
 
     //Code for switching bugs
-    if (boxSelector == "" && event.keyCode >= 49 && event.keyCode < 53 && event.keyCode - 48 <= battleBugs.length && !this.Attacking && this.Health > 0) {
+    if (boxSelector == "" && battleBugs.length > 1 && event.keyCode >= 49 && event.keyCode < 53 && event.keyCode - 48 <= battleBugs.length && !this.Attacking && this.Health > 0) {
         this.Jump = 0;
         battleBugs[event.keyCode - 48].keyUp = this.keyUp;
         this.keyUp = {};

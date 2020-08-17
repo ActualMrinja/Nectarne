@@ -53,6 +53,7 @@ scrollx = 0;
 
 music = new Audio("muzak/MainTheme.mp3");
 musicvolume = 0.7;
+music.loop = true;
 music.volume = 0.7;
 music.play();
 
@@ -556,7 +557,7 @@ mainGame = function() {
                 if (battleMode) {
                     textmaker(missions[battleInfo[0]].name, 264, boxAnimation + 85, 30, true);
                     buttonmaker("Restart", 125, boxAnimation + (battleBugs.length > 0 ? 220 : 160), 2, action => [load(), battleBuild(missions[battleInfo[0]].type, missions[battleInfo[0]].difficulty)]);
-                    buttonmaker("Return", 315, boxAnimation + (battleBugs.length > 0 ? 220 : 160), 2, action => load());
+                    buttonmaker("Return", 315, boxAnimation + (battleBugs.length > 0 ? 220 : 160), 2, action => [boxSelector = "", load()]);
                 } else {
                     buttonmaker("Guide", 125, boxAnimation + 220, 2, action => [boxSelector = "Guide", page = 0]);
                     buttonmaker("Delete File", 315, boxAnimation + 220, 2, action => boxSelector = "File Deletion");

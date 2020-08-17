@@ -936,19 +936,20 @@ load = function(deleteFile = false) {
         musicvolume = JSON.parse(localStorage.getItem("Music"));
         soundeffectvolume = JSON.parse(localStorage.getItem("Sound"));
 
-        music.pause();
-        music = new Audio("muzak/MainTheme.mp3");
-        musicvolume = 0.7;
-        music.volume = 0.7;
-        music.loop = true;
-        music.play();
-
+        if(boxSelector == "" && music.src.split("muzak/")[1] !== "MainTheme.mp3"){
+            music.pause();
+            music = new Audio("muzak/MainTheme.mp3");
+            music.volume = 0.7;
+            music.loop = true;
+            music.play();
+        }
+        
         //resets battles
         battleEnemies = [];
         battleInfo = rooms[0].MissionList[rooms[0].MissionSelect];
         battleMode = false;
         boxSelector = "";
-
+        
         for (let roomImage in rooms) {
             rooms[roomImage].Image = miscImg[facilities[rooms[roomImage].Type].miscIndex].cloneNode();
             rooms[roomImage].info = facilityBuild.prototype.info;
