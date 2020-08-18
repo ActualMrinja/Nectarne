@@ -281,7 +281,7 @@ bugBuild.prototype.constants = function(multFactor) {
                             }
                         }
                     }
-                } else {
+                } else if(this.defects.love == undefined) {
                     this.Patrol = false;
                 }
                 break;
