@@ -658,7 +658,7 @@ fullScreen = function() {
     let ws = nectarneCanvas.width;
     let hs = nectarneCanvas.height;
 
-    if (ws == 528) {
+    if (ws == 640) {
         //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
         ws = (window.innerWidth && document.documentElement.clientWidth) ?
             Math.min(window.innerWidth, document.documentElement.clientWidth) :
@@ -668,7 +668,7 @@ fullScreen = function() {
 
         hs = Math.floor(ws / (528 / 297));
 
-        if (ws !== 534) {
+        if (ws !== 646) {
 
             if (nectarneCanvas.webkitRequestFullscreen) {
                 /* Chrome, Safari and Opera */
@@ -702,8 +702,8 @@ fullScreen = function() {
             document.msExitFullscreen();
         }
 
-        nectarneCanvas.width = 528;
-        nectarneCanvas.height = 297;
+        nectarneCanvas.width = 640;
+        nectarneCanvas.height = 360;
         mousedown = false;
     }
 }

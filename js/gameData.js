@@ -86,7 +86,7 @@ if (localStorage.length > 2) {
 mainGame = function() {
     date = new Date();
 
-    if (localStorage.length > 2 && Number(JSON.parse(localStorage.getItem("FullScreen"))) !== nectarneCanvas.width || (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement && nectarneCanvas.width !== 528)) {
+    if (localStorage.length > 2 && Number(JSON.parse(localStorage.getItem("FullScreen"))) !== nectarneCanvas.width || (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement && nectarneCanvas.width !== 640)) {
         fullScreen();
         save("FullScreen", nectarneCanvas.width)
     }
@@ -544,7 +544,7 @@ mainGame = function() {
                             Math.min(window.innerWidth, document.documentElement.clientWidth) :
                             window.innerWidth ||
                             document.documentElement.clientWidth ||
-                            document.body.clientWidth) !== 534) {
+                            document.body.clientWidth) !== 646) {
                         textmaker("Full Screen", 265, boxAnimation + 135, 25, true);
                         buttonmaker(nectarneCanvas.width == 528 ? "Off" : "On", 215, boxAnimation + 155, 2, action => [fullScreen(), save("FullScreen", nectarneCanvas.width)]);
                     }
