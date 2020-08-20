@@ -698,7 +698,6 @@ bugBuild.prototype.draw = function() {
         save("Bugs", JSON.stringify(bugs));
     }
 
-    ctx.save();
     ctx.globalAlpha = 1;
     if (battleMode && bugStats[this.Species].skillName == "Specialized Ambush") {
         ctx.globalAlpha = 1 - this.Fury
@@ -759,7 +758,6 @@ bugBuild.prototype.draw = function() {
             bugEnemiesOnScreen.splice(bugEnemiesOnScreen.indexOf(this), 1);
         }
         soundeffect("Death.mp3");
-        ctx.restore();
         return;
     } else if (boxSelector == "") {
         this.Rotate = 0;
@@ -767,6 +765,8 @@ bugBuild.prototype.draw = function() {
 
     //bugs are not drawn if not onscreen
     if (this.X - scrollx > -10 && this.X < 540 + scrollx) {
+        ctx.save();
+        
         //Death animation offset  
         ctx.translate(this.X - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - (this.Health <= 0 ? (this.Rotate / 10) * (this.Age / 300) : 0));
         ctx.scale(this.Scale, 1);
@@ -777,9 +777,8 @@ bugBuild.prototype.draw = function() {
         }
 
         ctx.drawImage(this.Image, Math.floor(this.Animation + (this.Attacking ? 3 : 0)) * (this.Image.width / 6), (bugStats[this.Species].swimAble && this.Swimming ? 2 : bugStats[this.Species].flyAble && this.Jump > 0 && !this.Swimming ? 1 : 0) * (this.Image.height / 3), this.Image.width / 6, this.Image.height / 3, -this.Image.width / 144 * (this.Age / 150 + 0.5), -this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5));
+        ctx.restore();
     }
-    ctx.restore();
-
 
     if (textInfo.length > 1 || boxSelector == "End Game") {
         return
