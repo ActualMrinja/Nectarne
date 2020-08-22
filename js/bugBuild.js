@@ -119,7 +119,7 @@ bugBuild.prototype.collision = function(collisionIndex) {
 
     if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 1 && collision(collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3], this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
 
-        if (this.Y - collisionIndex[1] <= 25 && this.Y - collisionIndex[1] >= 15 && collisionIndex[4][0] > 0 && collisionIndex[4][0] > 0 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && collision(collisionIndex[0] + (collisionIndex[2] / 2) - (55 / 4) - 5, collisionIndex[1], collisionIndex[2] - 55 / 2 + 10, 20, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
+        if (this.Y - collisionIndex[1] <= 28 && this.Y - collisionIndex[1] >= 15 && collisionIndex[4][0] > 0 && collisionIndex[4][0] > 0 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && collision(collisionIndex[0] + (collisionIndex[2] / 2) - (55 / 4) - 5, collisionIndex[1], collisionIndex[2] - 55 / 2 + 10, 20, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
             this.Y = collisionIndex[1] + 15;
             this.Hold = true;
 
