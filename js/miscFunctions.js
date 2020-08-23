@@ -242,7 +242,8 @@ battleLoot = function(mission) {
 battleClose = function() {
     battleBugs.map(bugCollect => [bugCollect.X = 25, bugCollect.Y = 280, bugCollect.Fury = 0, bugCollect.defects = {}, bugCollect.Attacking = false]);
     scrollx = 0;
-    battleBugs.splice(3, 1);
+    battleBugs = [];
+    bugs.map(bugCollect => bugCollect.Patrol.Type == 0 ? battleBugs.push(bugCollect) : "");
     battleEnemies = [];
     battleMode = false;
     boxSelector = "";
