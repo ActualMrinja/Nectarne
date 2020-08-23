@@ -767,7 +767,23 @@ shopHandle = function(x, y, index, thumbnail) {
             }
             shop[index][0] = shop[index][3][randomizer];
             shop[index][1] = new Date();
-            shop[index][1].setHours(date.getHours());
+            
+            if(index == 2) {
+                shop[index][1].setHours(0);
+            } else if(index == 1) {
+                if(date.getHours() < 6) {
+                    shop[index][1].setHours(5);
+                } else if(date.getHours() < 12) {
+                    shop[index][1].setHours(11);
+                } else if(date.getHours() < 18) {
+                    shop[index][1].setHours(17);
+                } else {
+                    shop[index][1].setHours(23);
+                }
+            } else {
+                shop[index][1].setHours(date.getHours());
+            }
+                
             shop[index][1].setMinutes(0, 0, 0);
         }
 
