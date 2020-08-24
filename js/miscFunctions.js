@@ -772,14 +772,14 @@ shopHandle = function(x, y, index, thumbnail) {
             if(index == 2) {
                 shop[index][1].setHours(0);
             } else if(index == 1) {
-                if(date.getHours() < 6) {
-                    shop[index][1].setHours(5);
-                } else if(date.getHours() < 12) {
-                    shop[index][1].setHours(11);
-                } else if(date.getHours() < 18) {
-                    shop[index][1].setHours(17);
+                if(date.getHours() < 19) {
+                    shop[index][1].setHours(18);
+                } else if(date.getHours() < 13) {
+                    shop[index][1].setHours(12);
+                } else if(date.getHours() < 7) {
+                    shop[index][1].setHours(6);
                 } else {
-                    shop[index][1].setHours(23);
+                    shop[index][1].setHours(0);
                 }
             } else {
                 shop[index][1].setHours(date.getHours());
