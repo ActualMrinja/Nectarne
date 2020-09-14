@@ -55,7 +55,6 @@ music = new Audio("muzak/MainTheme.mp3");
 musicvolume = 0.7;
 music.loop = true;
 music.volume = 0.7;
-music.play();
 
 soundeffectvolume = 1;
 sounds = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
