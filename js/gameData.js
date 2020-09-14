@@ -546,7 +546,7 @@ mainGame = function() {
                             document.documentElement.clientWidth ||
                             document.body.clientWidth) !== 646) {
                         textmaker("Full Screen", 265, boxAnimation + 135, 25, true);
-                        buttonmaker(nectarneCanvas.width == 528 ? "Off" : "On", 215, boxAnimation + 155, 2, action => [fullScreen(), save("FullScreen", nectarneCanvas.width)]);
+                        buttonmaker(nectarneCanvas.width == 640 ? "Off" : "On", 215, boxAnimation + 155, 2, action => [fullScreen(), save("FullScreen", nectarneCanvas.width)]);
                     }
                 }
 
