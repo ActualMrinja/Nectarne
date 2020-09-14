@@ -958,6 +958,7 @@ load = function(deleteFile = false) {
             music = new Audio("muzak/MainTheme.mp3");
             music.volume = 0.7;
             music.loop = true;
+            music.play();
         }
         
         //resets battles
