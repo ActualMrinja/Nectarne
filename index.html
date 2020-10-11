@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" style="min-width: 528; min-height: 297;">
+<html lang="en">
 
 <head>
 
@@ -10,8 +10,6 @@
     
     <style>
         #nectarneCanvas {
-            min-width: 640;
-            min-height: 360;
             margin: auto;
             display: block;
             position: absolute;
@@ -19,7 +17,7 @@
             top: 0;
             left: 0;
             right: 0;
-            border: 3px solid #332e2f;
+            border: 3px solid #000000;
         }
 
         @font-face {
@@ -30,14 +28,15 @@
         html,
         body {
             width: 646px;
-            height:350px;
+            height: 350px;
             overflow: hidden;
+            background-color: #000000;
         }
     </style>
 </head>
 
 <body>
-    <canvas tabindex="1" id="nectarneCanvas" width="640px" height="360px" style='outline:none;left:0px;top:0px;'></canvas>
+    <canvas tabindex="1" id="nectarneCanvas" width="640px" height="360px" style='outline:none;left:0px;top:0px;' alt="Your device does not support"></canvas>
 
     <!-- Misc -->
     <script type="text/javascript" src="js/miscData.js"></script>
