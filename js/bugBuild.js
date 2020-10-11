@@ -580,32 +580,33 @@ bugBuild.prototype.combat = function() {
 }
 
 bugBuild.prototype.keyDown = function(event) {
+    let keyCode = event.keyCode == undefined ? event : event.keyCode;
 
-    if (boxSelector == "" && (event.keyCode == 39 || event.keyCode == 68 || event.keyCode == 37 || event.keyCode == 65 || event.keyCode == 38 || event.keyCode == 87 || event.keyCode == 32 || event.keyCode == 40 || event.keyCode == 83)) {
-        this.keyUp[event.keyCode] = true;
+    if (boxSelector == "" && (keyCode == 39 || keyCode == 68 || keyCode == 37 || keyCode == 65 || keyCode == 38 || keyCode == 87 || keyCode == 32 || keyCode == 40 || keyCode == 83)) {
+        this.keyUp[keyCode] = true;
     }
 
-    if (boxSelector == "" && (event.keyCode == 39 || event.keyCode == 68) && !this.Attacking && !this.defects.speedMax) {
+    if (boxSelector == "" && (keyCode == 39 || keyCode == 68) && !this.Attacking && !this.defects.speedMax) {
         this.Scale = 1;
     }
-    if (boxSelector == "" && (event.keyCode == 37 || event.keyCode == 65) && !this.Attacking && !this.defects.speedMax) {
+    if (boxSelector == "" && (keyCode == 37 || keyCode == 65) && !this.Attacking && !this.defects.speedMax) {
         this.Scale = -1;
     }
 
     //Code for switching bugs
-    if (boxSelector == "" && battleBugs.length > 1 && event.keyCode >= 49 && event.keyCode < 53 && event.keyCode - 48 < battleBugs.length && !this.Attacking && this.Health > 0) {
+    if (boxSelector == "" && battleBugs.length > 1 && keyCode >= 49 && keyCode < 53 && keyCode - 48 < battleBugs.length && !this.Attacking && this.Health > 0) {
         this.Jump = 0;
-        battleBugs[event.keyCode - 48].keyUp = this.keyUp;
+        battleBugs[keyCode - 48].keyUp = this.keyUp;
         this.keyUp = {};
-        battleBugs[event.keyCode - 48].X = this.X;
-        battleBugs[event.keyCode - 48].Scale = this.Scale;
-        battleBugs[event.keyCode - 48].Y = this.Y;
-        battleBugs.splice(event.keyCode - 48, 0, battleBugs[0]);
+        battleBugs[keyCode - 48].X = this.X;
+        battleBugs[keyCode - 48].Scale = this.Scale;
+        battleBugs[keyCode - 48].Y = this.Y;
+        battleBugs.splice(keyCode - 48, 0, battleBugs[0]);
         if (bugSelected == this) {
-            bugSelected = battleBugs[event.keyCode - 47];
+            bugSelected = battleBugs[keyCode - 47];
         }
-        battleBugs[0] = battleBugs[event.keyCode - 47];
-        battleBugs.splice(event.keyCode - 47, 1);
+        battleBugs[0] = battleBugs[keyCode - 47];
+        battleBugs.splice(keyCode - 47, 1);
     }
 }
 

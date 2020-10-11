@@ -1,4 +1,4 @@
-itemsLoad = function(itemsIterate) {
+function itemsLoad(itemsIterate) {
     let valuesGrabbed = "";
     for (let valueGrab in itemsIterate[0]) {
         valuesGrabbed += (itemsIterate[1][valueGrab] > 0 ? "x" + itemsIterate[1][valueGrab] + "  " : "") + (itemsIterate[0][valueGrab] < 10 ? items[itemsIterate[0][valueGrab]].name : itemsIterate[0][valueGrab].split("_").join(" ")) + "\n"
@@ -6,7 +6,7 @@ itemsLoad = function(itemsIterate) {
     return valuesGrabbed
 }
 
-imgMake = function(path) {
+function imgMake(path) {
     let img = new Image();
     img.src = "images/bugs/" + path + ".png";
     return img
@@ -325,7 +325,7 @@ const missions = {
             ["Teresa", "Termite", "They didn't deserve to die?"],
             ["Queen Trapper", "Tarantula", "Who said we killed them? We simply contained them. Killing them would be\npointless, they're the ones that need us the most."],
             ["Teresa", "Termite", "How about those non-farmers, how will they survive?"],
-            ["Queen Trapper", "Tarantula", "Your slow my dear? You are a termite afterall. Survival of the fittest, if they\nhave to rely on others for food what is their existance for?"],
+            ["Queen Trapper", "Tarantula", "You're slow my dear? You are a termite afterall. Survival of the fittest, if they\nhave to rely on others for food what is their existance for?"],
             ["Queen Trapper", "Tarantula", "Their primal potenial is locked up. This is why we bugs are looked down upon!"],
             ["Queen Trapper", "Tarantula", "If you lowlings can take me out. I might be able to make an arrangement. That\nis to say you ever stood a chance."]
         ],

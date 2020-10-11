@@ -336,10 +336,10 @@ textmaker = function(text, x, y, size, sizeswitch = false, color = "#ffffff") {
     for (let textsplit = 0; textsplit < text.split("\n").length; textsplit++) {
 
         if (sizeswitch) {
-            if (text[0] == "$") {
+            if (text[0] == "$" && !capsSelected) {
                 text = boxSelector == "Bug Selector Item" ? text.split("$").join("") : text.split("$").join(" ");
                 ctx.drawImage(miscImg[23], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2) - 25 * (size / 25), (y + (textsplit * size * 1.25)) - (25 / 1.375 * (size / 25)), 25 * (size / 25), 25 * (size / 25));
-            } else if (text[0] == "@") {
+            } else if (text[0] == "@" && !capsSelected) {
                 text = text.split("@").join(" ");
                 ctx.drawImage(miscImg[64], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2) - 10 * (size / 25), (y + (textsplit * size * 1.25)) - (25 / 1.375 * (size / 25)), 25 * (size / 25), 25 * (size / 25));
             }
@@ -362,14 +362,77 @@ textmaker = function(text, x, y, size, sizeswitch = false, color = "#ffffff") {
     }
 }
 
-//global buttonmaker
-buttonmaker = function(text, x, y, size, action) {
+//Global buttonMaker
+function buttonMaker(text, x, y, size, action) {
     ctx.globalAlpha = collision(mousex, mousey, 0, 0, x, y, miscImg[13].width / 6 * size, miscImg[13].height / 6 * size) ? 1 : 0.75;
     if (mousedown && ctx.globalAlpha == 1) {
-        action()
+        action();
+        mousedown = false;
     }
     ctx.drawImage(miscImg[13], x, y, miscImg[13].width / 6 * size, miscImg[13].height / 6 * size);
     textmaker(text, x + miscImg[13].width / 12 * size, (y + miscImg[13].height / 12 * size) + ((20 - text.length * 1.1) * size / 4), (20 - text.length * 1.1) * size, true);
+}
+
+function keyboardMaker(x, y, output){
+    let keyBoard = {
+        false: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m", "Space", "Upper", "Confirm", "Delete"],
+        true: ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "Space", "Lower", "Confirm", "Delete"]
+    }
+    
+    //Keyboard base
+    ctx.strokeStyle = "rgb(0,0,0,1)";
+    ctx.fillStyle = "rgb(0,0,0,0.85)";
+    ctx.lineWidth = 3;
+
+    ctx.strokeRect(x, y, 500, 150);
+    ctx.fillRect(x, y, 500, 150);
+    
+    for(let keys in keyBoard[capsSelected]){
+        if(keys < 36){
+            buttonMaker(keyBoard[capsSelected][keys], keys%10*50+15, Math.floor(keys/10)*40+105, 0.9, action => output.length < 20
+ ? output += keyBoard[capsSelected][keys] : "");
+        } else if(keys == 36) {
+            buttonMaker(keyBoard[capsSelected][keys], keys%10*50+15, Math.floor(keys/10)*40+105, 0.9, action => output.length < 20
+ ? output += " " : "");
+        } else if(keys == 37) {
+            buttonMaker(keyBoard[capsSelected][keys], keys%10*50+15, Math.floor(keys/10)*40+105, 0.9, action => capsSelected = !capsSelected);
+        } else if(keys == 38) {
+            buttonMaker(keyBoard[capsSelected][keys], keys%10*50+15, Math.floor(keys/10)*40+105, 0.9, action => [capsSelected = false, filterSelected = false, save()]);
+        } else if(keys == 39) {
+            buttonMaker(keyBoard[capsSelected][keys], keys%10*50+15, Math.floor(keys/10)*40+105, 0.9, action => output = output.substr(0,output.length - 1));
+        } 
+    }
+
+    if(bugSelected !== -1){
+        bugSelected.Name = output;
+    } else {
+        nameFilterContainer = output;
+    }
+}
+
+function arrowMaker(x, y, angle, pointer=false) {
+    ctx.save();
+    ctx.translate(x, !pointer ? y+Math.abs(500-date.getMilliseconds())/100 : y);
+    ctx.rotate(angle * (Math.PI / 180));
+
+     if(pointer){
+        ctx.globalAlpha = collision(mousex, mousey, 0, 0, x - 12.5, y - 12.5, 25, 25) ? 1 : 0.85;
+        ctx.drawImage(miscImg[74], -12.5, -12.5, 25, 25);
+         
+        if(mousedown && ctx.globalAlpha == 1) {
+        battleBugs[0].keyDown(pointer[0]);
+        battleBugs[0].keyUp[pointer[1]] = true;
+        } else if(battleBugs[0].keyUp[pointer[1]]) {
+        battleBugs[0].keyUp[pointer[0]] = false; 
+        battleBugs[0].keyUp[pointer[1]] = false; 
+        }
+         
+     } else {
+         ctx.globalAlpha = 1;
+         ctx.drawImage(miscImg[74], -7.5, -7.5, 15, 15);
+     }
+    
+    ctx.restore();
 }
 
 weatherDraw = function() {
@@ -433,7 +496,7 @@ bugBubble = function(x, y, scale = 1, mouseOver = false, bugList = 0) {
 
     if (mouseOver) {
         (Math.pow(Math.pow(Math.abs(mousex - (x + 77 / 2 * scale)), 2) + Math.pow(Math.abs(mousey - (y + 77 / 2 * scale)), 2), 0.5) < 33.5 * scale) ? ctx.globalAlpha = 1: ctx.globalAlpha = 0.75;
-        if (ctx.globalAlpha == 1) {
+        if (ctx.globalAlpha == 1 && !filterSelected) {
             bugSelected = bugList;
             if (mousedown && boxSelector == "Bug Selector Full") {
                 boxSelector = "Bug Selector History";
@@ -525,6 +588,11 @@ bugBubble = function(x, y, scale = 1, mouseOver = false, bugList = 0) {
         ctx.arc(77 / 2, 77 / 2, 33.5, -(Math.PI / 180) * 90, -(Math.PI / 180) * ((bugList.Health / bugList.HealthTotal) * 360 + 90), true);
         ctx.stroke();
         ctx.closePath();
+        
+        if((Math.pow(Math.pow(Math.abs(mousex - (x + 77 / 2 * scale)), 2) + Math.pow(Math.abs(mousey - (y + 77 / 2 * scale)), 2), 0.5) < 33.5 * scale) && mousedown && battleBugs.length > 0 && battleBugs[0].Health > 0 && scale == 0.5){
+            x == 5 ? battleBugs[0].keyDown(49) : x == 45 ? battleBugs[0].keyDown(50) : battleBugs[0].keyDown(51);
+            mousedown = false;
+        }
     }
     ctx.restore();
 }
@@ -557,7 +625,7 @@ traitmaker = function(x, y, bugList) {
     ctx.drawImage(miscImg[70], x, y, 30, 30);
 }
 
-dialoguemaker = function() {
+dialogueMaker = function() {
     ctx.strokeStyle = "rgb(0,0,0,1)";
     ctx.fillStyle = "rgb(0,0,0,0.75)";
     ctx.lineWidth = 6;
@@ -574,8 +642,8 @@ dialoguemaker = function() {
         soundeffect("Dialogue.mp3");
     }
 
-    buttonmaker("Next", 420, 220, 1, action => [mousedown = false, textInfo.splice(1, 1)]);
-    buttonmaker("Skip", 470, 220, 1, action => textInfo.splice(1, textInfo.length - 1));
+    buttonMaker("Next", 420, 220, 1, action => [mousedown = false, textInfo.splice(1, 1)]);
+    buttonMaker("Skip", 470, 220, 1, action => textInfo.splice(1, textInfo.length - 1));
 
     //Paused music plays after all dialogue is finished
     if (textInfo.length == 1) {
@@ -589,13 +657,6 @@ mousemake = function(event) {
     event = event.touches !== undefined ? event.touches[0] : event;
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
-}
-
-mousedownmake = function(event) {
-    mousedown = true;
-    if (textInfo.length == 1 && boxSelector == "") {
-        music.play();
-    }
 }
 
 keydownmisc = function(event) {
@@ -645,39 +706,35 @@ keydownmisc = function(event) {
     }
 }
 
-keyupmake = function(event) {
+function keyupmake(event) {
     if (battleMode && battleBugs.length > 0 && battleBugs[0].keyUp[event.keyCode]) {
-        battleBugs[0].keyUp[event.keyCode] = false
+        battleBugs[0].keyUp[event.keyCode] = false;
     } else {
         keyUp = -1;
     }
 }
 
-fullScreen = function() {
-    let ws = nectarneCanvas.width;
-    let hs = nectarneCanvas.height;
-
-    if (ws == 640) {
-        //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
-        ws = (window.innerWidth && document.documentElement.clientWidth) ?
+function fullScreen(screenFit = true) {
+    let ws = (window.innerWidth && document.documentElement.clientWidth) ?
             Math.min(window.innerWidth, document.documentElement.clientWidth) :
             window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth;
-
-        hs = Math.floor(ws / (528 / 297));
-
+    let hs = Math.floor(ws / (528 / 297));
+    
+    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement) {
+        //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
         if (ws !== 646) {
 
-            if (nectarneCanvas.webkitRequestFullscreen) {
+            if (nectarneCanvas.webkitRequestFullscreen && screenFit) {
                 /* Chrome, Safari and Opera */
                 nectarneCanvas.webkitRequestFullscreen();
-            } else if (nectarneCanvas.requestFullscreen) {
+            } else if (nectarneCanvas.requestFullscreen && screenFit) {
                 nectarneCanvas.requestFullscreen();
-            } else if (nectarneCanvas.mozRequestFullScreen) {
+            } else if (nectarneCanvas.mozRequestFullScreen && screenFit) {
                 /* Firefox */
                 nectarneCanvas.mozRequestFullScreen();
-            } else if (nectarneCanvas.msRequestFullscreen) {
+            } else if (nectarneCanvas.msRequestFullscreen && screenFit) {
                 /* IE/Edge */
                 nectarneCanvas.msRequestFullscreen();
             }
@@ -701,10 +758,14 @@ fullScreen = function() {
             document.msExitFullscreen();
         }
 
-        nectarneCanvas.width = 640;
-        nectarneCanvas.height = 360;
         mousedown = false;
-    }
+    } 
+
+    //Fits elements
+    document.body.clientWidth = "100%";
+    document.body.clientHeight = "100%";
+    document.querySelector("html").clientWidth = "100%";
+    document.querySelector("html").clientHeight = "100%";
 }
 
 bugTotal = function() {
@@ -864,7 +925,7 @@ tutorial = function() {
         bugs[bugs.length - 1].Immortal = true;
         save();
     } else if (rooms[0].MissionList.length == 0 && bugSelected !== -1 && bugs[bugs.length - 1].Story.split(" from Teresa").length == 1) {
-        textInfo.push(["???", "Termite", "This is a bug's stats. Here you can find a bug's health, attack, speed, and age. You\ncan also find their alignments, passiveness, intelligence, and aggressiveness.", 0], ["???", "Termite", "In the top right you'll see their rarity, skill, and whether or not they're\nalbino, agile swimmers, and can fly.", 0], ["???", "Termite", "I've set up a guide in your field settings! Open it up in the bottom left\nmenu. After you're done reading it meet me in Corntill Plains.", 0]);
+        textInfo.push(["???", "Termite", "This is a bug's stats. Here you can find a bug's health, attack, speed, and age. You\ncan also find their alignments, passiveness, intelligence, and aggressiveness.", 0], ["???", "Termite", "In the top right you'll see their rarity, skill, and whether or not they're\nalbino, agile swimmers, and can fly.", 0], ["???", "Termite", "I've set up a guide in your field settings! Open it up in the top right\nmenu. After you're done reading it meet me in Corntill Plains.", 0]);
         bugs[bugs.length - 1].Story = bugs[bugs.length - 1].Story.split("\nFather").join(" from Teresa\nFather");
         bugs[bugs.length - 2].Story = bugs[bugs.length - 2].Story.split("\nFather").join(" from Teresa\nFather");
         save("Bugs", JSON.stringify(bugs));
@@ -911,6 +972,17 @@ tutorial = function() {
         rooms.push(new facilityBuild(8, 9));
         save();
     }
+    
+    //Pointer arrows
+    if (rooms.length == 3 && bugSelected == -1 && bugs[bugs.length - 1].Story.split(" from Teresa").length == 1){
+        arrowMaker(bugs[0].X-scrollx, bugs[0].Y-40, 0, false);
+        arrowMaker(bugs[1].X-scrollx, bugs[1].Y-40, 0, false);
+    } else if(rooms[0].MissionList.length == 0 && bugs.length > 0 && bugs[bugs.length - 1].Story.split(" from Teresa").length > 1) {
+        arrowMaker(496.5, 65, 180, false);
+    } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 0) {
+        arrowMaker(245, 55, 180, false);
+    }
+    
 }
 
 save = function(key = null, value = null) {

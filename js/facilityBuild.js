@@ -59,10 +59,10 @@ facilityBuild.prototype.info = function() {
         }
 
         if (battleBugs.length > 0) {
-            buttonmaker("Start", 390, 225, 2, action => [battleInfo = this.MissionList[this.MissionSelect], save(), battleBuild(missions[battleInfo[0]].type, missions[battleInfo[0]].difficulty)]);
+            buttonMaker("Start", 390, 225, 2, action => [battleInfo = this.MissionList[this.MissionSelect], save(), battleBuild(missions[battleInfo[0]].type, missions[battleInfo[0]].difficulty)]);
         }
 
-        buttonmaker("Back", 20, boxAnimation + 10, 1, action => boxSelector = "Select Facility " + this.Index);
+        buttonMaker("Back", 20, boxAnimation + 10, 1, action => boxSelector = "Select Facility " + this.Index);
     }
 }
 
