@@ -3,7 +3,7 @@ ctx = nectarneCanvas.getContext("2d");
 
 date = new Date();
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-loadCheck = false
+loadCheck = false;
 
 //References other items
 bugCompendium = ["Ant", "Termite", "Fly", "Wriggler", "Mosquito", "Water_Tiger", "Diving_Beetle", "Glowworm", "Firefly", "Caterpillar", "Butterfly", "Pondskater", "Bed_Bug", "Bee", "Weta", "Mantis", "Scorpion", "Spider", "Millipede", "Centipede", "Tarantula", "Wasp", "Giant_Water_Bug", "Dragonfly_Nymph", "Dragonfly"];
@@ -737,8 +737,8 @@ nectarneCanvas.addEventListener("mousemove", mousemake);
 nectarneCanvas.addEventListener("mousedown", clickMake => mousedown = true);
 nectarneCanvas.addEventListener("mouseup", clickMake => mousedown = false);
 nectarneCanvas.addEventListener("touchmove", mousemake);
-nectarneCanvas.addEventListener("touchstart", clickMake => mousedown = true);
-nectarneCanvas.addEventListener("touchup", clickMake => mousedown = false);
+nectarneCanvas.addEventListener("touchstart", mousemake);
+nectarneCanvas.addEventListener("touchup", clickMake => event.touches.length > 1 ? "" : mousedown = false);
 nectarneCanvas.addEventListener("keydown", keydownMake => battleMode && battleBugs.length > 0 ? battleBugs[0].keyDown(event) : keydownmisc(event));
 nectarneCanvas.addEventListener("keyup", keyupmake);
 

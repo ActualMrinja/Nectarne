@@ -654,7 +654,7 @@ dialogueMaker = function() {
 
 //mouse follower, switches to touch move for mobile
 mousemake = function(event) {
-    event = event.touches !== undefined ? event.touches[0] : event;
+    event = event.touches !== undefined ? [event.touches[0], mousedown = true] : event;
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
 }
@@ -715,12 +715,12 @@ function keyupmake(event) {
 }
 
 function fullScreen(screenFit = true) {
-    let ws = (window.innerWidth && document.documentElement.clientWidth) ?
-            Math.min(window.innerWidth, document.documentElement.clientWidth) :
-            window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth;
-    let hs = Math.floor(ws / (528 / 297));
+    let hs = (window.innerHeight && document.documentElement.clientHeight) ?
+            Math.min(window.innerHeight, document.documentElement.clientHeight) :
+            window.innerHeight ||
+            document.documentElement.clientHeight ||
+            document.body.clientHeight;
+    let ws = Math.floor(hs * (528 / 297));
     
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement) {
         //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
