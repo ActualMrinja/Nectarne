@@ -3,7 +3,7 @@ ctx = nectarneCanvas.getContext("2d");
 
 date = new Date();
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-loadCheck = true;
+loadCheck = false
 
 //References other items
 bugCompendium = ["Ant", "Termite", "Fly", "Wriggler", "Mosquito", "Water_Tiger", "Diving_Beetle", "Glowworm", "Firefly", "Caterpillar", "Butterfly", "Pondskater", "Bed_Bug", "Bee", "Weta", "Mantis", "Scorpion", "Spider", "Millipede", "Centipede", "Tarantula", "Wasp", "Giant_Water_Bug", "Dragonfly_Nymph", "Dragonfly"];
