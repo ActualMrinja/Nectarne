@@ -1,3 +1,4 @@
+nectarneCanvas = document.getElementById("nectarneCanvas");
 ctx = nectarneCanvas.getContext("2d");
 
 date = new Date();

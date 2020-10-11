@@ -586,7 +586,7 @@ dialoguemaker = function() {
 
 //mouse follower, switches to touch move for mobile
 mousemake = function(event) {
-    event = event.tocuhes !== undefined ? event.touches[0] : event;
+    event = event.touches !== undefined ? event.touches[0] : event;
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
 }
