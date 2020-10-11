@@ -584,16 +584,14 @@ dialoguemaker = function() {
 
 }
 
-//mouse follower
+//mouse follower, switches to touch move for mobile
 mousemake = function(event) {
+    event = event !== undefined ? event.touches[0] : event;
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
-    if (textInfo.length == 1 && boxSelector == "") {
-        music.play();
-    }
 }
 
-mousedownmake = function() {
+mousedownmake = function(event) {
     mousedown = true;
     if (textInfo.length == 1 && boxSelector == "") {
         music.play();

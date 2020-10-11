@@ -690,7 +690,7 @@ mainGame = function() {
 
 nectarneCanvas.addEventListener("mousemove", mousemake);
 nectarneCanvas.addEventListener("mousedown", mousedownmake);
-nectarneCanvas.addEventListener("touchstart", mousemake);
+nectarneCanvas.addEventListener("touchmove", mousemake);
 nectarneCanvas.addEventListener("touchup", mousedownmake);
 nectarneCanvas.addEventListener("keydown", keydownmake => battleMode && battleBugs.length > 0 ? battleBugs[0].keyDown(event) : keydownmisc(event));
 nectarneCanvas.addEventListener("keyup", keyupmake);

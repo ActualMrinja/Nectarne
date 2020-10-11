@@ -3,7 +3,6 @@ itemsLoad = function(itemsIterate) {
     for (let valueGrab in itemsIterate[0]) {
         valuesGrabbed += (itemsIterate[1][valueGrab] > 0 ? "x" + itemsIterate[1][valueGrab] + "  " : "") + (itemsIterate[0][valueGrab] < 10 ? items[itemsIterate[0][valueGrab]].name : itemsIterate[0][valueGrab].split("_").join(" ")) + "\n"
     }
-    //alert(valuesGrabbed);
     return valuesGrabbed
 }
 
