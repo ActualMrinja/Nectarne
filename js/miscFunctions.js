@@ -338,8 +338,7 @@ function circleCollision(x, y, r){
 //global textmaker
 function textMaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
     ctx.globalAlpha = 1;
-    let textFitter = window.devicePixelRatio == 1 ? 1 : window.devicePixelRatio * 0.5;
-    
+
     //loop allows line breaks to be available with \n
     for (let textsplit = 0; textsplit < text.split("\n").length; textsplit++) {
 
@@ -352,14 +351,14 @@ function textMaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
                 ctx.drawImage(miscImg[64], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2) - 10 * (size / 25), (y + (textsplit * size * 1.25)) - (25 / 1.375 * (size / 25)), 25 * (size / 25), 25 * (size / 25));
             }
 
-            ctx.font = "600 " + size + "px TovariSans";
+            ctx.font = size + "px TovariSans";
             ctx.strokeStyle = "black";
             ctx.lineWidth = (size / 25) * ((24 / size) + 4);
             ctx.strokeText(text.split("\n")[textsplit], (x) - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
             ctx.fillStyle = color;
             ctx.fillText(text.split("\n")[textsplit], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
         } else {
-            ctx.font = "600 " + size + "px TovariSans";
+            ctx.font = size + "px TovariSans";
             ctx.strokeStyle = "black";
             ctx.lineWidth = (size / 25) * ((24 / size) + 4);
             ctx.strokeText(text.split("\n")[textsplit], (x), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
@@ -569,8 +568,8 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
     if (bugList == "+") {
         textMaker("+", 77 / 2, 51.5, 50, true);
     } else if (mouseOver || (!mouseOver && bugList.obtained) || boxSelector.substr(0, 13) == "Info Facility" || battleMode) {
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY : bugStats[bugList.Species].cropY, 150, 22.5, 13, 15, 50, 7.5);
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 22.5 : bugStats[bugList.Species].cropY + 22.5, 162, 22.5, 9, 22.5, 54, 7.5);
+        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY : bugStats[bugList.Species].cropY, 150, 27, 13, 15, 50, 9);
+        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 27 : bugStats[bugList.Species].cropY + 27, 162, 18, 9, 24, 54, 6);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 174 : bugList.Image.width / 6 - 174, bugList.image !== undefined ? bugList.cropY + 45 : bugStats[bugList.Species].cropY + 45, 174, 60, 5, 30, 58, 20);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 105 : bugStats[bugList.Species].cropY + 105, 162, 22.5, 9, 50, 54, 7.5);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY + 127.5 : bugStats[bugList.Species].cropY + 127.5, 150, 19.5, 13, 57.5, 50, 6.5);
@@ -622,6 +621,8 @@ function traitMaker(x, y, bugList) {
         textMaker(traitDescp[bugList.Trait][2], x + 20, y - 25, 15, false);
         if (mousedown && boxSelector == "Bug Selector History" && bugSelected.Age >= 100) {
             boxSelector = "Bug Selector Item";
+            capsSelected = false;
+            filterSelected = false;
             bugSelected = -1;
             mousedown = false;
         }
