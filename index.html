@@ -7,6 +7,7 @@
     <title>Nectarne</title>
     <link rel="shortcut icon" href="images/favicon/favicon.ico">
 	<link rel="icon" sizes="16x16 32x32 64x64" href="images/favicon/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <style>
         #nectarneCanvas {
@@ -36,7 +37,9 @@
 </head>
 
 <body>
-    <canvas tabindex="1" id="nectarneCanvas" width="640px" height="360px" style='outline:none;left:0px;top:0px;' alt="Your device does not support"></canvas>
+    <div id="canvasContainer">
+        <canvas tabindex="1" id="nectarneCanvas" width="640px" height="360px" style='outline:none;left:0px;top:0px;' alt="Your device does not support"></canvas>
+    </div>
 
     <!-- Misc -->
     <script type="text/javascript" src="js/miscData.js"></script>
