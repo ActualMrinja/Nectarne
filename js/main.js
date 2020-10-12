@@ -8,15 +8,20 @@ loadCheck = false;
 //References other items
 bugCompendium = ["Ant", "Termite", "Fly", "Wriggler", "Mosquito", "Water_Tiger", "Diving_Beetle", "Glowworm", "Firefly", "Caterpillar", "Butterfly", "Pondskater", "Bed_Bug", "Bee", "Weta", "Mantis", "Scorpion", "Spider", "Millipede", "Centipede", "Tarantula", "Wasp", "Giant_Water_Bug", "Dragonfly_Nymph", "Dragonfly"];
 
-//Current deal, deal date, deal duration (hours), possible deals,
+/**
+    Current deal, deal date, deal duration (hours), possible deals
+    Deal quantity & deal trait
+    Deal animation and deal rarity
+**/
 shop = [
     ["Ant", new Date(0), 1, ["Ant", "Termite", "Fly", "Wriggler", "Water_Tiger"]],
     ["Glowworm", new Date(0), 6, ["Glowworm", "Caterpillar", "Pondskater", "Bed_Bug", "Bee"]],
     ["Scorpion", new Date(0), 24, ["Weta", "Mantis", "Scorpion", "Spider", "Millipede"]],
-    ["Ant", 0, "rgb(179,255,179,0.85)"]
+    ["Ant", new Date(0), 24, ["Centipede", "Giant_Water_Bug", "Mantis"], 0, 0],
+    ["Ant", 0, "rgb(179,255,179,0.85)"],
 ];
 
-miscNm = ["bugHeader.png", "bugImgHeader.png", "Health.png", "Attack.png", "Speed.png", "Age.png", "CommandCenter.png", "Swim.png", "Fly.png", "Mandible.png", "Albino.png", "MaleSm.png", "FemaleSm.png", "ButtonHeader.png", "MudBlock.png", "SalivaSalvo.png", "HiveBlock.png", "WoodBlock.png", "StoneBlock.png", "DartAmbush.png", "PrairieBlock.png", "PoisonSting.png", "BoxContainer.png", "Territs.png", "Population.png", "Food.png", "RainDroplet.png", "Snowflake.png", "Sunny.png", "Drizzle.png", "Thunderstorm.png", "Snowstorm.png", "NectarStick.png", "NectarBranch.png", "ThornstumpFruit.png", "TwinbearBerry.png", "PorousScreecher.png", "HealingClover.png", "AgingClover.png", "TraitModifier.png", "GeneModifier.png", "SlouchingMiracle.png", "ImmortalHealth.png", "Mission.png", "LoveField.png", "TerritStronghold.png", "ShadowHightail.png", "NectarGrove.png", "ParasiticSting.png", "VenomSpray.png", "VenomousAmbush.png", "Settings.png", "LuminescentCavern.png", "Soundwave.png", "StridulatingRetreat.png", "WaterDome.png", "DefensiveCoil.png", "SpecializedAmbush.png", "AirDome.png", "SmugglerJunkyard.png", "LifeField.png", "LifeMeal.png", "NoxiousWhimper.png", "VitalityField.png", "Time.png", "CommonBanner.png", "RareBanner.png", "EpicBanner.png", "SpecialBanner.png", "HorrendousAmbush.png", "Trait.png", "DifficultyNormal.png", "DifficultyHard.png", "DifficultyImpossible.png", "Arrow.png"];
+miscNm = ["bugHeader.png", "bugImgHeader.png", "Health.png", "Attack.png", "Speed.png", "Age.png", "CommandCenter.png", "Swim.png", "Fly.png", "Mandible.png", "Albino.png", "MaleSm.png", "FemaleSm.png", "ButtonHeader.png", "MudBlock.png", "SalivaSalvo.png", "HiveBlock.png", "WoodBlock.png", "StoneBlock.png", "DartAmbush.png", "PrairieBlock.png", "PoisonSting.png", "BoxContainer.png", "Territs.png", "Population.png", "Food.png", "RainDroplet.png", "Snowflake.png", "Sunny.png", "Drizzle.png", "Thunderstorm.png", "Snowstorm.png", "NectarStick.png", "NectarBranch.png", "ThornstumpFruit.png", "TwinbearBerry.png", "PorousScreecher.png", "HealingClover.png", "AgingClover.png", "TraitModifier.png", "GeneModifier.png", "SlouchingMiracle.png", "ImmortalHealth.png", "Mission.png", "LoveField.png", "TerritStronghold.png", "ShadowHightail.png", "NectarGrove.png", "ParasiticSting.png", "VenomSpray.png", "VenomousAmbush.png", "Settings.png", "LuminescentCavern.png", "Soundwave.png", "StridulatingRetreat.png", "WaterDome.png", "DefensiveCoil.png", "SpecializedAmbush.png", "AirDome.png", "SmugglerJunkyard.png", "LifeField.png", "LifeMeal.png", "NoxiousWhimper.png", "VitalityField.png", "Time.png", "CommonBanner.png", "RareBanner.png", "EpicBanner.png", "SpecialBanner.png", "HorrendousAmbush.png", "Trait.png", "DifficultyNormal.png", "DifficultyHard.png", "DifficultyImpossible.png", "Arrow.png", "WeekdayBanner.png"];
 miscImg = [];
 
 audioNm = ["MissionComplete.mp3", "MissionFail.mp3", "SpecializedAmbush.mp3", "Death.mp3", "VenomousAmbush.mp3", "NoxiousWhimper.mp3", "LifeMeal.mp3", "DefensiveCoil.mp3", "StridulatingRetreat.mp3", "Hatch.mp3", "Territ.mp3", "HorrendousAmbush.mp3", "ParasiticSting.mp3", "VenomSpray.mp3", "ShadowHightail.mp3", "Thunder.mp3", "Rain.mp3", "PoisonSting.mp3", "Dialogue.mp3", "DartAmbush.mp3", "Splash.mp3", "GateClose.mp3", "Zap.mp3", "FlyStart.mp3", "FlyEnd.mp3", "MandiblePress.mp3", "SalivaSalvo.mp3"];
@@ -188,7 +193,7 @@ mainGame = function() {
                     ctx.drawImage(miscImg[23], -10, -10, 30 / 1.5, 30 / 1.5);
                     ctx.restore();
                     if (battleBugs.length > 0 && collision(blockX * 50 + 55 / 2 - 10, blockY * 50 + 55 / 2 - 10, 30 / 1.5, 30 / 1.5, battleBugs[0].X - battleBugs[0].Image.width / 144 * (battleBugs[0].Age / 150 + 0.5), battleBugs[0].Y - battleBugs[0].Image.height / 36 * (battleBugs[0].Age / 150 + 0.5) - battleBugs[0].Image.height / 72, battleBugs[0].Image.width / 72 * (battleBugs[0].Age / 150 + 0.5), battleBugs[0].Image.height / 36 * (battleBugs[0].Age / 150 + 0.5))) {
-                        battleInfo[1][1][0] += this.Trait == 3 ? 40 : 20;
+                        battleInfo[1][1][0] += battleBugs[0].Trait == 3 ? 40 : 20;
                         soundeffect("Territ.mp3");
                         battleMap[blockY][blockX] = 0;
                     }
@@ -238,7 +243,7 @@ mainGame = function() {
             textmaker("3", 80, 15, 10, true);
         }
         if (battleBugs.length > 0 && battleBugs[0].Health > 0) {
-            ctx.globalAlpha = Math.pow(Math.pow(Math.abs(mousex - (470 + 50)), 2) + Math.pow(Math.abs(mousey - (245 + 50)), 2), 0.5) < 50 ? 1 : 0.85;
+            ctx.globalAlpha = circleCollision(470, 245, 50) ? 1 : 0.85;
             if(mousedown && ctx.globalAlpha == 1) { 
                 battleBugs[0].keyDown(32); 
                 battleBugs[0].keyUp["skillCheck"] = true;
@@ -249,10 +254,10 @@ mainGame = function() {
             
             ctx.drawImage(miscImg[bugStats[battleBugs[0].Species].skillBubble], 470, 245, 50, 50);
             
-            arrowMaker(50, 250, 180, [38,"upCheck"]);
-            arrowMaker(65, 265, -90, [39,"rightCheck"]);
-            arrowMaker(50, 280, 0, [40,"downCheck"]); 
-            arrowMaker(35, 265, 90, [37,"leftCheck"]);  
+            arrowMaker(50, 245, 180, [38,"upCheck"]);
+            arrowMaker(70, 265, -90, [39,"rightCheck"]);
+            arrowMaker(50, 285, 0, [40,"downCheck"]); 
+            arrowMaker(30, 265, 90, [37,"leftCheck"]);  
         }
         /**Mission UI**/
         
@@ -273,6 +278,7 @@ mainGame = function() {
         
         if (bugs.length < 2 && territs < 25) {
             territs = 25;
+            food = Math.max(food, 500);
             textInfo.push(["Teresa", "Termite", "It seems as though you're in a sticky situation! Here's some territs.", 0]);
         }
 
@@ -307,6 +313,7 @@ mainGame = function() {
             collision(mousex, mousey, 0, 0, 10, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
                 boxSelector = "Shop";
+                page = 0;
                 mousedown = false;
             }
             ctx.drawImage(miscImg[23], 10, 15, 30, 30);
@@ -356,7 +363,7 @@ mainGame = function() {
         ctx.globalAlpha = 1;
     }
 
-    ctx.globalAlpha = (Math.pow(Math.pow(Math.abs(mousex - (470 + 25)), 2) + Math.pow(Math.abs(mousey - (5 + 25)), 2), 0.5) < 25) ? 1 : 0.85;
+    ctx.globalAlpha = circleCollision(470, 5, 25) ? 1 : 0.85;
     if (textInfo.length == 1 && boxSelector == "" && ctx.globalAlpha == 1 && mousedown) {
         boxSelector = "Pause";
         boxAnimation = 0;
@@ -486,7 +493,8 @@ mainGame = function() {
                         action => [capsSelected = false, filterSelected = false, mousedown = false, boxSelector = (boxSelector == "Bug Selector Full" ? "" : boxSelector.substr(0, 21) == "Bug Selector Facility" ? (facilities[rooms[boxSelector.substr(21)].Type].infoScreen ? "Info Facility " + boxSelector.substr(21) : "Select Facility " + boxSelector.substr(21)) : boxSelector.substr(0, 17))]);
 
                     if (mousedown && collision(mousex, mousey, 0, 0, 30, 60, 275, 30)) {
-                        filterSelected = true;
+                        filterSelected = !filterSelected;
+                        mousedown = false;
                     } else if(filterSelected) {
                         keyboardMaker(14, 100, nameFilterContainer);
                     }
@@ -500,7 +508,7 @@ mainGame = function() {
                     for (let itemsDraw = 0; itemsDraw < 10; itemsDraw++) {
                         ctx.save();
                         ctx.filter = items[itemsDraw].quantity > 0 ? "brightness(75%)" : "brightness(50%)";
-                        if (Math.pow(Math.pow(Math.abs(mousex - ((itemsDraw % 5 * 100 + 26) + 37.5)), 2) + Math.pow(Math.abs(mousey - ((100 + Math.floor(itemsDraw / 5) * 100) + 37.5)), 2), 0.5) < 30.5) {
+                        if (circleCollision((itemsDraw % 5 * 100 + 26), (100 + Math.floor(itemsDraw / 5) * 100), 37.5)) {
                             ctx.filter = "brightness(" + (Number(ctx.filter.split("(")[1].split("%)")[0]) + 25) + "%)"
                             textmaker(items[itemsDraw].name, 264, 30, 35, true);
                             textmaker(items[itemsDraw].descp, 264, 50, 15, true);
@@ -552,7 +560,6 @@ mainGame = function() {
 
                     textmaker("Information", 200, 125, 25);
                     textmaker(bugSelected.Story, 200, 150, 15);
-                    traitmaker(25, 250, bugSelected);
                     
                     textmaker(bugSelected.Name + (Math.abs(500 - date.getMilliseconds()) > 200 && bugSelected.Name.length < 20 && filterSelected ? "|" : ""), 264, 50 + (filterSelected ? 15 : 0), 28, true);
                     if (!filterSelected) {
@@ -560,6 +567,8 @@ mainGame = function() {
                     } else {
                         keyboardMaker(14, 100, bugSelected.Name);
                     }  
+                    
+                    traitMaker(25, 250, bugSelected);
                     
                     buttonMaker("Back", 20, boxAnimation + 10, 1, action => [capsSelected = false, filterSelected = false, bugSelected = -1, boxSelector = "Bug Selector Full"]);
                 }
@@ -691,10 +700,25 @@ mainGame = function() {
                 break;
             case "Shop":
                 textmaker("Nectarne Market", 264, 45, 35, true);
-                shopHandle(45, 60, 0, 65);
-                shopHandle(275, 60, 1, 66);
-                shopHandle(45, 175, 2, 67);
-                shopHandle(275, 175, 3, 68);
+                
+                let deals = date.getDay() == 0 || date.getDay() == 6 ? 4 : 5;
+                
+                shopHandle(160, 70, deals == 4 && page == 3 ? 4 : page, page == 0 ? 65 : page == 1 ? 66 : page == 2 ? 67 : deals == 5 && page == 3 ? 75 : 68);
+                
+                for(let banners = 0; banners < deals; banners++){
+                ctx.beginPath();
+                ctx.strokeStyle = "rgb(0,0,0,1)";  
+                ctx.fillStyle = "rgb(0,0,0,"+(page == banners ? 1 : circleCollision(528/2-(deals*20)+(banners*50) - 10, 260, 10) ? 0.75 : 0.5);
+                if(circleCollision(528/2-(deals*20)+(banners*50) - 10, 260, 10) && mousedown){
+                    page = banners;
+                }
+                    
+                ctx.lineWidth = 3;
+                ctx.arc(528/2-(deals*20)+(banners*50), 270, 10, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fill();
+                ctx.closePath();
+                }
 
                 buttonMaker("Back", 20, boxAnimation + 10, 1, action => boxSelector = "");
                 break;

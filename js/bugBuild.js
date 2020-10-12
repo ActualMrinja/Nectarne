@@ -1,4 +1,4 @@
-bugBuild = function(name, x, y, species, alignments, enemy = false, age = 100) {
+function bugBuild(name, x, y, species, alignments, enemy = false, age = 100) {
     this.Species = species;
     this.X = x;
     this.Y = y;
@@ -287,7 +287,7 @@ bugBuild.prototype.constants = function(multFactor) {
                 break;
 
             case 6:
-                this.Health = Math.min(this.HealthTotal, this.Health + (2.5 / 1800 * multFactor));
+                this.Health = Math.min(this.HealthTotal, this.Health + ((this.Trait == 7 ? 5 : 2.5) / 1800 * multFactor));
                 break;
 
             case 7:
@@ -296,7 +296,7 @@ bugBuild.prototype.constants = function(multFactor) {
 
             case 8:
                 if (bugStats[this.Species].swimAble) {
-                    this.Health = Math.min(this.HealthTotal, this.Health + (5 / 1800 * multFactor));
+                    this.Health = Math.min(this.HealthTotal, this.Health + ((this.Trait == 7 ? 10 : 5) / 1800 * multFactor));
                 } else {
                     this.Patrol = false;
                 }
@@ -325,7 +325,7 @@ bugBuild.prototype.constants = function(multFactor) {
 
             case 9:
                 if (bugStats[this.Species].flyAble) {
-                    this.Health = Math.min(this.HealthTotal, this.Health + (5 / 1800 * multFactor));
+                    this.Health = Math.min(this.HealthTotal, this.Health + ((this.Trait == 7 ? 10 : 5) / 1800 * multFactor));
                 } else {
                     this.Patrol = false;
                 }
@@ -360,7 +360,8 @@ bugBuild.prototype.constants = function(multFactor) {
     food = Math.max(0, food - (1 / 1800 * multFactor));
     netFood -= 1;
 
-    if (food <= 0 && this.Trait !== 2 && multFactor <= 1) {
+    //Famine immunity (Stalwart)
+    if (food <= 0 && this.Trait !== 5 && multFactor <= 1) {
         this.Health = Math.max(0, this.Health - (5 / 1800 * multFactor));
     }
 }
@@ -586,10 +587,10 @@ bugBuild.prototype.keyDown = function(event) {
         this.keyUp[keyCode] = true;
     }
 
-    if (boxSelector == "" && (keyCode == 39 || keyCode == 68) && !this.Attacking && !this.defects.speedMax) {
+    if (boxSelector == "" && this.Health > 0 && (keyCode == 39 || keyCode == 68) && !this.Attacking && !this.defects.speedMax) {
         this.Scale = 1;
     }
-    if (boxSelector == "" && (keyCode == 37 || keyCode == 65) && !this.Attacking && !this.defects.speedMax) {
+    if (boxSelector == "" && this.Health > 0 && (keyCode == 37 || keyCode == 65) && !this.Attacking && !this.defects.speedMax) {
         this.Scale = -1;
     }
 
@@ -701,7 +702,7 @@ bugBuild.prototype.draw = function() {
 
     ctx.globalAlpha = 1;
     if (battleMode && bugStats[this.Species].skillName == "Specialized Ambush") {
-        ctx.globalAlpha = 1 - this.Fury
+        ctx.globalAlpha = 1 - this.Fury;
     }
 
     //Immortal bugs always remain with one health
@@ -750,7 +751,7 @@ bugBuild.prototype.draw = function() {
                 boxSelector = "End Game";
                 boxAnimation = -300;
             } else if (this.defects.droneType == undefined && battleBugs.length > 0) {
-                battleInfo[1][1][0] += battleBugs[0].Trait == 3 ? 20 : 10;
+                battleInfo[1][1][0] += battleBugs[0].Trait == 3 ? 40 : 20;
                 soundeffect("Territ.mp3");
             }
 
@@ -1019,15 +1020,14 @@ bugBuild.prototype.draw = function() {
             }
         }
 
-        //Removes status effects (Stalwart)
-        if (boxSelector == "" && this.Health > 0 && this.Attacking && this.Trait == 5) {
+        if (boxSelector == "" && this.Health > 0 && this.Attacking) {
             this.defects.slowDown = 0;
             this.defects.intimidate = 0;
             this.defects.poison = 0;
         }
 
         if (boxSelector == "" && bugStats[this.Species].skillName == "Specialized Ambush" && this.Health > 0 && this.Hold && !this.Attacking) {
-            this.Fury = Math.min(1, this.Fury + 1 / 30);
+            this.Fury = Math.min(1, this.Fury + 1.25 / 30);
         }
     }
 

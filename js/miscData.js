@@ -309,7 +309,7 @@ const missions = {
         difficulty: 150,
         primary: "Giant_Water_Bug",
         secondary: "Giant_Water_Bug",
-        companion: ["Nessie", "Giant_Water_Bug", "Female", 135, 2],
+        companion: ["Nessie", "Giant_Water_Bug", "Female", 135, 7],
     },
     13: {
         name: "Primal Power",
@@ -372,6 +372,7 @@ const missions = {
         difficulty: 50,
         primary: "Bee",
         secondary: "Fly",
+        companion: ["Beeutiful", "Bee", "Male", 180, 5],
         queenName: "Queen Bee",
     },
     18: {
@@ -398,6 +399,7 @@ const missions = {
         difficulty: 100,
         primary: "Millipede",
         secondary: "Millipede",
+        companion: ["6th Sense", "Scorpion", "Male", 45, 2],
         queenName: "Try Me",
     },
     21: {
@@ -407,7 +409,6 @@ const missions = {
         difficulty: 100,
         primary: "Mantis",
         secondary: "Bee",
-        companion: ["Beeuty", "Bee", "Male", 180, 5],
         queenName: "Queen Mantis",
     },
     22: {
@@ -503,11 +504,12 @@ const missions = {
 const traitDescp = [
     ["Neutrality", "silver", "Recovers 6 health per\nsecond by standing still in\n    battles."],
     ["Irritable", "crimson", "Maxes fury when health\nreaches 25% or less."],
-    ["Stockpiler", "coral", "Maintains health during\nfamines."],
+    ["Erudite", "coral", "Keeps used purple items.\nIncludes fruits, berries,\n    and screechers."],
     ["Rapacious", "gold", "Doubles territs earned\nthrough battles."],
     ["Supportive", "springGreen", "Halves health lost when\nin love."],
-    ["Stalwart", "steelBlue", "Removes slow downs,\nintimidations, and poisons\n    by attacking in battles."],
-    ["Trickster", "darkOrchid", "Doubles the duration of\nslow downs, intimidations,\n    and poisons."]
+    ["Stalwart", "steelBlue", "Maintains health during\nfamines."],
+    ["Trickster", "darkOrchid", "Doubles the duration of\nslow downs, intimidations,\n    and poisons."],
+    ["Eccentric", "hotPink", "Halves healing time from\nfacilities."]
 ];
 
 const skillDescp = {
@@ -890,3 +892,15 @@ bugStats = {
         obtained: false,
     }
 }
+
+/**
+Plan
+
+Common: Aphid - Sap Medic (Heals all party members)
+Rare: Backswimmer (Fly) - Specialized Ambush
+Epic: Water Scorpion (Fly) - Hold Breaker
+Legendary: Tiger Beetle Larva - None
+Legendary: Tiger Beetle - Shadow Hightail
+
+
+**/

@@ -1,5 +1,5 @@
 //Battle builder
-battleBuild = function(type, difficulty) {
+function battleBuild(type, difficulty) {
     if (missions[battleInfo[0]].companion !== undefined) {
         rooms[0].Companion = new bugBuild(missions[battleInfo[0]].companion[0], 0, 0, missions[battleInfo[0]].companion[1], missions[battleInfo[0]].companion[3]);
         rooms[0].Companion.Gender = missions[battleInfo[0]].companion[2];
@@ -216,7 +216,7 @@ battleBuild = function(type, difficulty) {
 
 }
 
-battleLoot = function(mission) {
+function battleLoot(mission) {
     let loot = [
         ["Territs", 1, 1, 1],
         [1, 1, 1, 1]
@@ -239,7 +239,7 @@ battleLoot = function(mission) {
     return loot;
 }
 
-battleClose = function() {
+function battleClose() {
     battleBugs.map(bugCollect => [bugCollect.X = 25, bugCollect.Y = 280, bugCollect.Fury = 0, bugCollect.defects = {}, bugCollect.Attacking = false]);
     scrollx = 0;
     battleBugs = [];
@@ -300,7 +300,7 @@ battleClose = function() {
 }
 
 //global sound effects to deal with multiple sound effects efficently
-soundeffect = function(file = false) {
+function soundeffect(file = false) {
     if (file) {
         sounds[soundsloop] = miscAudio[audioNm.indexOf(file)].cloneNode();
         sounds[soundsloop].volume = soundeffectvolume;
@@ -317,7 +317,7 @@ soundeffect = function(file = false) {
 }
 
 //basic non-advanced collision
-collision = function(x1, y1, w1, h1, x2, y2, w2, h2) {
+function collision(x1, y1, w1, h1, x2, y2, w2, h2) {
     if (x1 <= x2 + w2 && x1 + w1 >= x2 && y1 <= y2 + h2 && y1 + h1 >= y2) {
         return true;
     } else {
@@ -326,8 +326,17 @@ collision = function(x1, y1, w1, h1, x2, y2, w2, h2) {
 
 }
 
+//basic circle collision
+function circleCollision(x, y, r){
+    if (Math.pow(Math.pow(Math.abs(mousex - (x + r)), 2) + Math.pow(Math.abs(mousey - (y + r)), 2), 0.5) < r) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 //global textmaker
-textmaker = function(text, x, y, size, sizeswitch = false, color = "#ffffff") {
+function textmaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
 
     ctx.globalAlpha = 1;
     let textFitter = (window.devicePixelRatio == 1 ? 1 : window.devicePixelRatio * 0.5) - 1
@@ -386,7 +395,7 @@ function keyboardMaker(x, y, output){
 
     ctx.strokeRect(x, y, 500, 150);
     ctx.fillRect(x, y, 500, 150);
-    
+   
     for(let keys in keyBoard[capsSelected]){
         if(keys < 36){
             buttonMaker(keyBoard[capsSelected][keys], keys%10*50+15, Math.floor(keys/10)*40+105, 0.9, action => output.length < 20
@@ -435,7 +444,7 @@ function arrowMaker(x, y, angle, pointer=false) {
     ctx.restore();
 }
 
-weatherDraw = function() {
+function weatherDraw() {
     if (weather[1] <= 5) {
         weather[1] = Math.min(5, weather[1] + 1 / 30)
     } else {
@@ -489,13 +498,13 @@ weatherDraw = function() {
     }
 }
 
-bugBubble = function(x, y, scale = 1, mouseOver = false, bugList = 0) {
+function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(scale, scale);
 
     if (mouseOver) {
-        (Math.pow(Math.pow(Math.abs(mousex - (x + 77 / 2 * scale)), 2) + Math.pow(Math.abs(mousey - (y + 77 / 2 * scale)), 2), 0.5) < 33.5 * scale) ? ctx.globalAlpha = 1: ctx.globalAlpha = 0.75;
+        circleCollision(x, y, 33.5 * scale) ? ctx.globalAlpha = 1: ctx.globalAlpha = 0.75;
         if (ctx.globalAlpha == 1 && !filterSelected) {
             bugSelected = bugList;
             if (mousedown && boxSelector == "Bug Selector Full") {
@@ -520,8 +529,11 @@ bugBubble = function(x, y, scale = 1, mouseOver = false, bugList = 0) {
                     }
                 }
                 mousedown = false;
-            } else if (mousedown) {
+            } else if (mousedown) { 
+                //Purple item consumption (Erudite)
+                if(!(bugSelected.Trait == 2 && boxSelector.substr(21, 21) >= 2 && boxSelector.substr(21, 21) <= 4)){
                 items[boxSelector.substr(21, 21)].quantity -= 1;
+                }
 
                 //effects can either be value, boolean, or based on an objects other values
                 let itemAction = items[boxSelector.substr(21, 21)].action[1];
@@ -589,7 +601,7 @@ bugBubble = function(x, y, scale = 1, mouseOver = false, bugList = 0) {
         ctx.stroke();
         ctx.closePath();
         
-        if((Math.pow(Math.pow(Math.abs(mousex - (x + 77 / 2 * scale)), 2) + Math.pow(Math.abs(mousey - (y + 77 / 2 * scale)), 2), 0.5) < 33.5 * scale) && mousedown && battleBugs.length > 0 && battleBugs[0].Health > 0 && scale == 0.5){
+        if(circleCollision(x, y, 33.5 * scale) && mousedown && battleBugs.length > 0 && battleBugs[0].Health > 0 && scale == 0.5){
             x == 5 ? battleBugs[0].keyDown(49) : x == 45 ? battleBugs[0].keyDown(50) : battleBugs[0].keyDown(51);
             mousedown = false;
         }
@@ -597,7 +609,7 @@ bugBubble = function(x, y, scale = 1, mouseOver = false, bugList = 0) {
     ctx.restore();
 }
 
-traitmaker = function(x, y, bugList) {
+function traitMaker(x, y, bugList) {
     ctx.globalAlpha = collision(mousex, mousey, 0, 0, x, y, 30, 30) ? 1 : 0.85;
 
     if (ctx.globalAlpha == 1) {
@@ -612,6 +624,7 @@ traitmaker = function(x, y, bugList) {
         if (mousedown && boxSelector == "Bug Selector History" && bugSelected.Age >= 100) {
             boxSelector = "Bug Selector Item";
             bugSelected = -1;
+            mousedown = false;
         }
     }
 
@@ -625,7 +638,7 @@ traitmaker = function(x, y, bugList) {
     ctx.drawImage(miscImg[70], x, y, 30, 30);
 }
 
-dialogueMaker = function() {
+function dialogueMaker() {
     ctx.strokeStyle = "rgb(0,0,0,1)";
     ctx.fillStyle = "rgb(0,0,0,0.75)";
     ctx.lineWidth = 6;
@@ -653,7 +666,7 @@ dialogueMaker = function() {
 }
 
 //mouse follower, switches to touch move for mobile
-mousemake = function(event, clickAddOn=false) {
+function mousemake(event, clickAddOn=false) {
     if(clickAddOn){
         mousedown = true;
     }
@@ -663,7 +676,7 @@ mousemake = function(event, clickAddOn=false) {
         if(event.touches.length > 1){
         mousex = (event.touches[event.touches.length-1].clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.height / 297);
         mousey = (event.touches[event.touches.length-1].clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.height / 297);
-            if(Math.pow(Math.pow(Math.abs(mousex - (470 + 50)), 2) + Math.pow(Math.abs(mousey - (245 + 50)), 2), 0.5) < 50) { 
+            if(circleCollision(470, 245, 50)) { 
                 battleBugs[0].keyDown(32); 
                 battleBugs[0].keyUp["skillCheck"] = true;
              }
@@ -676,7 +689,7 @@ mousemake = function(event, clickAddOn=false) {
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.height/297)
 }
 
-keydownmisc = function(event) {
+function keydownmisc(event) {
     if (boxSelector.split("Select Facility ").length > 1) {
         let facilityIndex = Number(boxSelector.split(" Facility ")[1]);
         if ((event.keyCode == 39 || event.keyCode == 68)) {
@@ -710,16 +723,13 @@ keydownmisc = function(event) {
             page - 1 < 0 ? page = Math.floor((nameFilter.length - 1) / 8) : page -= 1
         }
 
-    } else if (filterSelected && boxSelector !== "Bug Selector History" && boxSelector.substr(0, 12) == "Bug Selector" && ((nameFilterContainer.length < 20 && ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode == 32 || (event.keyCode >= 48 && event.keyCode <= 57))) || event.keyCode == 8)) {
-        event.keyCode == 8 ? nameFilterContainer = nameFilterContainer.substr(0, nameFilterContainer.length - 1) : nameFilterContainer += event.key
+    } else if (filterSelected && boxSelector !== "Bug Selector History" && boxSelector.substr(0, 12) == "Bug Selector" && ((nameFilterContainer.length < 20 && ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode == 32 || (event.keyCode >= 48 && event.keyCode <= 57))) || event.keyCode == 8 || event.keyCode == 13 || event.keyCode == 16)) {
+        event.keyCode == 16 ? capsSelected = !capsSelected : event.keyCode == 13 ? [capSelected = false, filterSelected = false, save()] : event.keyCode == 8 ? nameFilterContainer = nameFilterContainer.substr(0, nameFilterContainer.length - 1) : nameFilterContainer += event.key
 
-    } else if (filterSelected && boxSelector == "Bug Selector History" && ((bugSelected.Name.length < 20 && ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode == 32 || (event.keyCode >= 48 && event.keyCode <= 57))) || event.keyCode == 8)) {
-        event.keyCode == 8 ? bugSelected.Name = bugSelected.Name.substr(0, bugSelected.Name.length - 1) : bugSelected.Name += event.key;
+    } else if (filterSelected && boxSelector == "Bug Selector History" && ((bugSelected.Name.length < 20 && ((event.keyCode >= 65 && event.keyCode <= 90) || event.keyCode == 32 || (event.keyCode >= 48 && event.keyCode <= 57))) || event.keyCode == 8 || event.keyCode == 13 || event.keyCode == 16)) {
+        event.keyCode == 16 ? capsSelected = !capsSelected : event.keyCode == 13 ? [capSelected = false, filterSelected = false, save()] : event.keyCode == 8 ? bugSelected.Name = bugSelected.Name.substr(0, bugSelected.Name.length - 1) : bugSelected.Name += event.key;
     } else {
         keyUp = event.keyCode;
-    }
-    if (textInfo.length == 1 && boxSelector == "") {
-        music.play();
     }
 }
 
@@ -778,7 +788,7 @@ function fullScreen(screenFit = true) {
     } 
 }
 
-bugTotal = function() {
+function bugTotal() {
     let total = 0;
     for (totalAdd in bugCompendium) {
         if (bugStats[bugCompendium[totalAdd]].obtained) {
@@ -788,7 +798,7 @@ bugTotal = function() {
     return total
 }
 
-sellHandle = function(sellTotal, bugsReset) {
+function sellHandle(sellTotal, bugsReset) {
     bugsReset.map(reset => bugs.splice(bugs.indexOf(reset), 1))
     soundeffect("Territ.mp3")
     territs = Math.min(99999, territs + sellTotal)
@@ -796,7 +806,7 @@ sellHandle = function(sellTotal, bugsReset) {
     boxSelector = "";
 }
 
-price = function(bugData, buy = true, albino = false) {
+function price(bugData, buy = true, albino = false) {
     /**
        Algorithm:
        1.Health + Speed + Attack
@@ -807,7 +817,7 @@ price = function(bugData, buy = true, albino = false) {
            Minus 250 if Legendary (251-300)
        3.Divide by (100/3)
        4.Add one
-       Stat multiplier range ~  1 - 2.5 
+       Stat multiplier range ~  1x - 2.5x
        ----
            Value:
            Common > 1 (10-25 or 4-5)
@@ -824,21 +834,38 @@ price = function(bugData, buy = true, albino = false) {
     if (!buy) {
         return Math.ceil(Math.pow(Math.pow(10, bugData.rarity == "Epic" || bugData.rarity == "Legendary" ? 4 : bugData.rarity == "Rare" ? 2 : 1) * statMult, 0.5)) * (albino ? 2 : 1);
     } else {
-        return Math.ceil(Math.pow(10, bugData.rarity == "Epic" ? 4 : bugData.rarity == "Rare" ? 2 : 1) * statMult);
+        return Math.ceil(Math.pow(10, bugData.rarity == "Epic" || bugData.rarity == "Legendary" ? 4 : bugData.rarity == "Rare" ? 2 : 1) * statMult);
     }
 }
 
-shopHandle = function(x, y, index, thumbnail) {
-    if (index < 3) {
+function shopHandle(x, y, index, thumbnail) {
+    if (index < 4) {
         if ((date - shop[index][1]) >= shop[index][2] * 3600000) {
             let randomizer = Math.floor(Math.random() * shop[index][3].length);
-            while (shop[index][0] == shop[index][3][randomizer]) {
+            while (shop[index][0] == shop[index][3][randomizer] && index !== 3) {
                 randomizer = Math.floor(Math.random() * shop[index][3].length);
             }
             shop[index][0] = shop[index][3][randomizer];
             shop[index][1] = new Date();
             
-            if(index == 2) {
+            if (index == 3) {
+                shop[index][1].setHours(0);
+                shop[index][4] = 1;
+                
+                if(date.getDay() < 3){
+                    shop[index][0] = shop[index][3][2];
+                    
+                    //Randomizes trait for the week
+                    if (date.getDay() == 1) {  
+                        shop[index][5] = Math.floor(Math.random()*7)+1;
+                    } 
+                } else if(date.getDay() < 5){
+                    shop[index][0] = shop[index][3][1];
+                } else {
+                    shop[index][0] = shop[index][3][0];
+                }
+                
+            } else if(index == 2) {
                 shop[index][1].setHours(0);
             } else if(index == 1) {
                 if(date.getHours() < 6) {
@@ -855,14 +882,15 @@ shopHandle = function(x, y, index, thumbnail) {
             }
               
             shop[index][1].setMinutes(0, 0, 0);
+            save("Shop", JSON.stringify(shop));
         }
 
         ctx.save();
-        ctx.filter = bugs.length >= rooms.length * 8 || territs < price(bugStats[shop[index][0]], true) ? "brightness(60%)" : collision(mousex, mousey, 0, 0, x, y, 200, 100) ?
+        ctx.filter = (index == 3 && shop[index][4] == 0) || bugs.length >= rooms.length * 8 || territs < price(bugStats[shop[index][0]], true) ? "brightness(60%)" : collision(mousex, mousey, 0, 0, x, y, 200, 100) ?
             "brightness(100%)" : "brightness(80%)"
         ctx.drawImage(miscImg[thumbnail], x, y, 200, 100);
         ctx.drawImage(bugStats[shop[index][0]].image, 0, 0, bugStats[shop[index][0]].image.width / 6, bugStats[shop[index][0]].image.height / 3, x + 100 - bugStats[shop[index][0]].image.width / 36, y + 50 - bugStats[shop[index][0]].image.height / 18, bugStats[shop[index][0]].image.width / 18, bugStats[shop[index][0]].image.height / 9);
-
+  
         if (mousedown && Number(ctx.filter.split("(")[1].split("%)")[0]) == 100) {
             bugs.push(new bugBuild(shop[index][0].split("_").join(" "), Math.random() * 528, 280, shop[index][0], 0, false, 0));
             bugs[bugs.length - 1].defects.evolution = 1;
@@ -871,17 +899,27 @@ shopHandle = function(x, y, index, thumbnail) {
             territs -= price(bugStats[shop[index][0]], true);
             save();
             mousedown = false;
+            if (index == 3) { 
+                shop[index][4] = 0;
+                bugs[bugs.length - 1].Trait = shop[index][5];
+            }
         }
         ctx.restore();
 
-        textmaker(shop[index][0].split("_").join(" "), x + 100, y + 10, 25, true);
-        textmaker("$" + price(bugStats[shop[index][0]], true), x + 110, y + 100, 25, true);
-        textmaker("@" + (shop[index][2] - 1 - Math.floor((date - shop[index][1]) / 3600000)) + ":" + ("0" + (60 - Math.ceil((date - shop[index][1]) % 3600000 / 60000))).slice(-2), x + 25, y + 10, 15, true);
+        textmaker(index == 3 ? "Shop Exclusive ": shop[index][0].split("_").join(" "), x + 100, y + 10, 25, true);
+        textmaker(index == 3 ? "Get exclusive bugs throughout the week!\nOnly one bug can be bought a day for\nthis 5 day event. Bugs are traited.\n" : bugStats[shop[index][0]].descp, x + 100, y + 125, 15, true);
+        textmaker("$  " + price(bugStats[shop[index][0]], true), x + 110, y + 100, 25, true);
+        textmaker("@" + (shop[index][2] - 1 - Math.floor((date - shop[index][1]) / 3600000)) + ":" + ("0" + (60 - Math.ceil((date - shop[index][1]) % 3600000 / 60000))).slice(-2), x, y + 10, 15, true);
+        
+        if (index == 3){
+            textmaker(shop[index][4]+"/1   Trait:", 528/2-30, y + 180, 15, true);
+            textmaker(traitDescp[shop[index][5]][0], 528/2+30, y + 180, 15, true, traitDescp[shop[index][5]][1]);
+        }
 
     } else {
         ctx.save();
-        ctx.filter = bugs.length >= rooms.length * 8 || territs < 250 ? "brightness(60%)" : collision(mousex, mousey, 0, 0, x, y, 200, 100) ?
-            "brightness(100%)" : "brightness(80%)"
+        ctx.filter = bugs.length >= rooms.length * 8 || territs < 250 ? "brightness(60%)" : collision(mousex, mousey, 0, 0, x, y, 200, 100) ? "brightness(100%)" : "brightness(80%)"
+
         ctx.strokeStyle = shop[index][2];
         ctx.lineWidth = shop[index][1];
         ctx.strokeRect(x, y, 200, 100);
@@ -908,6 +946,7 @@ shopHandle = function(x, y, index, thumbnail) {
         ctx.restore();
 
         textmaker(date.getDay() == 0 || date.getDay() == 6 ? "Weekend Special" : "Special", x + 100, y + 10, 25, true);
+        textmaker("Test your luck against this special banner!\nChances are doubled on weekends.", x + 100, y + 125, 15, true);
         textmaker("Common: ", x + 80, y + 30, 15, true, "#b3ffb3");
         textmaker("Rare: ", x + 90, y + 50, 15, true, "#80b3ff");
         textmaker("Epic: ", x + 92, y + 70, 15, true, "#ecb3ff");
@@ -919,7 +958,7 @@ shopHandle = function(x, y, index, thumbnail) {
     }
 }
 
-tutorial = function() {
+function tutorial() {
     if (rooms.length < 3 && textInfo[0].src.split("/")[textInfo[0].src.split("/").length - 1] !== "Termite.png") {
         textInfo.push(["???", "Termite", "You must be the new manager of Nectarne? Hm, it seems as though there is\nstill a lot of unused land. I'll set up a vitality field.", 0], ["???", "Termite", "No bugs eh? We all have to start somewhere don't we. Antonio and Venus\nwill help you get started. Click them to continue with our little tutorial.", 0]);
     } else if (rooms.length < 3 && textInfo.length == 1 && textInfo[0].src.split("/")[textInfo[0].src.split("/").length - 1] == "Termite.png") {
@@ -957,7 +996,7 @@ tutorial = function() {
         bugs[bugs.length - 1].Story = bugs[bugs.length - 1].Story.split("\nFather").join(" from Teresa\nFather");
         save();
     } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 3 && rooms.length < 5 && textInfo.length == 1) {
-        textInfo.push(["Teresa", "Termite", "Just resolved a guild fight, things are getting wild around these parts\never since the blight.", 0], ["Teresa", "Termite", "We finished building one of those specialized Nectar Groves! If you\nhave some intelligent bugs, now would be a good time to use them!", 0]);
+        textInfo.push(["Teresa", "Termite", "Just stopped a guild fight. Things are getting wild around these parts\never since that blight.", 0], ["Teresa", "Termite", "We finished building one of those specialized Nectar Groves! If you\nhave some intelligent bugs, now would be a good time to use them!", 0]);
         rooms.push(new facilityBuild(3, 4));
         save();
     } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 4 && rooms.length < 6) {
@@ -984,10 +1023,10 @@ tutorial = function() {
     }
     
     //Pointer arrows
-    if (rooms.length == 3 && bugSelected == -1 && bugs[bugs.length - 1].Story.split(" from Teresa").length == 1){
+    if (rooms.length == 3 && rooms[0].MissionList.length == 0 && bugs.length > 0 && bugSelected == -1 && bugs[bugs.length - 1].Story.split(" from Teresa").length == 1){
         arrowMaker(bugs[0].X-scrollx, bugs[0].Y-40, 0, false);
         arrowMaker(bugs[1].X-scrollx, bugs[1].Y-40, 0, false);
-    } else if(rooms[0].MissionList.length == 0 && bugs.length > 0 && bugs[bugs.length - 1].Story.split(" from Teresa").length > 1) {
+    } else if(rooms[0].MissionList.length == 0 && rooms[0].MissionList.length == 0 && bugs.length > 0 && bugs[bugs.length - 1].Story.split(" from Teresa").length > 1) {
         arrowMaker(496.5, 65, 180, false);
     } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 0) {
         arrowMaker(245, 55, 180, false);
@@ -995,7 +1034,7 @@ tutorial = function() {
     
 }
 
-save = function(key = null, value = null) {
+function save(key = null, value = null) {
     if (key == null) {
         localStorage.setItem("Bugs", JSON.stringify(bugs));
         localStorage.setItem("Facilities", JSON.stringify(rooms));
@@ -1013,7 +1052,7 @@ save = function(key = null, value = null) {
     }
 }
 
-load = function(deleteFile = false) {
+function load(deleteFile = false) {
     if (!deleteFile) {
         scrollx = 0;
         bugs = JSON.parse(localStorage.getItem("Bugs"));
@@ -1026,6 +1065,7 @@ load = function(deleteFile = false) {
         shop[0][1] = new Date(shop[0][1]);
         shop[1][1] = new Date(shop[1][1]);
         shop[2][1] = new Date(shop[2][1]);
+        shop[3][1] = new Date(shop[3][1]);
 
         territs = JSON.parse(localStorage.getItem("Territs"));
         food = JSON.parse(localStorage.getItem("Food"));
@@ -1097,10 +1137,11 @@ load = function(deleteFile = false) {
         territs = 25;
         food = 500;
         shop = [
-            ["Ant", new Date(0), 1, ["Ant", "Termite", "Fly", "Wriggler", "Water_Tiger"]],
-            ["Glowworm", new Date(0), 6, ["Glowworm", "Caterpillar", "Pondskater", "Bed_Bug", "Bee"]],
-            ["Scorpion", new Date(0), 24, ["Weta", "Mantis", "Scorpion", "Spider", "Millipede"]],
-            ["Ant", 0, "rgb(179,255,179,0.85)"]
+        ["Ant", new Date(0), 1, ["Ant", "Termite", "Fly", "Wriggler", "Water_Tiger"]],
+        ["Glowworm", new Date(0), 6, ["Glowworm", "Caterpillar", "Pondskater", "Bed_Bug", "Bee"]],
+        ["Scorpion", new Date(0), 24, ["Weta", "Mantis", "Scorpion", "Spider", "Millipede"]],
+        ["Ant", new Date(0), 24, ["Centipede", "Giant_Water_Bug", "Mantis"], 0, 0],
+        ["Ant", 0, "rgb(179,255,179,0.85)"],
         ];
         textInfo = [new Image()]
     }

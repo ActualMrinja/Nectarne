@@ -1,4 +1,4 @@
-facilityBuild = function(type, index) {
+function facilityBuild(type, index) {
     this.Type = type;
     this.Image = miscImg[facilities[type].miscIndex].cloneNode();
 
@@ -45,7 +45,7 @@ facilityBuild.prototype.info = function() {
             this.Companion.Immortal = true;
             bugBubble(45, 155, 0.625, true, this.Companion);
             textmaker("Companion", 40, 160, 15, false);
-            traitmaker(30, 175, this.Companion);
+            traitMaker(30, 175, this.Companion);
         }
 
         for (let drawTroops = 0; drawTroops < 3; drawTroops++) {
