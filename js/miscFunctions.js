@@ -423,8 +423,8 @@ function arrowMaker(x, y, angle, pointer=false) {
     ctx.rotate(angle * (Math.PI / 180));
 
      if(pointer){
-        ctx.globalAlpha = collision(mousex, mousey, 0, 0, x - 15, y - 15, 30, 30) ? 1 : 0.85;
-        ctx.drawImage(miscImg[74], -15, -15, 30, 30);
+        ctx.globalAlpha = collision(mousex, mousey, 0, 0, x - 20, y - 20, 40, 40) ? 1 : 0.85;
+        ctx.drawImage(miscImg[74], -20, -20, 40, 40);
          
         if(mousedown && ctx.globalAlpha == 1) {
         battleBugs[0].keyDown(pointer[0]);
