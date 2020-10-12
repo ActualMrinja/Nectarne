@@ -341,7 +341,7 @@ function textMaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
     ctx.globalAlpha = 1;
     let textFitter = (window.devicePixelRatio == 1 ? 1 : window.devicePixelRatio * 0.5)
     
-    size *= (textFitter);
+    size /= (textFitter);
     
     //loop allows line breaks to be available with \n
     for (let textsplit = 0; textsplit < text.split("\n").length; textsplit++) {
