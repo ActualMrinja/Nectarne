@@ -653,7 +653,11 @@ dialogueMaker = function() {
 }
 
 //mouse follower, switches to touch move for mobile
-mousemake = function(event) {
+mousemake = function(event, clickAddOn=false) {
+    if(clickAddOn){
+        mousedown = true;
+    }
+    
     if(event.touches !== undefined){
         //2nd finger check for mobile, resets to first finger
         if(event.touches.length > 1){
@@ -667,9 +671,7 @@ mousemake = function(event) {
             
         event = event.touches[0];
     }
-    
-    
-     
+
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.height/297)
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.height/297)
 }
