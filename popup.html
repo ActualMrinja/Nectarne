@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <title>Nectarne</title>
+    <link rel="shortcut icon" href="images/favicon/favicon.ico">
+	   <link rel="icon" sizes="16x16 32x32 64x64" href="images/favicon/favicon.ico">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        #nectarneCanvas {
+            margin: auto;
+            display: block;
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        @font-face {
+            src: url("TovariSans.ttf") format('truetype');
+            font-family: "TovariSans";
+        }
+
+        html,
+        body {
+            width: 640px;
+            height: 344px;
+            overflow: hidden;
+            background-color: #000000;
+        }
+    </style>
+</head>
+
+<body>
+        <canvas tabindex="1" id="nectarneCanvas" width="640px" height="360px" style='outline:none;left:0px;top:0px;' alt="Your device does not support this game">
+        </canvas>
+
+    <!-- Misc -->
+    <script type="text/javascript" src="js/miscData.js"></script>
+    <script type="text/javascript" src="js/miscFunctions.js"></script>
+    
+    <!-- Constructors -->
+    <script type="text/javascript" src="js/bugBuild.js"></script>
+    <script type="text/javascript" src="js/facilityBuild.js"></script>
+    
+    <!-- Main -->
+    <script type="text/javascript" src="js/main.js"></script>
+    
+</body>
+
+</html>
