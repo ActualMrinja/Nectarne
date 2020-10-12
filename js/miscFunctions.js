@@ -672,9 +672,6 @@ mousemake = function(event) {
      
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.height/297)
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.height/297)
-    if(mousex > 520){
-        alert(nectarneCanvas.width+" "+nectarneCanvas.height);
-}
 }
 
 keydownmisc = function(event) {
