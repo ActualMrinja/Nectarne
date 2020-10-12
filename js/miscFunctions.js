@@ -654,7 +654,23 @@ dialogueMaker = function() {
 
 //mouse follower, switches to touch move for mobile
 mousemake = function(event) {
-    event = event.touches !== undefined ? [event.touches[0], mousedown = true] : event;
+    
+    if(event.touches !== undefined){
+        
+        //2nd finger check for mobile, resets to first finger
+        if(event.touches.length > 1){
+        mousex = (event.touches[event.touches.length-1].clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
+        mousey = (event.touches[event.touches.length-1].clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
+            if(Math.pow(Math.pow(Math.abs(mousex - (470 + 50)), 2) + Math.pow(Math.abs(mousey - (245 + 50)), 2), 0.5) < 50) { 
+                battleBugs[0].keyDown(32); 
+                battleBugs[0].keyUp["skillCheck"] = true;
+             }
+        }
+            
+        event = event.touches[0];
+        mousedown = true;
+    }
+    
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
     mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
 }
