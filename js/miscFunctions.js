@@ -774,12 +774,6 @@ function fullScreen(screenFit = true) {
 
         mousedown = false;
     } 
-
-    //Fits elements
-    document.body.clientWidth = "640px";
-    document.body.clientHeight = "360px";
-    document.querySelector("html").clientWidth = "640px";
-    document.querySelector("html").clientHeight = "360px";
 }
 
 bugTotal = function() {
