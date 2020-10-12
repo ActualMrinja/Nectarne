@@ -656,7 +656,6 @@ dialogueMaker = function() {
 mousemake = function(event) {
     
     if(event.touches !== undefined){
-        
         //2nd finger check for mobile, resets to first finger
         if(event.touches.length > 1){
         mousex = (event.touches[event.touches.length-1].clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
@@ -668,7 +667,6 @@ mousemake = function(event) {
         }
             
         event = event.touches[0];
-        mousedown = true;
     }
     
     mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
@@ -778,10 +776,10 @@ function fullScreen(screenFit = true) {
     } 
 
     //Fits elements
-    document.body.clientWidth = "100%";
-    document.body.clientHeight = "100%";
-    document.querySelector("html").clientWidth = "100%";
-    document.querySelector("html").clientHeight = "100%";
+    document.body.clientWidth = "640px";
+    document.body.clientHeight = "360px";
+    document.querySelector("html").clientWidth = "640px";
+    document.querySelector("html").clientHeight = "360px";
 }
 
 bugTotal = function() {
