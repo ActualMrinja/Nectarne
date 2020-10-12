@@ -339,8 +339,7 @@ function circleCollision(x, y, r){
 function textMaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
 
     ctx.globalAlpha = 1;
-    let textFitter = (window.devicePixelRatio == 1 ? 1 : window.devicePixelRatio * 0.5) - 1
-
+    let textFitter = (window.devicePixelRatio == 1 ? 1 : window.devicePixelRatio * 0.5)
     //loop allows line breaks to be available with \n
     for (let textsplit = 0; textsplit < text.split("\n").length; textsplit++) {
 
@@ -353,17 +352,17 @@ function textMaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
                 ctx.drawImage(miscImg[64], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2) - 10 * (size / 25), (y + (textsplit * size * 1.25)) - (25 / 1.375 * (size / 25)), 25 * (size / 25), 25 * (size / 25));
             }
 
-            ctx.font = "600 " + size / (textFitter + 1) + "px TovariSans";
+            ctx.font = "600 " + size * textFitter + "px TovariSans";
             ctx.strokeStyle = "black";
             ctx.lineWidth = (size / 25) * ((24 / size) + 4);
-            ctx.strokeText(text.split("\n")[textsplit], (x + textFitter) - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
+            ctx.strokeText(text.split("\n")[textsplit], (x + textFitter - 1) - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
             ctx.fillStyle = color;
             ctx.fillText(text.split("\n")[textsplit], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
         } else {
-            ctx.font = "600 " + size / (textFitter + 1) + "px TovariSans";
+            ctx.font = "600 " + size * textFitter + "px TovariSans";
             ctx.strokeStyle = "black";
             ctx.lineWidth = (size / 25) * ((24 / size) + 4);
-            ctx.strokeText(text.split("\n")[textsplit], (x + textFitter), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
+            ctx.strokeText(text.split("\n")[textsplit], (x + textFitter - 1), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
             ctx.fillStyle = color;
             ctx.fillText(text.split("\n")[textsplit], x, (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
         }
