@@ -583,11 +583,7 @@ mainGame = function() {
                     buttonMaker(soundeffectvolume == 0 ? "Off" : "On", 355, boxAnimation + 140, 2, action => [soundeffectvolume = soundeffectvolume == 0 ? 1 : 0, save("Sound", soundeffectvolume), soundeffect()]);
 
                     //Disabled full screen on extensions
-                    if (((window.innerWidth && document.documentElement.clientWidth) ?
-                            Math.min(window.innerWidth, document.documentElement.clientWidth) :
-                            window.innerWidth ||
-                            document.documentElement.clientWidth ||
-                            document.body.clientWidth) !== 646) {
+                    if (document.body.clientHeight !== 344) {
                         textmaker("Full Screen", 265, boxAnimation + 135, 25, true);
                         buttonMaker(!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement ? "Off" : "On", 215, boxAnimation + 155, 2, action => [fullScreen(), save("FullScreen", nectarneCanvas.width)]);
                     }
