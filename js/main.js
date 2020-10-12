@@ -249,10 +249,10 @@ mainGame = function() {
             
             ctx.drawImage(miscImg[bugStats[battleBugs[0].Species].skillBubble], 470, 245, 50, 50);
             
-            arrowMaker(50, 250, 180, [38,"upCheck"]);
-            arrowMaker(65, 265, -90, [39,"rightCheck"]);
-            arrowMaker(50, 280, 0, [40,"downCheck"]); 
-            arrowMaker(35, 265, 90, [37,"leftCheck"]);  
+            arrowMaker(50, 230, 180, [38,"upCheck"]);
+            arrowMaker(90, 270, -90, [39,"rightCheck"]);
+            arrowMaker(50, 310, 0, [40,"downCheck"]); 
+            arrowMaker(10, 270, 90, [37,"leftCheck"]);  
         }
         /**Mission UI**/
         
@@ -734,7 +734,7 @@ nectarneCanvas.addEventListener("mousedown", clickMake => mousedown = true);
 nectarneCanvas.addEventListener("mouseup", clickMake => mousedown = false);
 nectarneCanvas.addEventListener("touchmove", mousemake);
 nectarneCanvas.addEventListener("touchstart", mousehandle => mousemake(event, true));
-nectarneCanvas.addEventListener("touchend", clickMake => mousedown = false);
+nectarneCanvas.addEventListener("touchend", clickMake => event.touches.length > 1 ? return : mousedown = false);
 nectarneCanvas.addEventListener("keydown", keydownMake => battleMode && battleBugs.length > 0 ? battleBugs[0].keyDown(event) : keydownmisc(event));
 nectarneCanvas.addEventListener("keyup", keyupmake);
 
