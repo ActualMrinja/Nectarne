@@ -734,7 +734,7 @@ nectarneCanvas.addEventListener("mousedown", clickMake => mousedown = true);
 nectarneCanvas.addEventListener("mouseup", clickMake => mousedown = false);
 nectarneCanvas.addEventListener("touchmove", mousemake);
 nectarneCanvas.addEventListener("touchstart", mousehandle => mousemake(event, true));
-nectarneCanvas.addEventListener("touchend", clickMake => event.touches.length > 1 ? return : mousedown = false);
+nectarneCanvas.addEventListener("touchend", clickMake => event.touches.length > 1 ? "" : mousedown = false);
 nectarneCanvas.addEventListener("keydown", keydownMake => battleMode && battleBugs.length > 0 ? battleBugs[0].keyDown(event) : keydownmisc(event));
 nectarneCanvas.addEventListener("keyup", keyupmake);
 
