@@ -93,7 +93,7 @@ mainGame = function() {
  
     ctx.save();
     ctx.translate(0, 0);
-    ctx.scale(nectarneCanvas.width / 528, nectarneCanvas.width / 528);
+    ctx.scale(nectarneCanvas.height / 297, nectarneCanvas.height / 297);
 
     //Vertical & loading check
     if (window.innerWidth < window.innerHeight){

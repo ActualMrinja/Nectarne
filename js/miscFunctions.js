@@ -654,12 +654,11 @@ dialogueMaker = function() {
 
 //mouse follower, switches to touch move for mobile
 mousemake = function(event) {
-    
     if(event.touches !== undefined){
         //2nd finger check for mobile, resets to first finger
         if(event.touches.length > 1){
-        mousex = (event.touches[event.touches.length-1].clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
-        mousey = (event.touches[event.touches.length-1].clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
+        mousex = (event.touches[event.touches.length-1].clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.height / 297);
+        mousey = (event.touches[event.touches.length-1].clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.height / 297);
             if(Math.pow(Math.pow(Math.abs(mousex - (470 + 50)), 2) + Math.pow(Math.abs(mousey - (245 + 50)), 2), 0.5) < 50) { 
                 battleBugs[0].keyDown(32); 
                 battleBugs[0].keyUp["skillCheck"] = true;
@@ -669,8 +668,13 @@ mousemake = function(event) {
         event = event.touches[0];
     }
     
-    mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.width / 528);
-    mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.width / 528);
+    
+     
+    mousex = (event.clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.height/297)
+    mousey = (event.clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.height/297)
+    if(mousex > 520){
+        alert(nectarneCanvas.width+" "+nectarneCanvas.height);
+}
 }
 
 keydownmisc = function(event) {
@@ -729,16 +733,16 @@ function keyupmake(event) {
 }
 
 function fullScreen(screenFit = true) {
-    let hs = (window.innerHeight && document.documentElement.clientHeight) ?
-            Math.min(window.innerHeight, document.documentElement.clientHeight) :
-            window.innerHeight ||
-            document.documentElement.clientHeight ||
-            document.body.clientHeight;
-    let ws = Math.floor(hs * (528 / 297));
+    let ws = (window.innerWidth && document.documentElement.clientWidth) ?
+            Math.min(window.innerWidth, document.documentElement.clientWidth) :
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+
+    let hs = Math.floor(ws / (528 / 297));
     
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement) {
         //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
-        if (ws !== 646) {
 
             if (nectarneCanvas.webkitRequestFullscreen && screenFit) {
                 /* Chrome, Safari and Opera */
@@ -755,7 +759,6 @@ function fullScreen(screenFit = true) {
 
             nectarneCanvas.width = ws
             nectarneCanvas.height = hs;
-        }
 
         mousedown = false;
     } else {
