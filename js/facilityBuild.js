@@ -14,7 +14,7 @@ function facilityBuild(type, index) {
 
 facilityBuild.prototype.info = function() {
     if (!battleMode) {
-        textmaker(missions[this.MissionList[this.MissionSelect][0]].name, 265, 30, 30, true);
+        textMaker(missions[this.MissionList[this.MissionSelect][0]].name, 265, 30, 30, true);
 
         ctx.save();
         for (let drawMissions = 0; drawMissions < this.MissionList.length; drawMissions++) {
@@ -29,14 +29,14 @@ facilityBuild.prototype.info = function() {
             ctx.drawImage(miscImg[43], 465 - 45 / 2, 40 + (60 * drawMissions), 45, 45);
         }
         ctx.restore();
-        textmaker(missions[this.MissionList[this.MissionSelect][0]].descp + "\n\nMission Rewards\n" + itemsLoad(this.MissionList[this.MissionSelect][1]), 265, 50, 15, true);
+        textMaker(missions[this.MissionList[this.MissionSelect][0]].descp + "\n\nMission Rewards\n" + itemsLoad(this.MissionList[this.MissionSelect][1]), 265, 50, 15, true);
 
         //Mission UI
         ctx.drawImage(miscImg[70 + Math.floor(missions[this.MissionList[this.MissionSelect][0]].difficulty / 50)], 40, 60, 84, 19);
         bugBubble(40, missions[this.MissionList[this.MissionSelect][0]].companion !== undefined ? 100 : 125, 0.5, false, bugStats[missions[this.MissionList[this.MissionSelect][0]].primary]);
         bugBubble(70, missions[this.MissionList[this.MissionSelect][0]].companion !== undefined ? 110 : 135, 0.375, false, bugStats[missions[this.MissionList[this.MissionSelect][0]].secondary]);
-        textmaker("Difficulty", 40, 60, 15, false);
-        textmaker("Scout", 40, missions[this.MissionList[this.MissionSelect][0]].companion !== undefined ? 100 : 125, 15, false);
+        textMaker("Difficulty", 40, 60, 15, false);
+        textMaker("Scout", 40, missions[this.MissionList[this.MissionSelect][0]].companion !== undefined ? 100 : 125, 15, false);
         if (missions[this.MissionList[this.MissionSelect][0]].companion !== undefined) {
             this.Companion = new bugBuild(missions[this.MissionList[this.MissionSelect][0]].companion[0], 0, 0, missions[this.MissionList[this.MissionSelect][0]].companion[1], missions[this.MissionList[this.MissionSelect][0]].companion[3]);
             this.Companion.Gender = missions[this.MissionList[this.MissionSelect][0]].companion[2];
@@ -44,7 +44,7 @@ facilityBuild.prototype.info = function() {
             this.Companion.Albino = false;
             this.Companion.Immortal = true;
             bugBubble(45, 155, 0.625, true, this.Companion);
-            textmaker("Companion", 40, 160, 15, false);
+            textMaker("Companion", 40, 160, 15, false);
             traitMaker(30, 175, this.Companion);
         }
 

@@ -102,15 +102,15 @@ mainGame = function() {
 
     //Vertical & loading check
     if (window.innerWidth < window.innerHeight){
-        textmaker("Please Rotate Your Device To Play", 264, 150, 25, true);
+        textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);
         ctx.restore();
         return;
     } else if(document.readyState !== "complete"){
-        textmaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "..."), 264, 150, 25, true);
+        textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "..."), 264, 150, 25, true);
         ctx.restore();
         return;
     } else if(document.readyState == "complete" && !loadCheck){
-        textmaker("Game Loaded\nClick To Start", 264, 140, 25, true);
+        textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
         ctx.restore();
         if(mousedown){ music.play(); fullScreen(); loadCheck = true; } 
         return;
@@ -228,19 +228,19 @@ mainGame = function() {
 
         if (battleBugs.length > 1) {
             bugBubble(5, 65, 0.5, false, battleBugs[1]);
-            textmaker("1", 25, 75, 10, true);
+            textMaker("1", 25, 75, 10, true);
         }
         if (battleBugs.length > 2) {
             bugBubble(45, 45, 0.5, false, battleBugs[2]);
-            textmaker("2", 65, 55, 10, true);
+            textMaker("2", 65, 55, 10, true);
         }
         if (battleBugs.length > 3) {
             bugBubble(60, 5, 0.5, false, battleBugs[3]);
-            textmaker("3", 80, 15, 10, true);
+            textMaker("3", 80, 15, 10, true);
         }
         if (battleBugs.length > 3) {
             bugBubble(60, 5, 0.5, false, battleBugs[3]);
-            textmaker("3", 80, 15, 10, true);
+            textMaker("3", 80, 15, 10, true);
         }
         if (battleBugs.length > 0 && battleBugs[0].Health > 0) {
             ctx.globalAlpha = circleCollision(470, 245, 50) ? 1 : 0.85;
@@ -254,16 +254,16 @@ mainGame = function() {
             
             ctx.drawImage(miscImg[bugStats[battleBugs[0].Species].skillBubble], 470, 245, 50, 50);
             
-            arrowMaker(50, 245, 180, [38,"upCheck"]);
-            arrowMaker(70, 265, -90, [39,"rightCheck"]);
-            arrowMaker(50, 285, 0, [40,"downCheck"]); 
-            arrowMaker(30, 265, 90, [37,"leftCheck"]);  
+            arrowMaker(50, 250, 180, [38,"upCheck"]);
+            arrowMaker(65, 265, -90, [39,"rightCheck"]);
+            arrowMaker(50, 280, 0, [40,"downCheck"]); 
+            arrowMaker(35, 265, 90, [37,"leftCheck"]);  
         }
         /**Mission UI**/
         
         if (music.src.split("/")[music.src.split("/").length - 1] == "QueenTheme.mp3" && textInfo.length == 1 && battleEnemies.length > 0 && battleEnemies[0].Age > 100) {
             bugBubble(410, 20, 1, false, battleEnemies[0]);
-            textmaker(battleEnemies[0].Name, 445, 30, 20, true);
+            textMaker(battleEnemies[0].Name, 445, 30, 20, true);
         }
 
     } else {
@@ -306,9 +306,9 @@ mainGame = function() {
             ctx.drawImage(miscImg[13], 230, 10, miscImg[13].width / 3, miscImg[13].height / 3);
             territs = Math.min(99999, territs);
             food = Math.min(99999, food);
-            textmaker("" + Math.floor(territs), 45, 36, 20, false);
-            textmaker("" + bugs.length + "/" + (rooms.length * 8), 155, 35, 20, false, (bugs.length < rooms.length * 8) ? "white" : "crimson");
-            textmaker("" + Math.ceil(food), 264, 36, 20, false, netFood > 0 ? "springGreen" : netFood == 0 ? "white" : "crimson");
+            textMaker("" + Math.floor(territs), 45, 36, 20, false);
+            textMaker("" + bugs.length + "/" + (rooms.length * 8), 155, 35, 20, false, (bugs.length < rooms.length * 8) ? "white" : "crimson");
+            textMaker("" + Math.ceil(food), 264, 36, 20, false, netFood > 0 ? "springGreen" : netFood == 0 ? "white" : "crimson");
             ctx.save();
             collision(mousex, mousey, 0, 0, 10, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
@@ -376,7 +376,7 @@ mainGame = function() {
         ctx.globalAlpha = 0.5;
         ctx.fillRect(-10, -10, 40, 320);
         ctx.strokeRect(-10, -10, 40, 320);
-        textmaker("<", 15, 150, 35, true);
+        textMaker("<", 15, 150, 35, true);
     }
 
     if (!battleMode && boxSelector == "" && (collision(mousex, mousey, 0, 0, 498, 0, 30, 500) || (keyUp == 39 || keyUp == 68)) && scrollx < (rooms.length - 1) * 528) {
@@ -386,7 +386,7 @@ mainGame = function() {
         ctx.globalAlpha = 0.5;
         ctx.fillRect(498, -10, 40, 320);
         ctx.strokeRect(498, -10, 40, 320);
-        textmaker(">", 515, 150, 35, true);
+        textMaker(">", 515, 150, 35, true);
     }
 
     ctx.globalAlpha = 1;
@@ -404,7 +404,7 @@ mainGame = function() {
 
                 buttonMaker("<", 264 - String((facilityIndex + 1) + "/" + rooms.length).length * (60 / 3) - 110, boxAnimation + 15, 2, action => boxSelector = (facilityIndex - 1 < 0 ? "Select Facility " + (rooms.length - 1) : "Select Facility " + (Number(boxSelector.split(" Facility ")[1]) - 1)));
                 buttonMaker(">", 264 + String((facilityIndex + 1) + "/" + rooms.length).length * (60 / 3), boxAnimation + 15, 2, action => boxSelector = (facilityIndex >= rooms.length - 1 ? "Select Facility 0" : "Select Facility " + (facilityIndex + 1)));
-                textmaker((facilityIndex + 1) + "/" + rooms.length, 264, 45, 30, true);
+                textMaker((facilityIndex + 1) + "/" + rooms.length, 264, 45, 30, true);
 
                 //Facility displayer
                 ctx.fillStyle = grd;
@@ -415,8 +415,8 @@ mainGame = function() {
                 ctx.drawImage(rooms[facilityIndex].Image, 0, 0, 528 * 3, 297 * 3, 355 - (264 / 2), 105, 264, 148.5);
                 ctx.strokeRect(355 - (264 / 2), 105, 264, 150);
 
-                textmaker(facilities[rooms[facilityIndex].Type].name, 36, 100, 20, false);
-                textmaker(facilities[rooms[facilityIndex].Type].descp, 24, 125, 15, false);
+                textMaker(facilities[rooms[facilityIndex].Type].name, 36, 100, 20, false);
+                textMaker(facilities[rooms[facilityIndex].Type].descp, 24, 125, 15, false);
 
                 buttonMaker("Back", 330, boxAnimation + 75, 1, action => boxSelector = "");
                 buttonMaker("Select", 35, boxAnimation + 225, 1, action => boxSelector = (facilities[rooms[facilityIndex].Type].infoScreen ? "Info Facility " : "Bug Selector Facility") + facilityIndex);
@@ -454,7 +454,7 @@ mainGame = function() {
                     ctx.fillRect(30, 60, 275, 30);
                     ctx.strokeRect(30, 60, 275, 30);
 
-                    textmaker(nameFilterContainer + (Math.abs(500 - date.getMilliseconds()) > 200 && nameFilterContainer.length < 20 && filterSelected ? "|" : ""), 40, 80, 15);
+                    textMaker(nameFilterContainer + (Math.abs(500 - date.getMilliseconds()) > 200 && nameFilterContainer.length < 20 && filterSelected ? "|" : ""), 40, 80, 15);
 
                     nameFilter = bugs.filter(nameSearch => nameSearch.Name.substr(0, nameFilterContainer.length).toUpperCase().indexOf(nameFilterContainer.toUpperCase()) !== -1);
 
@@ -466,7 +466,7 @@ mainGame = function() {
                         nameFilter = nameFilter.filter(nameSearch => (nameSearch.Patrol == false || nameSearch.Patrol == rooms[boxSelector.substr(21)]));
                         if (rooms[boxSelector.substr(21)].Type !== 0) {
                             buttonMaker("Clear", 442.5, boxAnimation + 62.5, 1.25, action => [bugs.filter(nameSearch => nameSearch.Patrol == rooms[boxSelector.substr(21)] ? nameSearch.Patrol = false : undefined), save()]);
-                            textmaker(String(bugs.filter(nameSearch => nameSearch.Patrol == rooms[boxSelector.substr(21)]).length + "/8"), 330, 82.5, 25);
+                            textMaker(String(bugs.filter(nameSearch => nameSearch.Patrol == rooms[boxSelector.substr(21)]).length + "/8"), 330, 82.5, 25);
                         }
                     }
 
@@ -480,7 +480,7 @@ mainGame = function() {
                         page = 0
                     }
 
-                    textmaker(String(page + 1) + "/" + Number(1 + Math.floor((nameFilter.length - 1) / 8)), 264, 45, 30, true);
+                    textMaker(String(page + 1) + "/" + Number(1 + Math.floor((nameFilter.length - 1) / 8)), 264, 45, 30, true);
 
                     for (let bugLoad = page * 8; bugLoad < (page + 1) * 8; bugLoad++) {
                         if (nameFilter[bugLoad] !== undefined) {
@@ -510,8 +510,8 @@ mainGame = function() {
                         ctx.filter = items[itemsDraw].quantity > 0 ? "brightness(75%)" : "brightness(50%)";
                         if (circleCollision((itemsDraw % 5 * 100 + 26), (100 + Math.floor(itemsDraw / 5) * 100), 37.5)) {
                             ctx.filter = "brightness(" + (Number(ctx.filter.split("(")[1].split("%)")[0]) + 25) + "%)"
-                            textmaker(items[itemsDraw].name, 264, 30, 35, true);
-                            textmaker(items[itemsDraw].descp, 264, 50, 15, true);
+                            textMaker(items[itemsDraw].name, 264, 30, 35, true);
+                            textMaker(items[itemsDraw].descp, 264, 50, 15, true);
                             if (((items[itemsDraw].bulk == undefined && items[itemsDraw].quantity > 0) || items[itemsDraw].bulk > 0) && mousedown) {
                                 if (itemsDraw < 2) {
                                     boxSelector = "";
@@ -528,10 +528,10 @@ mainGame = function() {
 
                         ctx.drawImage(miscImg[itemsDraw + 32], itemsDraw % 5 * 100 + 26, 100 + Math.floor(itemsDraw / 5) * 100, 75, 75);
                         ctx.restore();
-                        textmaker("x" + (items[itemsDraw].quantity - (itemsDraw < 2 ? items[itemsDraw].bulk : 0)), itemsDraw % 5 * 100 + 26, 165 + Math.floor(itemsDraw / 5) * 100, 25);
+                        textMaker("x" + (items[itemsDraw].quantity - (itemsDraw < 2 ? items[itemsDraw].bulk : 0)), itemsDraw % 5 * 100 + 26, 165 + Math.floor(itemsDraw / 5) * 100, 25);
 
                         if (itemsDraw < 2 && items[itemsDraw].quantity > 0) {
-                            textmaker("" + items[itemsDraw].bulk, itemsDraw % 5 * 100 + 96, 145 + Math.floor(itemsDraw / 5) * 100, 25, true);
+                            textMaker("" + items[itemsDraw].bulk, itemsDraw % 5 * 100 + 96, 145 + Math.floor(itemsDraw / 5) * 100, 25, true);
                         }
 
                         if (itemsDraw < 2 && items[itemsDraw].bulk < items[itemsDraw].quantity && food + (items[itemsDraw].bulk * (itemsDraw == 0 ? 100 : 1000)) < 99999) {
@@ -558,10 +558,10 @@ mainGame = function() {
                     ctx.drawImage(bugSelected.Image, 0, 0, bugSelected.Image.width / 6, bugSelected.Image.height / 3, 110 - bugSelected.Image.width / 36, 175 - bugSelected.Image.height / 18, bugSelected.Image.width / 18, bugSelected.Image.height / 9);
                     ctx.restore();
 
-                    textmaker("Information", 200, 125, 25);
-                    textmaker(bugSelected.Story, 200, 150, 15);
+                    textMaker("Information", 200, 125, 25);
+                    textMaker(bugSelected.Story, 200, 150, 15);
                     
-                    textmaker(bugSelected.Name + (Math.abs(500 - date.getMilliseconds()) > 200 && bugSelected.Name.length < 20 && filterSelected ? "|" : ""), 264, 50 + (filterSelected ? 15 : 0), 28, true);
+                    textMaker(bugSelected.Name + (Math.abs(500 - date.getMilliseconds()) > 200 && bugSelected.Name.length < 20 && filterSelected ? "|" : ""), 264, 50 + (filterSelected ? 15 : 0), 28, true);
                     if (!filterSelected) {
                         buttonMaker("Change Name", 264 - 50, boxAnimation + 65, 2, action => filterSelected = true);
                     } else {
@@ -576,24 +576,24 @@ mainGame = function() {
 
                 //Results
             case "End Game":
-                textmaker(missions[battleInfo[0]].name + " Mission Rewards", 264, boxAnimation + 45, 35, true);
-                textmaker(itemsLoad(battleInfo[1]), 264, boxAnimation + 85, 20, true);
+                textMaker(missions[battleInfo[0]].name + " Mission Rewards", 264, boxAnimation + 45, 35, true);
+                textMaker(itemsLoad(battleInfo[1]), 264, boxAnimation + 85, 20, true);
                 buttonMaker("Next", 190, boxAnimation + 190, 3, action => battleClose());
                 break;
 
                 //Pause for battles and home
             case "Pause":
-                textmaker(battleMode && battleBugs.length == 0 ? "Mission Failed" : "Game Paused", 264, boxAnimation + 45, 35, true);
+                textMaker(battleMode && battleBugs.length == 0 ? "Mission Failed" : "Game Paused", 264, boxAnimation + 45, 35, true);
 
                 if (!battleMode || battleBugs.length > 0) {
-                    textmaker("Music", 124, boxAnimation + 120, 25, true);
-                    textmaker("Sound", 405, boxAnimation + 120, 25, true);
+                    textMaker("Music", 124, boxAnimation + 120, 25, true);
+                    textMaker("Sound", 405, boxAnimation + 120, 25, true);
                     buttonMaker(musicvolume == 0 ? "Off" : "On", 75, boxAnimation + 140, 2, action => [musicvolume = musicvolume == 0 ? 0.7 : 0, music.volume = musicvolume, save("Music", musicvolume)]);
                     buttonMaker(soundeffectvolume == 0 ? "Off" : "On", 355, boxAnimation + 140, 2, action => [soundeffectvolume = soundeffectvolume == 0 ? 1 : 0, save("Sound", soundeffectvolume), soundeffect()]);
 
                     //Disabled full screen on extensions
                     if (document.body.clientHeight !== 344) {
-                        textmaker("Full Screen", 265, boxAnimation + 135, 25, true);
+                        textMaker("Full Screen", 265, boxAnimation + 135, 25, true);
                         buttonMaker(!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement ? "Off" : "On", 215, boxAnimation + 155, 2, action => [fullScreen(), save("FullScreen", nectarneCanvas.width)]);
                     }
                 }
@@ -603,7 +603,7 @@ mainGame = function() {
                 }
 
                 if (battleMode) {
-                    textmaker(missions[battleInfo[0]].name, 264, boxAnimation + 85, 30, true);
+                    textMaker(missions[battleInfo[0]].name, 264, boxAnimation + 85, 30, true);
                     buttonMaker("Restart", 125, boxAnimation + (battleBugs.length > 0 ? 220 : 160), 2, action => [load(), battleBuild(missions[battleInfo[0]].type, missions[battleInfo[0]].difficulty)]);
                     buttonMaker("Return", 315, boxAnimation + (battleBugs.length > 0 ? 220 : 160), 2, action => [boxSelector = "", load()]);
                 } else {
@@ -614,39 +614,39 @@ mainGame = function() {
 
                 //Guidebook (1-3)
             case "Guide":
-                textmaker("Guide", 264, boxAnimation + 35, 35, true);
-                textmaker(page == 0 ? "Basics" : page == 1 ? "Base Stats" : page == 2 ? "Breeding" : page == 3 ? "Resources" : "Missions", 264, boxAnimation + 85, 35, true);
+                textMaker("Guide", 264, boxAnimation + 35, 35, true);
+                textMaker(page == 0 ? "Basics" : page == 1 ? "Base Stats" : page == 2 ? "Breeding" : page == 3 ? "Resources" : "Missions", 264, boxAnimation + 85, 35, true);
                 buttonMaker("<", 50, boxAnimation + 55, 2, action => page - 1 < 0 ? page = 4 : page -= 1);
                 buttonMaker(">", 375, boxAnimation + 55, 2, action => page + 1 > 4 ? page = 0 : page += 1);
                 buttonMaker("Back", 20, boxAnimation + 10, 1, action => boxSelector = "Pause");
 
                 if (page == 0) {
-                    textmaker("Bugs are bought, stolen, bred, and sold. A mutation that discolors\nbugs, albinism, doubles the selling price of bugs.\n\nA bug can breed with another bug using the Love Field facility.\nBugs can be raised and eventually be used to maintain the colony\nor sold in the Smuggler Junkyard.\n\nAfter reaching age 50 bugs are able to participate in missions or\nharvest resources. Bugs can be deployed in the Command Center.", 94, boxAnimation + 115, 15, false);
+                    textMaker("Bugs are bought, stolen, bred, and sold. A mutation that discolors\nbugs, albinism, doubles the selling price of bugs.\n\nA bug can breed with another bug using the Love Field facility.\nBugs can be raised and eventually be used to maintain the colony\nor sold in the Smuggler Junkyard.\n\nAfter reaching age 50 bugs are able to participate in missions or\nharvest resources. Bugs can be deployed in the Command Center.", 94, boxAnimation + 115, 15, false);
                 } else if (page == 1) {
-                    textmaker("Bugs have 3 base stats depending on species:\n    Health - Hitpoints of a bug until death.\n    Only knocks out bugs in battles if made immortal \n\n    Attack - Damage inflicted with skills.\n    Affected by the fury bar and aggressiveness \n\n    Speed - Speed of which bugs moves.\n    Speed is halved when non-aquatic bugs swim", 164, boxAnimation + 115, 15, false);
+                    textMaker("Bugs have 3 base stats depending on species:\n    Health - Hitpoints of a bug until death.\n    Only knocks out bugs in battles if made immortal \n\n    Attack - Damage inflicted with skills.\n    Affected by the fury bar and aggressiveness \n\n    Speed - Speed of which bugs moves.\n    Speed is halved when non-aquatic bugs swim", 164, boxAnimation + 115, 15, false);
                     ctx.drawImage(miscImg[2], 100, 105, 45, 45);
                     ctx.drawImage(miscImg[3], 100, 165, 45, 45);
                     ctx.drawImage(miscImg[4], 100, 225, 45, 45);
                 } else if (page == 2) {
-                    textmaker("Bugs can be bred with a mate when healthy. The higher a bug's\npassiveness the lower the required health to breed. At max\npassiveness, bugs can breed in two sessions without needing to\nbe healed in-between. Traits from either parents are passed down.\n\nTo breed, bugs must be:\n* The same species\n* Opposite gender\n* Age 50 or older", 264, boxAnimation + 115, 15, true);
+                    textMaker("Bugs can be bred with a mate when healthy. The higher a bug's\npassiveness the lower the required health to breed. At max\npassiveness, bugs can breed in two sessions without needing to\nbe healed in-between. Traits from either parents are passed down.\n\nTo breed, bugs must be:\n* The same species\n* Opposite gender\n* Age 50 or older", 264, boxAnimation + 115, 15, true);
                 } else if (page == 3) {
-                    textmaker("Bugs consume food and lose health when there is none. The higher a bug's\nintelligence the more efficient they are at harvesting resources.\n The intelligence alignment can be passed down through a mixture of\npassiveness and aggressiveness or through brood/items.\n\nTerrits can be used to buy rotating bugs in the Nectarne Market\nor buy items\n\nBugs only lose health in famines when actively looked after", 264, boxAnimation + 115, 15, true);
+                    textMaker("Bugs consume food and lose health when there is none. The higher a bug's\nintelligence the more efficient they are at harvesting resources.\n The intelligence alignment can be passed down through a mixture of\npassiveness and aggressiveness or through brood/items.\n\nTerrits can be used to buy rotating bugs in the Nectarne Market\nor buy items\n\nBugs only lose health in famines when actively looked after", 264, boxAnimation + 115, 15, true);
                 } else if (page == 4) {
-                    textmaker("After reaching age 50 bugs can be deployed for missions. The higher a bug's\naggressiveness the more damage they can inflict with skills. A maximum\nof three bugs can be deployed however a fourth companion bug may\naccompany troops as well. Missions grant territs, items, brood,\nand various other loot.\n\nMissions fall into two categories: Explore and Queen Takedown\nQueen Takedown missions end in a queen room and reward queen brood.\nThese rare brood are born with alignments by default ", 264, boxAnimation + 115, 15, true);
+                    textMaker("After reaching age 50 bugs can be deployed for missions. The higher a bug's\naggressiveness the more damage they can inflict with skills. A maximum\nof three bugs can be deployed however a fourth companion bug may\naccompany troops as well. Missions grant territs, items, brood,\nand various other loot.\n\nMissions fall into two categories: Explore and Queen Takedown\nQueen Takedown missions end in a queen room and reward queen brood.\nThese rare brood are born with alignments by default ", 264, boxAnimation + 115, 15, true);
                 }
                 break;
 
                 //File confirmation
             case "File Deletion":
-                textmaker("Delete File", 264, boxAnimation + 45, 35, true);
-                textmaker("Files cannot be recovered once deleted\n\nAre you sure you would like to delete your file?", 264, boxAnimation + 95, 20, true);
+                textMaker("Delete File", 264, boxAnimation + 45, 35, true);
+                textMaker("Files cannot be recovered once deleted\n\nAre you sure you would like to delete your file?", 264, boxAnimation + 95, 20, true);
                 buttonMaker("Back", 20, boxAnimation + 10, 1, action => boxSelector = "Pause");
                 buttonMaker("Yes", 220, boxAnimation + 200, 2, action => load(true));
                 break;
 
                 break;
             case "Bug Compendium":
-                textmaker(bugStats[bugCompendium[page]].obtained ? bugCompendium[page].split("_").join(" ") : "???", 264, boxAnimation + 45, 35, true);
+                textMaker(bugStats[bugCompendium[page]].obtained ? bugCompendium[page].split("_").join(" ") : "???", 264, boxAnimation + 45, 35, true);
                 buttonMaker("<", 50, boxAnimation + 55, 2, action => page - 1 < 0 ? page = bugCompendium.length - 1 : page -= 1);
                 buttonMaker(">", 375, boxAnimation + 55, 2, action => page + 1 > bugCompendium.length - 1 ? page = 0 : page += 1);
                 bugBubble(158, 55, 0.6, false, page == 0 ? bugStats[bugCompendium[bugCompendium.length - 1]] : bugStats[bugCompendium[page - 1]]);
@@ -674,32 +674,32 @@ mainGame = function() {
                 if (bugStats[bugCompendium[page]].obtained) {
                     ctx.drawImage(bugStats[bugCompendium[page]].image, 0, 0, bugStats[bugCompendium[page]].image.width / 6, bugStats[bugCompendium[page]].image.height / 3, 115 - bugStats[bugCompendium[page]].image.width / 36, 200 - bugStats[bugCompendium[page]].image.height / 18, bugStats[bugCompendium[page]].image.width / 18, bugStats[bugCompendium[page]].image.height / 9);
                 } else {
-                    textmaker("?", 125, boxAnimation + 220, 60, true);
+                    textMaker("?", 125, boxAnimation + 220, 60, true);
                 }
 
-                textmaker("Completion: " + bugTotal() + "/" + bugCompendium.length, 430, 20, 20, true);
+                textMaker("Completion: " + bugTotal() + "/" + bugCompendium.length, 430, 20, 20, true);
 
                 if (bugStats[bugCompendium[page]].obtained && collision(mousex, mousey, 0, 0, 200, 140, 45, 45)) {
-                    textmaker(bugStats[bugCompendium[page]].skillName, 370, boxAnimation + 190, 20, true);
-                    textmaker(skillDescp[bugStats[bugCompendium[page]].skillName], 370, boxAnimation + 210, 18, true);
+                    textMaker(bugStats[bugCompendium[page]].skillName, 370, boxAnimation + 190, 20, true);
+                    textMaker(skillDescp[bugStats[bugCompendium[page]].skillName], 370, boxAnimation + 210, 18, true);
                 } else if (bugStats[bugCompendium[page]].obtained && collision(mousex, mousey, 0, 0, 200, 190, 45, 45)) {
-                    textmaker(bugStats[bugCompendium[page]].swimAble ? "This bug is an agile swimmer\n(Normal speed while swimming)" : "This bug cannot swim very well\n(Speed is halved while swimming)", 370, boxAnimation + 210, 20, true);
+                    textMaker(bugStats[bugCompendium[page]].swimAble ? "This bug is an agile swimmer\n(Normal speed while swimming)" : "This bug cannot swim very well\n(Speed is halved while swimming)", 370, boxAnimation + 210, 20, true);
                 } else if (bugStats[bugCompendium[page]].obtained && collision(mousex, mousey, 0, 0, 200, 240, 45, 45)) {
-                    textmaker(bugStats[bugCompendium[page]].flyAble ? "This bug can fly\n(Jump to start, down key to stop)" : "This bug cannot fly\n(Up key performs jumps)", 370, boxAnimation + 210, 20, true);
+                    textMaker(bugStats[bugCompendium[page]].flyAble ? "This bug can fly\n(Jump to start, down key to stop)" : "This bug cannot fly\n(Up key performs jumps)", 370, boxAnimation + 210, 20, true);
                 } else {
-                    textmaker(bugStats[bugCompendium[page]].obtained ? bugStats[bugCompendium[page]].descp : "???", 375, boxAnimation + 150, 15, true);
-                    textmaker(bugStats[bugCompendium[page]].rarity, 375, 125, 20, true, bugStats[bugCompendium[page]].rarity == "Common" ? "#b3ffb3" : bugStats[bugCompendium[page]].rarity == "Rare" ? "#80b3ff" : bugStats[bugCompendium[page]].rarity == "Epic" ? "#ecb3ff" : "#ffff66");
+                    textMaker(bugStats[bugCompendium[page]].obtained ? bugStats[bugCompendium[page]].descp : "???", 375, boxAnimation + 150, 15, true);
+                    textMaker(bugStats[bugCompendium[page]].rarity, 375, 125, 20, true, bugStats[bugCompendium[page]].rarity == "Common" ? "#b3ffb3" : bugStats[bugCompendium[page]].rarity == "Rare" ? "#80b3ff" : bugStats[bugCompendium[page]].rarity == "Epic" ? "#ecb3ff" : "#ffff66");
                     ctx.drawImage(miscImg[2], 250, 210, 45, 45);
-                    textmaker(bugStats[bugCompendium[page]].obtained ? "" + bugStats[bugCompendium[page]].baseHealth : "???", 310, 240, 25, true);
+                    textMaker(bugStats[bugCompendium[page]].obtained ? "" + bugStats[bugCompendium[page]].baseHealth : "???", 310, 240, 25, true);
                     ctx.drawImage(miscImg[3], 335, 210, 45, 45);
-                    textmaker(bugStats[bugCompendium[page]].obtained ? "" + Math.floor(bugStats[bugCompendium[page]].baseAttack * 8) : "???", 395, 240, 25, true);
+                    textMaker(bugStats[bugCompendium[page]].obtained ? "" + Math.floor(bugStats[bugCompendium[page]].baseAttack * 8) : "???", 395, 240, 25, true);
                     ctx.drawImage(miscImg[4], 420, 210, 45, 45);
-                    textmaker(bugStats[bugCompendium[page]].obtained ? "" + Math.floor(bugStats[bugCompendium[page]].baseSpeed * 12.5) : "???", 480, 240, 25, true);
+                    textMaker(bugStats[bugCompendium[page]].obtained ? "" + Math.floor(bugStats[bugCompendium[page]].baseSpeed * 12.5) : "???", 480, 240, 25, true);
                 }
                 buttonMaker("Back", 20, boxAnimation + 10, 1, action => [page = 0, boxSelector = "Bug Selector Full"]);
                 break;
             case "Shop":
-                textmaker("Nectarne Market", 264, 45, 35, true);
+                textMaker("Nectarne Market", 264, 45, 35, true);
                 
                 let deals = date.getDay() == 0 || date.getDay() == 6 ? 4 : 5;
                 

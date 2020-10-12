@@ -336,7 +336,7 @@ function circleCollision(x, y, r){
 }
 
 //global textmaker
-function textmaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
+function textMaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
 
     ctx.globalAlpha = 1;
     let textFitter = (window.devicePixelRatio == 1 ? 1 : window.devicePixelRatio * 0.5) - 1
@@ -353,14 +353,14 @@ function textmaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
                 ctx.drawImage(miscImg[64], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2) - 10 * (size / 25), (y + (textsplit * size * 1.25)) - (25 / 1.375 * (size / 25)), 25 * (size / 25), 25 * (size / 25));
             }
 
-            ctx.font = "600 " + size + "px TovariSans";
+            ctx.font = "600 " + size / (textFitter + 1) + "px TovariSans";
             ctx.strokeStyle = "black";
             ctx.lineWidth = (size / 25) * ((24 / size) + 4);
             ctx.strokeText(text.split("\n")[textsplit], (x + textFitter) - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
             ctx.fillStyle = color;
             ctx.fillText(text.split("\n")[textsplit], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
         } else {
-            ctx.font = "600 " + size + "px TovariSans";
+            ctx.font = "600 " + size / (textFitter + 1) + "px TovariSans";
             ctx.strokeStyle = "black";
             ctx.lineWidth = (size / 25) * ((24 / size) + 4);
             ctx.strokeText(text.split("\n")[textsplit], (x + textFitter), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
@@ -379,7 +379,7 @@ function buttonMaker(text, x, y, size, action) {
         mousedown = false;
     }
     ctx.drawImage(miscImg[13], x, y, miscImg[13].width / 6 * size, miscImg[13].height / 6 * size);
-    textmaker(text, x + miscImg[13].width / 12 * size, (y + miscImg[13].height / 12 * size) + ((20 - text.length * 1.1) * size / 4), (20 - text.length * 1.1) * size, true);
+    textMaker(text, x + miscImg[13].width / 12 * size, (y + miscImg[13].height / 12 * size) + ((20 - text.length * 1.1) * size / 4), (20 - text.length * 1.1) * size, true);
 }
 
 function keyboardMaker(x, y, output){
@@ -425,8 +425,8 @@ function arrowMaker(x, y, angle, pointer=false) {
     ctx.rotate(angle * (Math.PI / 180));
 
      if(pointer){
-        ctx.globalAlpha = collision(mousex, mousey, 0, 0, x - 12.5, y - 12.5, 25, 25) ? 1 : 0.85;
-        ctx.drawImage(miscImg[74], -12.5, -12.5, 25, 25);
+        ctx.globalAlpha = collision(mousex, mousey, 0, 0, x - 15, y - 15, 30, 30) ? 1 : 0.85;
+        ctx.drawImage(miscImg[74], -15, -15, 30, 30);
          
         if(mousedown && ctx.globalAlpha == 1) {
         battleBugs[0].keyDown(pointer[0]);
@@ -568,7 +568,7 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
     ctx.drawImage(miscImg[1], 3, 3, 71, 71);
 
     if (bugList == "+") {
-        textmaker("+", 77 / 2, 51.5, 50, true);
+        textMaker("+", 77 / 2, 51.5, 50, true);
     } else if (mouseOver || (!mouseOver && bugList.obtained) || boxSelector.substr(0, 13) == "Info Facility" || battleMode) {
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY : bugStats[bugList.Species].cropY, 150, 22.5, 13, 15, 50, 7.5);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 22.5 : bugStats[bugList.Species].cropY + 22.5, 162, 22.5, 9, 22.5, 54, 7.5);
@@ -577,7 +577,7 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY + 127.5 : bugStats[bugList.Species].cropY + 127.5, 150, 19.5, 13, 57.5, 50, 6.5);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 129 : bugList.Image.width / 6 - 129, bugList.image !== undefined ? bugList.cropY + 147 : bugStats[bugList.Species].cropY + 147, 105, 13.5, 20, 64, 35, 4.5);
     } else {
-        textmaker("?", 77 / 2, 55, 50, true);
+        textMaker("?", 77 / 2, 55, 50, true);
     }
 
     if (!battleMode || bugSelected !== -1) {
@@ -618,9 +618,9 @@ function traitMaker(x, y, bugList) {
         ctx.lineWidth = 5;
         ctx.strokeRect(x + 15, y - 50, 150, 75);
         ctx.fillRect(x + 15, y - 50, 150, 75);
-        textmaker("Trait:", x + 35, y - 45, 15);
-        textmaker(traitDescp[bugList.Trait][0], x + 70, y - 45, 15, false, traitDescp[bugList.Trait][1]);
-        textmaker(traitDescp[bugList.Trait][2], x + 20, y - 25, 15, false);
+        textMaker("Trait:", x + 35, y - 45, 15);
+        textMaker(traitDescp[bugList.Trait][0], x + 70, y - 45, 15, false, traitDescp[bugList.Trait][1]);
+        textMaker(traitDescp[bugList.Trait][2], x + 20, y - 25, 15, false);
         if (mousedown && boxSelector == "Bug Selector History" && bugSelected.Age >= 100) {
             boxSelector = "Bug Selector Item";
             bugSelected = -1;
@@ -644,8 +644,8 @@ function dialogueMaker() {
     ctx.lineWidth = 6;
     ctx.strokeRect(-10, 225, 550, 100);
     ctx.fillRect(-10, 225, 550, 100);
-    textmaker(textInfo[1][0], 90, 250, 25, false);
-    textmaker(textInfo[1][2].substr(0, textInfo[1][3]), 80, 270, 15, false);
+    textMaker(textInfo[1][0], 90, 250, 25, false);
+    textMaker(textInfo[1][2].substr(0, textInfo[1][3]), 80, 270, 15, false);
     textInfo[0] = bugStats[textInfo[1][1].split(" ").join("_")].image.cloneNode();
     ctx.drawImage(textInfo[0], 0, 0, textInfo[0].width / 6, textInfo[0].height / 3, 75 - textInfo[0].width / 18, 310 - textInfo[0].height / 9, textInfo[0].width / 18, textInfo[0].height / 9);
 
@@ -906,14 +906,14 @@ function shopHandle(x, y, index, thumbnail) {
         }
         ctx.restore();
 
-        textmaker(index == 3 ? "Shop Exclusive ": shop[index][0].split("_").join(" "), x + 100, y + 10, 25, true);
-        textmaker(index == 3 ? "Get exclusive bugs throughout the week!\nOnly one bug can be bought a day for\nthis 5 day event. Bugs are traited.\n" : bugStats[shop[index][0]].descp, x + 100, y + 125, 15, true);
-        textmaker("$  " + price(bugStats[shop[index][0]], true), x + 110, y + 100, 25, true);
-        textmaker("@" + (shop[index][2] - 1 - Math.floor((date - shop[index][1]) / 3600000)) + ":" + ("0" + (60 - Math.ceil((date - shop[index][1]) % 3600000 / 60000))).slice(-2), x, y + 10, 15, true);
+        textMaker(index == 3 ? "Shop Exclusive ": shop[index][0].split("_").join(" "), x + 100, y + 10, 25, true);
+        textMaker(index == 3 ? "Get exclusive bugs throughout the week!\nOnly one bug can be bought a day for\nthis 5 day event. Bugs are traited.\n" : bugStats[shop[index][0]].descp, x + 100, y + 125, 15, true);
+        textMaker("$  " + price(bugStats[shop[index][0]], true), x + 110, y + 100, 25, true);
+        textMaker("@" + (shop[index][2] - 1 - Math.floor((date - shop[index][1]) / 3600000)) + ":" + ("0" + (60 - Math.ceil((date - shop[index][1]) % 3600000 / 60000))).slice(-2), x, y + 10, 15, true);
         
         if (index == 3){
-            textmaker(shop[index][4]+"/1   Trait:", 528/2-30, y + 180, 15, true);
-            textmaker(traitDescp[shop[index][5]][0], 528/2+30, y + 180, 15, true, traitDescp[shop[index][5]][1]);
+            textMaker(shop[index][4]+"/1   Trait:", 528/2-30, y + 180, 15, true);
+            textMaker(traitDescp[shop[index][5]][0], 528/2+30, y + 180, 15, true, traitDescp[shop[index][5]][1]);
         }
 
     } else {
@@ -945,15 +945,15 @@ function shopHandle(x, y, index, thumbnail) {
 
         ctx.restore();
 
-        textmaker(date.getDay() == 0 || date.getDay() == 6 ? "Weekend Special" : "Special", x + 100, y + 10, 25, true);
-        textmaker("Test your luck against this special banner!\nChances are doubled on weekends.", x + 100, y + 125, 15, true);
-        textmaker("Common: ", x + 80, y + 30, 15, true, "#b3ffb3");
-        textmaker("Rare: ", x + 90, y + 50, 15, true, "#80b3ff");
-        textmaker("Epic: ", x + 92, y + 70, 15, true, "#ecb3ff");
-        textmaker(date.getDay() == 0 || date.getDay() == 6 ? "80%\n18%\n2%" : "90%\n9%\n1%", x + 120, y + 30, 15, true);
-        textmaker("$  250", x + 110, y + 100, 25, true);
+        textMaker(date.getDay() == 0 || date.getDay() == 6 ? "Weekend Special" : "Special", x + 100, y + 10, 25, true);
+        textMaker("Test your luck against this special banner!\nChances are doubled on weekends.", x + 100, y + 125, 15, true);
+        textMaker("Common: ", x + 80, y + 30, 15, true, "#b3ffb3");
+        textMaker("Rare: ", x + 90, y + 50, 15, true, "#80b3ff");
+        textMaker("Epic: ", x + 92, y + 70, 15, true, "#ecb3ff");
+        textMaker(date.getDay() == 0 || date.getDay() == 6 ? "80%\n18%\n2%" : "90%\n9%\n1%", x + 120, y + 30, 15, true);
+        textMaker("$  250", x + 110, y + 100, 25, true);
         if (date.getDay() == 0 || date.getDay() == 6) {
-            textmaker("2x value!", x + 190, y + 100, 15, true);
+            textMaker("2x value!", x + 190, y + 100, 15, true);
         }
     }
 }
@@ -1029,7 +1029,7 @@ function tutorial() {
     } else if(rooms[0].MissionList.length == 0 && rooms[0].MissionList.length == 0 && bugs.length > 0 && bugs[bugs.length - 1].Story.split(" from Teresa").length > 1) {
         arrowMaker(496.5, 65, 180, false);
     } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 0) {
-        arrowMaker(245, 55, 180, false);
+        arrowMaker(245, 60, 180, false);
     }
     
 }

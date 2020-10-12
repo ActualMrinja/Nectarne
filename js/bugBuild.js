@@ -53,6 +53,11 @@ function bugBuild(name, x, y, species, alignments, enemy = false, age = 100) {
     if (this.Enemy && bugStats[this.Species].skillName == "Specialized Ambush") {
         this.Fury = 1;
     }
+    
+}
+
+function ageScale(bugList){
+    return (bugList.Age / 150 + 0.5);
 }
 
 bugBuild.prototype.bugCollision = function(index, hitBox = false) {
@@ -62,7 +67,7 @@ bugBuild.prototype.bugCollision = function(index, hitBox = false) {
             index.Image.width /= 2;
         }
 
-        if (collision(index.X - index.Image.width / 144 * (index.Age / 150 + 0.5), index.Y - index.Image.height / 36 * (index.Age / 150 + 0.5) - index.Image.height / 144 * (index.Age / 150 + 0.5), index.Image.width / 72 * (index.Age / 150 + 0.5), index.Image.height / 36 * (index.Age / 150 + 0.5), this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 144 * (this.Age / 150 + 0.5), this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
+        if (collision(index.X - index.Image.width / 144 * ageScale(index), index.Y - index.Image.height / 36 * ageScale(index) - index.Image.height / 144 * ageScale(index), index.Image.width / 72 * ageScale(index), index.Image.height / 36 * ageScale(index), this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 144 * ageScale(this), this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
 
             //Resets hitbox
             if (bugStats[index.Species].skillName == "Defensive Coil" && index.Animation >= 2.9 && index.Attacking) {
@@ -80,7 +85,7 @@ bugBuild.prototype.bugCollision = function(index, hitBox = false) {
             return false;
         }
     } else {
-        if (collision(index.X - index.Image.width / 144 * (index.Age / 150 + 0.5), index.Y - index.Image.height / 36 * (index.Age / 150 + 0.5) - index.Image.height / 72 * (index.Age / 150 + 0.5), index.Image.width / 72 * (index.Age / 150 + 0.5), index.Image.height / 36 * (index.Age / 150 + 0.5), hitBox[0], hitBox[1], hitBox[2], hitBox[3])) {
+        if (collision(index.X - index.Image.width / 144 * ageScale(index), index.Y - index.Image.height / 36 * ageScale(index) - index.Image.height / 72 * ageScale(index), index.Image.width / 72 * ageScale(index), index.Image.height / 36 * ageScale(index), hitBox[0], hitBox[1], hitBox[2], hitBox[3])) {
             return true;
         } else {
             return false;
@@ -89,7 +94,7 @@ bugBuild.prototype.bugCollision = function(index, hitBox = false) {
 }
 
 bugBuild.prototype.collision = function(collisionIndex) {
-    if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 2 && collision(collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3], this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
+    if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 2 && collision(collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3], this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
         this.Swimming = true;
         this.SwimmingDistance = collisionIndex[3] == 25 && this.Y < (collisionIndex[1] + 30) ? Math.abs(collisionIndex[1] - this.Y) + 25 : 40;
         if (Math.abs(this.SwimmingDistance - 25) <= 10 && !this.Attacking && boxSelector == "") {
@@ -98,14 +103,14 @@ bugBuild.prototype.collision = function(collisionIndex) {
     }
 
     //Blocks disable sprays 
-    if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 1 && this.defects.venomSpray > 0 && collision(this.X + (8 * (this.Age / 150 + 0.5) * this.Scale) - (this.Scale == -1 ? Math.abs(2 - this.defects.venomSpray) * 60 : 0), this.Y - this.Image.height / 72 - 16 * (this.Age / 150 + 0.5), Math.abs(2 - this.defects.venomSpray) * 60, this.Image.height / 600 * (this.Age / 150 + 0.5), collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3])) {
+    if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 1 && this.defects.venomSpray > 0 && collision(this.X + (8 * ageScale(this) * this.Scale) - (this.Scale == -1 ? Math.abs(2 - this.defects.venomSpray) * 60 : 0), this.Y - this.Image.height / 72 - 16 * ageScale(this), Math.abs(2 - this.defects.venomSpray) * 60, this.Image.height / 600 * ageScale(this), collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3])) {
         this.defects.venomSpray = 0;
         this.Attacking = 0;
         this.Attacking = false;
     }
 
     //Enemies can't pass through boss entrances
-    if (collisionIndex[4][0] > 0 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] == 3 && !(battleInfo[1][0][3] > 0) && collision(collisionIndex[0], collisionIndex[1] - 50, 10, 55, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5)) && this.Enemy && this.X > battleMap[0].length * 50 - 700) {
+    if (collisionIndex[4][0] > 0 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] == 3 && !(battleInfo[1][0][3] > 0) && collision(collisionIndex[0], collisionIndex[1] - 50, 10, 55, this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this)) && this.Enemy && this.X > battleMap[0].length * 50 - 700) {
         this.X -= 15 * this.Scale;
         this.Health = 0;
         ctx.fillStyle = "#ccf5ff";
@@ -117,9 +122,9 @@ bugBuild.prototype.collision = function(collisionIndex) {
         soundeffect("Zap.mp3");
     }
 
-    if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 1 && collision(collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3], this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
+    if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 1 && collision(collisionIndex[0], collisionIndex[1], collisionIndex[2], collisionIndex[3], this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
 
-        if (this.Y - collisionIndex[1] <= 28 && this.Y - collisionIndex[1] >= 15 && collisionIndex[4][0] > 0 && collisionIndex[4][0] > 0 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && collision(collisionIndex[0] + (collisionIndex[2] / 2) - (55 / 4) - 5, collisionIndex[1], collisionIndex[2] - 55 / 2 + 10, 20, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
+        if (this.Y - collisionIndex[1] <= 28 && this.Y - collisionIndex[1] >= 15 && collisionIndex[4][0] > 0 && collisionIndex[4][0] > 0 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && collision(collisionIndex[0] + (collisionIndex[2] / 2) - (55 / 4) - 5, collisionIndex[1], collisionIndex[2] - 55 / 2 + 10, 20, this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
             this.Y = collisionIndex[1] + 15;
             this.Hold = true;
 
@@ -142,17 +147,17 @@ bugBuild.prototype.collision = function(collisionIndex) {
 
         }
 
-        if ((this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72) > collisionIndex[1]) {
+        if ((this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72) > collisionIndex[1]) {
 
-            if (collision(collisionIndex[0] + (collisionIndex[2] / 2) - (55 / 4), collisionIndex[1] + collisionIndex[3] + 3, collisionIndex[2] / 2, 15, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5)) && collisionIndex[4][0] < 5 && battleMap[Number(collisionIndex[4][0]) + 1][Number(collisionIndex[4][1])] !== 1) {
-                this.Y = collisionIndex[1] + collisionIndex[3] + (this.Image.height / 36 * (this.Age / 150 + 0.5)) + this.Image.height / 72 + (this.Speed - 1);
+            if (collision(collisionIndex[0] + (collisionIndex[2] / 2) - (55 / 4), collisionIndex[1] + collisionIndex[3] + 3, collisionIndex[2] / 2, 15, this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this)) && collisionIndex[4][0] < 5 && battleMap[Number(collisionIndex[4][0]) + 1][Number(collisionIndex[4][1])] !== 1) {
+                this.Y = collisionIndex[1] + collisionIndex[3] + (this.Image.height / 36 * ageScale(this)) + this.Image.height / 72 + (this.Speed - 1);
                 this.Jump = 5;
             }
 
-            if (collisionIndex[4][1] - 1 > 0 && battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1] - 1)] !== 1 && collision(collisionIndex[0], collisionIndex[1], 1, collisionIndex[3], this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
-                this.X = collisionIndex[0] - (this.Image.width / 144 * (this.Age / 150 + 0.5));
+            if (collisionIndex[4][1] - 1 > 0 && battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1] - 1)] !== 1 && collision(collisionIndex[0], collisionIndex[1], 1, collisionIndex[3], this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
+                this.X = collisionIndex[0] - (this.Image.width / 144 * ageScale(this));
 
-                if (this.Enemy && collisionIndex[4][0] > 0 && collisionIndex[4][0] < 5 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && ((this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5)) - collisionIndex[1]) > 35 && this.Jump == 0 && this.Hold) {
+                if (this.Enemy && collisionIndex[4][0] > 0 && collisionIndex[4][0] < 5 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && ((this.Y - this.Image.height / 36 * ageScale(this)) - collisionIndex[1]) > 35 && this.Jump == 0 && this.Hold) {
                     this.Jump = 10;
                 }
 
@@ -160,10 +165,10 @@ bugBuild.prototype.collision = function(collisionIndex) {
                     this.Scale *= -1
                 }
 
-            } else if (collisionIndex[4][1] + 1 < battleMap[0].length && battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1] + 1)] !== 1 && collision(collisionIndex[0] + collisionIndex[2] - 1, collisionIndex[1], 1, collisionIndex[3], this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
-                this.X = collisionIndex[0] + collisionIndex[2] + (this.Image.width / 144 * (this.Age / 150 + 0.5));
+            } else if (collisionIndex[4][1] + 1 < battleMap[0].length && battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1] + 1)] !== 1 && collision(collisionIndex[0] + collisionIndex[2] - 1, collisionIndex[1], 1, collisionIndex[3], this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
+                this.X = collisionIndex[0] + collisionIndex[2] + (this.Image.width / 144 * ageScale(this));
 
-                if (this.Enemy && collisionIndex[4][0] > 0 && collisionIndex[4][0] < 5 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && ((this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5)) - collisionIndex[1]) > 35 && this.Jump == 0 && this.Hold) {
+                if (this.Enemy && collisionIndex[4][0] > 0 && collisionIndex[4][0] < 5 && battleMap[Number(collisionIndex[4][0]) - 1][Number(collisionIndex[4][1])] !== 1 && ((this.Y - this.Image.height / 36 * ageScale(this)) - collisionIndex[1]) > 35 && this.Jump == 0 && this.Hold) {
                     this.Jump = 10;
                 }
 
@@ -176,7 +181,7 @@ bugBuild.prototype.collision = function(collisionIndex) {
         }
 
         //Touching the center of blocks is an insta-kill
-        if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 1 && collision(collisionIndex[0] + collisionIndex[2] / 2 - collisionIndex[2] / 8, collisionIndex[1] + collisionIndex[3] / 2 - collisionIndex[3] / 8, collisionIndex[2] / 4, collisionIndex[3] / 4, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5), this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5))) {
+        if (battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1])] == 1 && collision(collisionIndex[0] + collisionIndex[2] / 2 - collisionIndex[2] / 8, collisionIndex[1] + collisionIndex[3] / 2 - collisionIndex[3] / 8, collisionIndex[2] / 4, collisionIndex[3] / 4, this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
             this.Health = 0;
         }
 
@@ -505,16 +510,16 @@ bugBuild.prototype.combat = function() {
     //Sound waves intimidate targets
     if (this.Fury > 0.5 && bugStats[this.Species].skillName == "Stridulating Retreat") {
         this.Jump = 12;
-        ctx.drawImage(miscImg[53], this.X - this.Animation * 25 - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) -
+        ctx.drawImage(miscImg[53], this.X - this.Animation * 25 - scrollx, this.Y - this.Image.height / 36 * ageScale(this) -
             this.Animation * 25, this.Animation * 50, this.Animation * 50);
         if (!this.Enemy) {
             for (enemyLoad in bugEnemiesOnScreen) {
-                if (this.bugCollision(bugEnemiesOnScreen[enemyLoad], [this.X - this.Animation * 25, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Animation * 25, this.Animation * 50, this.Animation * 50]) && !bugEnemiesOnScreen[enemyLoad].defects.droneType && bugEnemiesOnScreen[enemyLoad].Health > 0) {
+                if (this.bugCollision(bugEnemiesOnScreen[enemyLoad], [this.X - this.Animation * 25, this.Y - this.Image.height / 36 * ageScale(this) - this.Animation * 25, this.Animation * 50, this.Animation * 50]) && !bugEnemiesOnScreen[enemyLoad].defects.droneType && bugEnemiesOnScreen[enemyLoad].Health > 0) {
                     bugEnemiesOnScreen[enemyLoad].defects.intimidate = this.Trait == 6 ? 4 : 2;
                 }
             }
         } else {
-            if (this.bugCollision(battleBugs[0], [this.X - this.Animation * 25, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Animation * 25, this.Animation * 50, this.Animation * 50]) && battleBugs[0].Health > 0) {
+            if (this.bugCollision(battleBugs[0], [this.X - this.Animation * 25, this.Y - this.Image.height / 36 * ageScale(this) - this.Animation * 25, this.Animation * 50, this.Animation * 50]) && battleBugs[0].Health > 0) {
                 battleBugs[0].defects.intimidate = this.Trait == 6 ? 4 : 2;
             }
         }
@@ -618,12 +623,12 @@ bugBuild.prototype.stats = function() {
         ctx.beginPath();
         ctx.strokeStyle = "#ffff66";
         ctx.lineWidth = 4;
-        ctx.arc(this.X - this.Image.width / 576 * (this.Age / 150 + 0.5) - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 144 * (this.Age / 150 + 0.5), this.Image.width / 84 * (this.Age / 150 + 0.5) + (date.getMilliseconds() / 25), 0, 2 * Math.PI);
+        ctx.arc(this.X - this.Image.width / 576 * ageScale(this) - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 144 * ageScale(this), this.Image.width / 84 * ageScale(this) + (date.getMilliseconds() / 25), 0, 2 * Math.PI);
         ctx.stroke();
         ctx.closePath();
     }
 
-    if (!collision(mousex, mousey, 0, 0, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5) - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72 * (this.Age / 150 + 0.5), this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5)) && mousedown && textInfo.length == 1) {
+    if (!collision(mousex, mousey, 0, 0, this.X - this.Image.width / 144 * ageScale(this) - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72 * ageScale(this), this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this)) && mousedown && textInfo.length == 1) {
         bugSelected = -1;
         mousedown = false;
         return;
@@ -632,14 +637,14 @@ bugBuild.prototype.stats = function() {
     //Image cropper
     ctx.drawImage(miscImg[0], 0, 0, 530, 75);
     bugBubble(0, 0, 1, false, bugStats[this.Species]);
-    textmaker("" + this.Name, 80, 30, 20 - this.Name.length * 0.25);
-    textmaker("" + Math.ceil(this.Health) + "/" + this.HealthTotal, 90, 62.5, 15);
-    textmaker("" + Math.floor(this.Attack * 8), 165, 62.5, 15);
-    textmaker("" + Math.floor(this.Speed * 12.5), 240, 62.5, 15);
-    textmaker("" + Math.min(Math.floor(this.Age), 100), 315, 62.5, 15);
-    textmaker("Psv " + Math.floor(this.AlignmentsText[0]) + "%", 425, 19, 15, true);
-    textmaker("Int " + Math.ceil(this.AlignmentsText[1]) + "%", 425, 41, 15, true);
-    textmaker("Agr " + Math.floor(this.AlignmentsText[2]) + "%", 425, 63, 15, true);
+    textMaker("" + this.Name, 80, 30, 20 - this.Name.length * 0.25);
+    textMaker("" + Math.ceil(this.Health) + "/" + this.HealthTotal, 90, 62.5, 15);
+    textMaker("" + Math.floor(this.Attack * 8), 165, 62.5, 15);
+    textMaker("" + Math.floor(this.Speed * 12.5), 240, 62.5, 15);
+    textMaker("" + Math.min(Math.floor(this.Age), 100), 315, 62.5, 15);
+    textMaker("Psv " + Math.floor(this.AlignmentsText[0]) + "%", 425, 19, 15, true);
+    textMaker("Int " + Math.ceil(this.AlignmentsText[1]) + "%", 425, 41, 15, true);
+    textMaker("Agr " + Math.floor(this.AlignmentsText[2]) + "%", 425, 63, 15, true);
 
     //Symbols go here  
     ctx.drawImage(miscImg[this.Gender == "Male" ? 11 : 12], 77 / 2 - 33.5, 77 / 2 - 33.5, 25, 25);
@@ -649,7 +654,7 @@ bugBuild.prototype.stats = function() {
     ctx.drawImage(miscImg[4], 217.5, 49, 20, 20);
     ctx.drawImage(miscImg[5], 292.5, 49, 20, 20);
 
-    textmaker(bugStats[this.Species].rarity, 500, 12, 13.5, true, bugStats[this.Species].rarity == "Common" ? "#b3ffb3" : bugStats[this.Species].rarity == "Rare" ? "#80b3ff" : bugStats[this.Species].rarity == "Epic" ? "#ecb3ff" : "#ffff66");
+    textMaker(bugStats[this.Species].rarity, 500, 12, 13.5, true, bugStats[this.Species].rarity == "Common" ? "#b3ffb3" : bugStats[this.Species].rarity == "Rare" ? "#80b3ff" : bugStats[this.Species].rarity == "Epic" ? "#ecb3ff" : "#ffff66");
 
     ctx.save();
     ctx.drawImage(miscImg[bugStats[this.Species].skillBubble], 470, 15, 30, 30);
@@ -668,7 +673,7 @@ bugBuild.prototype.bubbleCreate = function(bubbleNum, bubbleType = 0) {
         ctx.beginPath();
         ctx.globalAlpha = 1;
         ctx.fillStyle = bubbleType == 1 ? "hsl(" + Math.random() * 300 + ",100%,50%)" : "#ccf5ff";
-        ctx.arc(this.X - ((this.Image.width / 144 * (this.Age / 150 + 0.5) + Math.random() * 20) * this.Scale) - scrollx, this.Y - this.Image.height / 72 - ((this.Age / 150 + 0.5) * this.Image.height / 36) * Math.random(), Math.random() * 2, 0, 2 * Math.PI);
+        ctx.arc(this.X - ((this.Image.width / 144 * ageScale(this) + Math.random() * 20) * this.Scale) - scrollx, this.Y - this.Image.height / 72 - (this.Image.height / 36 * ageScale(this)) * Math.random(), Math.random() * 2, 0, 2 * Math.PI);
         ctx.fill();
         ctx.closePath();
     }
@@ -770,7 +775,7 @@ bugBuild.prototype.draw = function() {
         ctx.save();
         
         //Death animation offset  
-        ctx.translate(this.X - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - (this.Health <= 0 ? (this.Rotate / 10) * (this.Age / 300) : 0));
+        ctx.translate(this.X - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - (this.Health <= 0 ? (this.Rotate / 10) * (this.Age / 300) : 0));
         ctx.scale(this.Scale, 1);
         ctx.rotate(this.Rotate * (Math.PI / 180));
 
@@ -778,7 +783,7 @@ bugBuild.prototype.draw = function() {
             ctx.filter = "hue-rotate(" + (this.Albino ? Math.abs(180 - this.Alignments) : this.Alignments) + "deg) brightness(" + ((this.Albino ? 200 : 100) * (this.defects.evolution ? this.defects.evolution + 1 : 1)) + "%)";
         }
 
-        ctx.drawImage(this.Image, Math.floor(this.Animation + (this.Attacking ? 3 : 0)) * (this.Image.width / 6), (bugStats[this.Species].swimAble && this.Swimming ? 2 : bugStats[this.Species].flyAble && this.Jump > 0 && !this.Swimming ? 1 : 0) * (this.Image.height / 3), this.Image.width / 6, this.Image.height / 3, -this.Image.width / 144 * (this.Age / 150 + 0.5), -this.Image.height / 72, this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5));
+        ctx.drawImage(this.Image, Math.floor(this.Animation + (this.Attacking ? 3 : 0)) * (this.Image.width / 6), (bugStats[this.Species].swimAble && this.Swimming ? 2 : bugStats[this.Species].flyAble && this.Jump > 0 && !this.Swimming ? 1 : 0) * (this.Image.height / 3), this.Image.width / 6, this.Image.height / 3, -this.Image.width / 144 * ageScale(this), -this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this));
         ctx.restore();
     }
 
@@ -842,14 +847,14 @@ bugBuild.prototype.draw = function() {
         ctx.globalAlpha = battleMode && bugStats[this.Species].skillName == "Specialized Ambush" ? 1 - this.Fury : 1
         ctx.strokeStyle = "#3f383a";
         ctx.fillStyle = "#ce4c71";
-        ctx.lineWidth = 0.5 * this.Image.height / 45 * (this.Age / 150 + 0.5) / 4;
-        ctx.strokeRect(this.X - scrollx - this.Image.width / 72 * (this.Age / 150 + 0.5) / 3, this.Y - this.Image.height / 19.5 * (this.Age / 150 + 0.5), (this.Image.width / 72 * (this.Age / 150 + 0.5) / 1.5), this.Image.height / 45 * (this.Age / 150 + 0.5) / 4);
-        ctx.fillRect(this.X - scrollx - this.Image.width / 72 * (this.Age / 150 + 0.5) / 3, this.Y - this.Image.height / 19.5 * (this.Age / 150 + 0.5), (this.Image.width / 72 * (this.Age / 150 + 0.5) / 1.5), this.Image.height / 45 * (this.Age / 150 + 0.5) / 4);
+        ctx.lineWidth = 0.5 * this.Image.height / 45 * ageScale(this) / 4;
+        ctx.strokeRect(this.X - scrollx - this.Image.width / 72 * ageScale(this) / 3, this.Y - this.Image.height / 19.5 * ageScale(this), (this.Image.width / 72 * ageScale(this) / 1.5), this.Image.height / 45 * ageScale(this) / 4);
+        ctx.fillRect(this.X - scrollx - this.Image.width / 72 * ageScale(this) / 3, this.Y - this.Image.height / 19.5 * ageScale(this), (this.Image.width / 72 * ageScale(this) / 1.5), this.Image.height / 45 * ageScale(this) / 4);
         ctx.fillStyle =
             this.defects.poison > 0 ? "#cc66cc" :
             this.defects.slowDown > 0 ? "#0099ff" :
             this.defects.intimidate > 0 ? "#fcba03" : "#53db65";
-        ctx.fillRect(this.X - scrollx - this.Image.width / 72 * (this.Age / 150 + 0.5) / 3, this.Y - this.Image.height / 19.5 * (this.Age / 150 + 0.5), (this.Image.width / 72 * (this.Age / 150 + 0.5) / 1.5) / this.HealthTotal * this.Health, this.Image.height / 45 * (this.Age / 150 + 0.5) / 4);
+        ctx.fillRect(this.X - scrollx - this.Image.width / 72 * ageScale(this) / 3, this.Y - this.Image.height / 19.5 * ageScale(this), (this.Image.width / 72 * ageScale(this) / 1.5) / this.HealthTotal * this.Health, this.Image.height / 45 * ageScale(this) / 4);
 
         //Only during battle mode will healthbars show furybars
         if (battleMode) {
@@ -873,14 +878,14 @@ bugBuild.prototype.draw = function() {
             ctx.beginPath();
             ctx.strokeStyle = "#3f383a";
             ctx.fillStyle = "#aba0a3";
-            ctx.lineWidth = 0.75 * this.Image.height / 45 * (this.Age / 150 + 0.5) / 4;
-            ctx.arc(this.X - scrollx - this.Image.width / 72 * (this.Age / 150 + 0.5) / 3, this.Y - this.Image.height / 19.5 * (this.Age / 150 + 0.5) * 0.95, this.Image.height / 180 * (this.Age / 150 + 0.5) / 1, 0, 2 * Math.PI);
+            ctx.lineWidth = 0.75 * this.Image.height / 45 * ageScale(this) / 4;
+            ctx.arc(this.X - scrollx - this.Image.width / 72 * ageScale(this) / 3, this.Y - this.Image.height / 19.5 * ageScale(this) * 0.95, this.Image.height / 180 * ageScale(this) / 1, 0, 2 * Math.PI);
             ctx.stroke();
             ctx.fill();
             ctx.closePath();
             ctx.beginPath();
             ctx.fillStyle = this.Fury >= 0.5 ? "#ff8566" : "#ffff80";
-            ctx.arc(this.X - scrollx - this.Image.width / 72 * (this.Age / 150 + 0.5) / 3, this.Y - this.Image.height / 19.5 * (this.Age / 150 + 0.5) * 0.95, this.Image.height / 180 * (this.Age / 150 + 0.5) / 1 * this.Fury, 0, 2 * Math.PI);
+            ctx.arc(this.X - scrollx - this.Image.width / 72 * ageScale(this) / 3, this.Y - this.Image.height / 19.5 * ageScale(this) * 0.95, this.Image.height / 180 * ageScale(this) / 1 * this.Fury, 0, 2 * Math.PI);
             ctx.fill();
             ctx.closePath();
         }
@@ -890,12 +895,12 @@ bugBuild.prototype.draw = function() {
     if (!battleMode && this.defects.love > 0) {
         this.defects.love = Math.max(0, this.defects.love - 3 / 30);
         this.Health -= this.Trait == 4 ? this.HealthTotal * 0.0049 : this.HealthTotal * 0.0098;
-        ctx.drawImage(miscImg[2], this.X - scrollx - 7.5, this.Y - this.Image.height / 18 * (this.Age / 150 + 0.5) - this.Image.height / 45 * (this.Age / 150 + 0.5) / 4 - (15 - (this.defects.love % 1 * 15)), 15, 15);
+        ctx.drawImage(miscImg[2], this.X - scrollx - 7.5, this.Y - this.Image.height / 18 * ageScale(this) - this.Image.height / 45 * ageScale(this) / 4 - (15 - (this.defects.love % 1 * 15)), 15, 15);
     }
 
     if (boxSelector == "" && this.defects.hurt !== undefined && this.defects.hurt[1] > 0) {
         this.defects.hurt[1] = Math.max(0, this.defects.hurt[1] - 2 / 30);
-        textmaker("" + Math.abs(Math.round(this.defects.hurt[0])), this.X - scrollx, this.Y - ((this.Image.height / 18 * (this.Age / 150 + 0.5)) * (1.25 - this.defects.hurt[1])), 15, true, (this.defects.hurt[0] < 0 ? "rgb(0,255,127," : "rgb(220,20,60,") + this.defects.hurt[1] + ")");
+        textMaker("" + Math.abs(Math.round(this.defects.hurt[0])), this.X - scrollx, this.Y - ((this.Image.height / 18 * ageScale(this)) * (1.25 - this.defects.hurt[1])), 15, true, (this.defects.hurt[0] < 0 ? "rgb(0,255,127," : "rgb(220,20,60,") + this.defects.hurt[1] + ")");
     }
 
     //Evolution/Hatching animation bubble
@@ -908,7 +913,7 @@ bugBuild.prototype.draw = function() {
         ctx.strokeStyle = "#343a3a";
         ctx.fillStyle = "rgb(255,255,255,0.75)";
         ctx.lineWidth = 2;
-        ctx.arc(this.X - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5), (this.Image.width / 108 * (this.Age / 150 + 0.5)) * this.defects.evolution, 0, 2 * Math.PI);
+        ctx.arc(this.X - scrollx, this.Y - this.Image.height / 36 * ageScale(this), (this.Image.width / 108 * ageScale(this)) * this.defects.evolution, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.fill();
         ctx.closePath();
@@ -923,14 +928,14 @@ bugBuild.prototype.draw = function() {
         this.defects.venomSpray = Math.max(0, this.defects.venomSpray - (this.Fury > 0.5 ? 24 / 30 : 12 / 30));
         ctx.strokeStyle = "rgb(255,255,255,0.5)";
         ctx.fillStyle = "rgb(137,229,227,0.5)";
-        ctx.lineWidth = this.Image.height / 600 * (this.Age / 150 + 0.5);
+        ctx.lineWidth = this.Image.height / 600 * ageScale(this)
         let combatIncreaser = this.X;
-        ctx.strokeRect(this.X + (5 * (this.Age / 150 + 0.5) * this.Scale) - scrollx, this.Y - this.Image.height / 72 - 13.25 * (this.Age / 150 + 0.5), Math.abs(2 - this.defects.venomSpray) * 50 * this.Scale, this.Image.height / 600 * (this.Age / 150 + 0.5));
-        ctx.fillRect(this.X + (5 * (this.Age / 150 + 0.5) * this.Scale) - scrollx, this.Y - this.Image.height / 72 - 13.25 * (this.Age / 150 + 0.5), Math.abs(2 - this.defects.venomSpray) * 50 * this.Scale, this.Image.height / 600 * (this.Age / 150 + 0.5));
+        ctx.strokeRect(this.X + (5 * ageScale(this) * this.Scale) - scrollx, this.Y - this.Image.height / 72 - 13.25 * ageScale(this), Math.abs(2 - this.defects.venomSpray) * 50 * this.Scale, this.Image.height / 600 * ageScale(this));
+        ctx.fillRect(this.X + (5 * ageScale(this) * this.Scale) - scrollx, this.Y - this.Image.height / 72 - 13.25 * ageScale(this), Math.abs(2 - this.defects.venomSpray) * 50 * this.Scale, this.Image.height / 600 * ageScale(this));
         if (this.defects.venomSpray > 0) {
             this.Animation = 2.9;
             this.Attacking = true;
-            this.X += (Math.abs(2 - this.defects.venomSpray) * 50 * this.Scale) - this.Image.width / 144 * (this.Age / 150 + 0.5);
+            this.X += (Math.abs(2 - this.defects.venomSpray) * 50 * this.Scale) - this.Image.width / 144 * ageScale(this);
             this.combat()
         }
         this.Attacking = this.defects.venomSpray > 0;
@@ -956,12 +961,12 @@ bugBuild.prototype.draw = function() {
     if (this.Swimming) {
         ctx.fillStyle = "#4da6ff"
         ctx.globalAlpha = 0.3;
-        ctx.fillRect(this.X - this.Image.width / 144 * (this.Age / 150 + 0.5) - 5 - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - (32 - this.SwimmingDistance / 2), this.Image.width / 72 * (this.Age / 150 + 0.5) + 10, this.SwimmingDistance / 2.25 * (this.Age / 150 + 0.5));
-        ctx.fillRect(this.X - this.Image.width / 144 * (this.Age / 150 + 0.5) - 10 - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - (26 - this.SwimmingDistance / 2), this.Image.width / 72 * (this.Age / 150 + 0.5) + 20, this.SwimmingDistance / 2.25 * (this.Age / 150 + 0.5));
+        ctx.fillRect(this.X - this.Image.width / 144 * ageScale(this) - 5 - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - (32 - this.SwimmingDistance / 2), this.Image.width / 72 * ageScale(this) + 10, this.SwimmingDistance / 2.25 * ageScale(this));
+        ctx.fillRect(this.X - this.Image.width / 144 * ageScale(this) - 10 - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - (26 - this.SwimmingDistance / 2), this.Image.width / 72 * ageScale(this) + 20, this.SwimmingDistance / 2.25 * ageScale(this));
     }
 
 
-    if (boxSelector == "" && collision(mousex, mousey, 0, 0, this.X - this.Image.width / 144 * (this.Age / 150 + 0.5) - scrollx, this.Y - this.Image.height / 36 * (this.Age / 150 + 0.5) - this.Image.height / 72 * (this.Age / 150 + 0.5), this.Image.width / 72 * (this.Age / 150 + 0.5), this.Image.height / 36 * (this.Age / 150 + 0.5)) && mousedown) {
+    if (boxSelector == "" && collision(mousex, mousey, 0, 0, this.X - this.Image.width / 144 * ageScale(this) - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72 * ageScale(this), this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this)) && mousedown) {
 
         if (battleMode && bugStats[this.Species].skillName == "Shadow Hightail" && bugSelected !== -1 && bugSelected !== this && !this.Enemy) {
             bugSelected = -1;
