@@ -188,7 +188,7 @@ mainGame = function() {
                     ctx.drawImage(miscImg[23], -10, -10, 30 / 1.5, 30 / 1.5);
                     ctx.restore();
                     if (battleBugs.length > 0 && collision(blockX * 50 + 55 / 2 - 10, blockY * 50 + 55 / 2 - 10, 30 / 1.5, 30 / 1.5, battleBugs[0].X - battleBugs[0].Image.width / 144 * (battleBugs[0].Age / 150 + 0.5), battleBugs[0].Y - battleBugs[0].Image.height / 36 * (battleBugs[0].Age / 150 + 0.5) - battleBugs[0].Image.height / 72, battleBugs[0].Image.width / 72 * (battleBugs[0].Age / 150 + 0.5), battleBugs[0].Image.height / 36 * (battleBugs[0].Age / 150 + 0.5))) {
-                        battleInfo[1][1][0] += this.Trait == 3 ? 20 : 10;
+                        battleInfo[1][1][0] += this.Trait == 3 ? 40 : 20;
                         soundeffect("Territ.mp3");
                         battleMap[blockY][blockX] = 0;
                     }
@@ -249,10 +249,10 @@ mainGame = function() {
             
             ctx.drawImage(miscImg[bugStats[battleBugs[0].Species].skillBubble], 470, 245, 50, 50);
             
-            arrowMaker(50, 230, 180, [38,"upCheck"]);
-            arrowMaker(90, 270, -90, [39,"rightCheck"]);
-            arrowMaker(50, 310, 0, [40,"downCheck"]); 
-            arrowMaker(10, 270, 90, [37,"leftCheck"]);  
+            arrowMaker(50, 250, 180, [38,"upCheck"]);
+            arrowMaker(65, 265, -90, [39,"rightCheck"]);
+            arrowMaker(50, 280, 0, [40,"downCheck"]); 
+            arrowMaker(35, 265, 90, [37,"leftCheck"]);  
         }
         /**Mission UI**/
         
