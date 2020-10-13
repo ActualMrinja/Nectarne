@@ -1050,20 +1050,20 @@ bugBuild.prototype.draw = function() {
         if (bugStats[this.Species].flyAble && this.Jump == 0 && this.Hold == true) {
             soundeffect("FlyStart.mp3");
         }
-        this.Jump = 10
+        this.Jump = 10;
     }
     if ((this.keyUp[40] || this.keyUp[83]) && this.Jump == 10 && bugStats[this.Species].flyAble && !this.Attacking && boxSelector == "") {
-        this.Jump = 5
+        this.Jump = 5;
     }
 
     //Jumping can work while attacking if flying or using an ambush attack
     if (boxSelector == "" && this.Jump > 5 && (!this.Attacking || bugStats[this.Species].skillName.split("Ambush").length > 1)) {
-        this.Y -= bugStats[this.Species].flyAble ? this.Speed : this.Swimming ? 4 : 12;
-        this.Jump = Math.max(0, this.Jump - (bugStats[this.Species].flyAble ? 0 : this.Swimming ? 0.25 : 0.75));
+        this.Y -= bugStats[this.Species].flyAble ? this.Speed : this.Swimming ? 3.2 : 9.6;
+        this.Jump = Math.max(0, this.Jump - (bugStats[this.Species].flyAble ? 0 : this.Swimming ? 0.2 : 0.6));
         this.Hold = false;
     } else if (boxSelector == "" && this.Jump > 0 && (!this.Attacking || bugStats[this.Species].skillName.split("Ambush").length > 1)) {
-        this.Y += bugStats[this.Species].flyAble ? this.Speed : this.Swimming ? 4 : 12;
-        this.Jump = Math.max(0, this.Jump - (bugStats[this.Species].flyAble ? 0 : this.Swimming ? 0.25 : 0.75));
+        this.Y += bugStats[this.Species].flyAble ? this.Speed : this.Swimming ? 3.2 : 9.6;
+        this.Jump = Math.max(0, this.Jump - (bugStats[this.Species].flyAble ? 0 : this.Swimming ? 0.2 : 0.6));
         this.Hold = false;
     } else if (boxSelector == "" && !this.Hold && !(bugStats[this.Species].flyAble && this.Attacking && this.Jump > 0)) {
         this.Y += 12;
