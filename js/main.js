@@ -107,14 +107,10 @@ mainGame = function() {
         return;
     } else if(document.readyState !== "complete"){
         textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "..."), 264, 150, 25, true);
-        ctx.drawImage(miscImg[24], 264-15, 75, 30, 30);
-        ctx.drawImage(miscImg[24], 264-15, 200, 30, 30);
         ctx.restore();
         return;
     } else if(document.readyState == "complete" && !loadCheck){
         textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
-        ctx.drawImage(miscImg[24], 264-15, 75, 30, 30);
-        ctx.drawImage(miscImg[24], 264-15, 200, 30, 30);
         ctx.restore();
         if(mousedown){ music.play(); fullScreen(); loadCheck = true; } 
         return;

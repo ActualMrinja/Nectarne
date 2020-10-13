@@ -568,7 +568,7 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
     if (bugList == "+") {
         textMaker("+", 77 / 2, 51.5, 50, true);
     } else if (mouseOver || (!mouseOver && bugList.obtained) || boxSelector.substr(0, 13) == "Info Facility" || battleMode) {
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY : bugStats[bugList.Species].cropY, 150, 27, 13, 15, 50, 9);
+        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY : bugStats[bugList.Species].cropY, 150, 27, 13, 15.1, 50, 9);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 27 : bugStats[bugList.Species].cropY + 27, 162, 18, 9, 24, 54, 6);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 174 : bugList.Image.width / 6 - 174, bugList.image !== undefined ? bugList.cropY + 45 : bugStats[bugList.Species].cropY + 45, 174, 60, 5, 30, 58, 20);
         ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 105 : bugStats[bugList.Species].cropY + 105, 162, 22.5, 9, 50, 54, 7.5);
