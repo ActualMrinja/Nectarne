@@ -114,7 +114,7 @@ mainGame = function() {
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
-                if (miscAudio[loadAudio].readyState == 4) { 
+                if (window.safari !== undefined || miscAudio[loadAudio].readyState == 4) { 
                     loadCount += 1;
                 }
             }
