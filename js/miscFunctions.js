@@ -916,7 +916,7 @@ function shopHandle(x, y, index, thumbnail) {
         }
         ctx.restore();
 
-        textMaker(index == 3 ? "Shop Exclusive ": shop[index][0].split("_").join(" "), x + 100, y + 10, 25, true);
+        textMaker(index == 3 ? "Market Exclusive ": shop[index][0].split("_").join(" "), x + 100, y + 10, 25, true);
         textMaker(index == 3 ? "Get exclusive bugs throughout the week!\nOnly one bug can be bought a day for\nthis 5 day event. Bugs are traited.\n" : bugStats[shop[index][0]].descp, x + 100, y + 125, 15, true);
         textMaker("$  " + price(bugStats[shop[index][0]], true), x + 110, y + 100, 25, true);
         textMaker("@" + (shop[index][2] - 1 - Math.floor((date - shop[index][1]) / 3600000)) + ":" + ("0" + (60 - Math.ceil((date - shop[index][1]) % 3600000 / 60000))).slice(-2), x, y + 10, 15, true);
