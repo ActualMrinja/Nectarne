@@ -110,7 +110,7 @@ mainGame = function() {
             
             ctx.restore();
             return;
-        } else if(document.readyState !== "complete" || loadCount !== miscAudio.length){
+        } else if(loadCount !== miscAudio.length){
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
@@ -126,9 +126,9 @@ mainGame = function() {
 
             ctx.restore();
             return;
-        } else if(document.readyState == "complete" && loadCount == miscAudio.length){
+        } else if(loadCount == miscAudio.length){
             textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
-            if(mousedown) { music.play(); music.volume = musicvolume; fullScreen(); loadCheck = true; } 
+            if(mousedown) { music.play(); music.volume = musicvolume; loadCheck = true; mousedown = false; fullScreen(); } 
             
             ctx.restore();
             return;
@@ -627,7 +627,7 @@ mainGame = function() {
                     buttonMaker(soundeffectvolume == 0 ? "Off" : "On", 355, boxAnimation + 140, 2, action => [soundeffectvolume = soundeffectvolume == 0 ? 1 : 0, save("Sound", soundeffectvolume), soundeffect()]);
 
                     //Disabled full screen on extensions
-                    if (document.body.clientHeight !== 344 && !navigateCheck() && (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled)) {
+                    if (document.body.clientHeight !== 345 && !navigateCheck() && (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled)) {
                         textMaker("Full Screen", 265, boxAnimation + 135, 25, true);
                         buttonMaker(!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement ? "Off" : "On", 215, boxAnimation + 155, 2, action => [fullScreen(), save("FullScreen", nectarneCanvas.width)]);
                     }

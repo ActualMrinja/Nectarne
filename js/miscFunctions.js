@@ -684,7 +684,11 @@ function mousemake(event, clickAddOn=false) {
             if(battleMode && circleCollision(400, 240, 30)) { 
                 battleBugs[0].keyDown(32); 
                 battleBugs[0].keyUp["skillCheck"] = true;
-             }
+            }
+            if(battleMode && circleCollision(460, 200, 30)) { 
+                battleBugs[0].keyDown(38); 
+                battleBugs[0].keyUp["jumpCheck"] = true;
+            }
         }
         
         //Disables movement clicks when not in battles
@@ -779,7 +783,7 @@ function fullScreen(screenFit = true) {
             document.body.clientWidth;
 
     let hs = Math.floor(ws / (528 / 297));
-    
+
     if (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
         //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
 
