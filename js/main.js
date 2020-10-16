@@ -104,7 +104,7 @@ mainGame = function() {
     //Vertical & loading check
     if (window.innerWidth < window.innerHeight || !loadCheck) {
         if (window.innerWidth < window.innerHeight) {
-            if (window.safari !== undefined || document.fonts.check("1px TovariSans")) {
+            if (navigateCheck() || document.fonts.check("1px TovariSans")) {
             textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);  
             }
             
@@ -114,13 +114,13 @@ mainGame = function() {
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
-                if (window.safari !== undefined || miscAudio[loadAudio].readyState == 4) { 
+                if (navigateCheck() || miscAudio[loadAudio].readyState == 4) { 
                     loadCount += 1;
                 }
             }
 
             //Waits till fonts are loaded
-            if (!window.safari == undefined || document.fonts.check("1px TovariSans")) {
+            if (navigateCheck() || document.fonts.check("1px TovariSans")) {
             textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 140, 25, true);
             } 
 
@@ -614,7 +614,7 @@ mainGame = function() {
                     buttonMaker(soundeffectvolume == 0 ? "Off" : "On", 355, boxAnimation + 140, 2, action => [soundeffectvolume = soundeffectvolume == 0 ? 1 : 0, save("Sound", soundeffectvolume), soundeffect()]);
 
                     //Disabled full screen on extensions
-                    if (document.body.clientHeight !== 344 && window.safari == undefined && (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled)) {
+                    if (document.body.clientHeight !== 344 && !navigateCheck() && (document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled)) {
                         textMaker("Full Screen", 265, boxAnimation + 135, 25, true);
                         buttonMaker(!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement ? "Off" : "On", 215, boxAnimation + 155, 2, action => [fullScreen(), save("FullScreen", nectarneCanvas.width)]);
                     }

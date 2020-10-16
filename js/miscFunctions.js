@@ -751,6 +751,15 @@ function keyupmake(event) {
     }
 }
 
+//For browser anomalies and general support
+function navigateCheck(navigate="Apple"){
+    if (navigator.vendor.indexOf(navigate) > -1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function fullScreen(screenFit = true) {
     let ws = (window.innerWidth && document.documentElement.clientWidth) ?
             Math.min(window.innerWidth, document.documentElement.clientWidth) :
