@@ -24,7 +24,7 @@ const facilities = {
         name: "Smuggler Junkyard",
         descp: "Suspicious land where bugs vanish\nleaving only territs behind. Myths\nforetell paradise is what awaits.",
         miscIndex: 59,
-        filter: nameSearch => nameSearch.Health > 0,
+        filter: nameSearch => nameSearch.Health > 0 && nameSearch.Species !== "Aphid",
         infoScreen: false,
     },
     2: {
@@ -222,8 +222,8 @@ const missions = {
         descp: "Lament Canal, one of the saddest excuses of a canal.\nRecently, a rival pondskater colony has been\nattempting to take control of the pond.",
         type: "Pond",
         difficulty: 100,
-        primary: "Diving_Beetle",
-        secondary: "Mosquito",
+        primary: "Pondskater",
+        secondary: "Backswimmer",
         companion: ["Great Typhoon", "Pondskater", "Female", 270, 3],
     },
     6: {
@@ -317,7 +317,7 @@ const missions = {
         type: "Prairie",
         difficulty: 150,
         primary: "Tarantula",
-        secondary: "Tarantula",
+        secondary: "Tiger_Beetle",
         companion: ["Teresa", "Termite", "Female", 225, 6],
         queenName: "Queen Trapper",
         queenFlavor: [
@@ -345,7 +345,7 @@ const missions = {
             ["Queen Blackjacket", "Wasp", "There's no point in hiding it. You Terrachians are strong."],
             ["Queen Blackjacket", "Wasp", "Its clear to me we haven't thought this through. How about we ignore your\ncolony completely and you ignore us?"],
             ["Teresa", "Termite", "Your plan is affecting all colonies highness."],
-            ["Queen Blackjacket", "Wasp", "That's true. Let's arrange a deal. Show me how powerful dependent bugs can\nbe and we'll ignore all the surrounding colonies? Yes?"]
+            ["Queen Blackjacket", "Wasp", "Case made. Let's arrange a deal - show me how powerful dependent bugs can\nbe, and we'll ignore all the surrounding colonies? Yes?"]
         ]
     },
     15: {
@@ -469,7 +469,7 @@ const missions = {
         type: "Pond",
         difficulty: 150,
         primary: "Giant_Water_Bug",
-        secondary: "Pondskater",
+        secondary: "Water_Scorpion",
         queenName: "Queen Sapphirian",
         queenFlavor: [
             ["Queen Sapphirian", "Giant_Water_Bug", "Little bug, was I worth this journey? Don't tell me you went on this adventure\njust for me and not for my children. I'm afraid, that's just not happening."]
@@ -502,7 +502,7 @@ const missions = {
 }
 
 const traitDescp = [
-    ["Neutrality", "silver", "Recovers 6 health per\nsecond by standing still in\n    battles."],
+    ["Neutrality", "silver", "Recovers 10 health per\nsecond by standing still in\n    battles."],
     ["Irritable", "crimson", "Maxes fury when health\nreaches 25% or less."],
     ["Erudite", "coral", "Keeps used purple items.\nIncludes fruits, berries,\n    and screechers."],
     ["Rapacious", "gold", "Doubles territs earned\nthrough battles."],
@@ -515,19 +515,21 @@ const traitDescp = [
 const skillDescp = {
     "???": "This bug is not mature enough to use\na skill",
     "Mandible Press": "Fury attacks quadruple attack\ninstead of doubling it",
+    "Power Grab": "Fury attacks are charged through\nholding an attack",
     "Saliva Salvo": "Spits sticky saliva. Damage is\nhalved, however targets\nare slowed down for 2 seconds",
     "Noxious Whimper": "Spits distasteful chemicals. Damage is\nhalved, however targets\nare intimidated for 2 seconds",
     "Life Meal": "Fury attacks restore health based\non the damage output instead\nof doubling attack damage",
+    "Nectarne Nourishment": "Fury attacks are charged through\nholding an attack. Fury attacks heal\nparty members based on damage\noutput when not in combat.",
     "Stridulating Retreat": "Leaps during fury attacks after\ncreating a soundwave. Nearby enemies\nare intimidated for 2 seconds.",
     "Defensive Coil": "Coils can be maintained by holding\nan attack. Coiling reflects an eighth\nof the attacker's attack stat",
     "Shadow Hightail": "Uncontrollable speed and single charge\nfury attacks when an enemy\nis selected",
     "Poison Sting": "Stings a target. Damage is cut\nthrice, however targets\nare poisoned for 3 seconds",
     "Parasitic Sting": "Damage is cut thrice, but targets are\npoisoned for 3 seconds. Fury attacks\nlay drones that attack selected bugs",
     "Venom Spray": "Shoots ranged venom. Damage is cut\nthrice, however targets\nare poisoned for 3 seconds",
-    "Venomous Ambush": "Leaps can be charged by holding\nan attack. Fury attacks poison\nenemies for 3 seconds on landing",
-    "Horrendous Ambush": "Leaps can be charged by holding\nan attack. Fury attacks slow down and\nintimidate enemies for 2 seconds on\nlanding",
+    "Venomous Ambush": "Leaps are charged by holding\nan attack. Fury attacks poison\nenemies for 3 seconds on landing",
+    "Horrendous Ambush": "Leaps are charged by holding\nan attack. Fury attacks slow down and\nintimidate enemies for 2 seconds on\nlanding",
     "Dart Ambush": "Time between attacks is increased\nby 25%, however attacks\nturn into wide-ranging dashes",
-    "Specialized Ambush": "Fury attacks are charged through\nstanding still and camouflauging.\nAttacks turn into wide-ranging leaps",
+    "Specialized Ambush": "Fury attacks are charged through\nstanding still and camouflauging.\nAttacks turn into wide-ranging dashes",
 }
 
 bugStats = {
@@ -633,11 +635,25 @@ bugStats = {
         offspring: "Water_Tiger",
         obtained: false,
     },
+    Aphid: {
+        descp: "Small and plumpy, these pest pets are\nconstantly bullied by creatures much larger\nthan themselves.",
+        baseHealth: 40,
+        baseAttack: 5,
+        baseSpeed: 3.2,
+        skillName: "Nectarne Nourishment",
+        skillBubble: 77,
+        swimAble: false,
+        flyAble: false,
+        rarity: "Common",
+        cropY: -45,
+        image: imgMake("Aphid"),
+        obtained: false,
+    },
     Pondskater: {
         descp: "Fast and graceful bugs that can leap to safety\nwhen in danger. Non-swimmers are no match\nfor these bugs once they enter water.",
         baseHealth: 55,
-        baseAttack: 6.25,
-        baseSpeed: 6,
+        baseAttack: 6.875,
+        baseSpeed: 5.6,
         skillName: "Dart Ambush",
         skillBubble: 19,
         swimAble: true,
@@ -645,6 +661,20 @@ bugStats = {
         rarity: "Rare",
         cropY: -40,
         image: imgMake("Pondskater"),
+        obtained: false,
+    },
+    Backswimmer: {
+        descp: "Strange bugs that prefer to swim on their\nbacks. Their long legs are a sure nuissance\nwhen walking.",
+        baseHealth: 50,
+        baseAttack: 6.25,
+        baseSpeed: 6,
+        skillName: "Specialized Ambush",
+        skillBubble: 57,
+        swimAble: true,
+        flyAble: true,
+        rarity: "Rare",
+        cropY: -40,
+        image: imgMake("Backswimmer"),
         obtained: false,
     },
     Glowworm: {
@@ -791,6 +821,20 @@ bugStats = {
         image: imgMake("Spider"),
         obtained: false,
     },
+    Water_Scorpion: {
+        descp: "Unlike their more popular and agile cousins,\nwater scorpions are poor swimmers. They use\ntheir pencil-like back siphon to breathe\nwhen on the hunt.",
+        baseHealth: 75,
+        baseAttack: 10,
+        baseSpeed: 6,
+        skillName: "Power Grab",
+        skillBubble: 76,
+        swimAble: true,
+        flyAble: true,
+        rarity: "Epic",
+        cropY: -10,
+        image: imgMake("WaterScorpion"),
+        obtained: false,
+    },
     Millipede: {
         descp: "Bulky arthropods that are remarkably passive\ncompared to other predatory arthropods.\nThey curl-up at the immediate site of danger.",
         baseHealth: 100,
@@ -890,17 +934,35 @@ bugStats = {
         image: imgMake("Dragonfly"),
         offspring: "Dragonfly_Nymph",
         obtained: false,
+    },
+    Tiger_Larva: {
+        descp: "Hideous creatures that can make any\nbug squirm in disgust. These tiger beetle\nlarvae make burrows to ambush lone bugs.",
+        baseHealth: 85,
+        baseAttack: 11.875,
+        baseSpeed: 6,
+        skillName: "???",
+        skillBubble: 46,
+        swimAble: false,
+        flyAble: false,
+        rarity: "Legendary",
+        cropY: -25,
+        image: imgMake("TigerLarva"),
+        evolve: "Tiger_Beetle",
+        obtained: false,
+    },
+    Tiger_Beetle: {
+        descp: "Ferocious running beetles that dash\ndown meals so quickly, they end up\nblinding themselves.",
+        baseHealth: 75,
+        baseAttack: 11.875,
+        baseSpeed: 7.6,
+        skillName: "Shadow Hightail",
+        skillBubble: 46,
+        swimAble: false,
+        flyAble: false,
+        rarity: "Legendary",
+        cropY: -10,
+        image: imgMake("TigerBeetle"),
+        offspring: "Tiger_Larva",
+        obtained: false,
     }
 }
-
-/**
-Plan
-
-Common: Aphid - Sap Medic (Heals all party members)
-Rare: Backswimmer (Fly) - Specialized Ambush
-Epic: Water Scorpion (Fly) - Hold Breaker
-Legendary: Tiger Beetle Larva - None
-Legendary: Tiger Beetle - Shadow Hightail
-
-
-**/

@@ -426,10 +426,10 @@ function arrowMaker(x, y, angle, pointer=false) {
         ctx.globalAlpha = collision(mousex, mousey, 0, 0, x - 20, y - 20, 40, 40) ? 1 : 0.85;
         ctx.drawImage(miscImg[74], -20, -20, 40, 40);
          
-        if(mousedown && ctx.globalAlpha == 1) {
+        if(mousedown && ctx.globalAlpha == 1 && battleBugs.length > 0 && battleBugs[0].Health > 0) {
         battleBugs[0].keyDown(pointer[0]);
         battleBugs[0].keyUp[pointer[1]] = true;
-        } else if(battleBugs[0].keyUp[pointer[1]]) {
+        } else if(battleBugs[0].keyUp[pointer[1]] && battleBugs.length > 0 && battleBugs[0].Health > 0) {
         battleBugs[0].keyUp[pointer[0]] = false; 
         battleBugs[0].keyUp[pointer[1]] = false; 
         }
@@ -527,7 +527,7 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
                     }
                 }
                 mousedown = false;
-            } else if (mousedown) { 
+            } else if (mousedown) {            
                 //Purple item consumption (Erudite)
                 if(!(bugSelected.Trait == 2 && boxSelector.substr(21, 21) >= 2 && boxSelector.substr(21, 21) <= 4)){
                 items[boxSelector.substr(21, 21)].quantity -= 1;
@@ -556,7 +556,9 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
 
                     bugSelected = -1;
                 }
+                
                 save();
+                mousedown = false;
             }
         }
     } else {
@@ -568,17 +570,13 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
     if (bugList == "+") {
         textMaker("+", 77 / 2, 51.5, 50, true);
     } else if (mouseOver || (!mouseOver && bugList.obtained) || boxSelector.substr(0, 13) == "Info Facility" || battleMode) {
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY : bugStats[bugList.Species].cropY, 150, 27, 13, 15.1, 50, 9);
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 27 : bugStats[bugList.Species].cropY + 27, 162, 18, 9, 24, 54, 6);
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 174 : bugList.Image.width / 6 - 174, bugList.image !== undefined ? bugList.cropY + 45 : bugStats[bugList.Species].cropY + 45, 174, 60, 5, 30, 58, 20);
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 162 : bugList.Image.width / 6 - 162, bugList.image !== undefined ? bugList.cropY + 105 : bugStats[bugList.Species].cropY + 105, 162, 22.5, 9, 50, 54, 7.5);
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 150 : bugList.Image.width / 6 - 150, bugList.image !== undefined ? bugList.cropY + 127.5 : bugStats[bugList.Species].cropY + 127.5, 150, 19.5, 13, 57.5, 50, 6.5);
-        ctx.drawImage(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.image !== undefined ? bugList.image.width / 6 - 129 : bugList.Image.width / 6 - 129, bugList.image !== undefined ? bugList.cropY + 147 : bugStats[bugList.Species].cropY + 147, 105, 13.5, 20, 64, 35, 4.5);
+        imageCrop(bugList.image !== undefined ? bugList.image : bugList.Image, bugList.Species == undefined ? bugList.cropY : bugStats[bugList.Species].cropY);
     } else {
         textMaker("?", 77 / 2, 55, 50, true);
     }
 
     if (!battleMode || bugSelected !== -1) {
+        ctx.globalAlpha = 1;
         ctx.beginPath();
         ctx.strokeStyle = bugs.indexOf(bugList) !== -1 && bugList.Patrol == rooms[boxSelector.substr(21)] && (boxSelector.substr(0, 21) == "Bug Selector Facility" || boxSelector.substr(0, 13) == "Info Facility") ? "#6e6e6e" : "#3a3a3a";
         ctx.lineWidth = 4.5;
@@ -593,7 +591,14 @@ function bugBubble(x, y, scale = 1, mouseOver = false, bugList = 0) {
         ctx.stroke();
         ctx.closePath();
         ctx.beginPath();
-        ctx.strokeStyle = bugList.defects.poison > 0 ? "#cc66cc" : bugList.defects.slowDown > 0 ? "#0099ff" : bugList.defects.intimidate > 0 ? "#fcba03" : "#53db65";
+        
+        //Nectarne Nourishment glow
+        if (scale < 1 && bugStats[battleBugs[0].Species].skillName == "Nectarne Nourishment" && battleBugs[0].defects.hurt !== undefined && battleBugs[0].defects.hurt[0] < 0 && battleBugs[0].defects.hurt[1] > 0) {
+            ctx.strokeStyle = "#96ffa4";
+        } else { 
+            ctx.strokeStyle = bugList.defects.poison > 0 ? "#cc66cc" : bugList.defects.slowDown > 0 ? "#0099ff" : bugList.defects.intimidate > 0 ? "#fcba03" : "#53db65";
+        }    
+            
         ctx.lineWidth = 4.5;
         ctx.arc(77 / 2, 77 / 2, 33.5, -(Math.PI / 180) * 90, -(Math.PI / 180) * ((bugList.Health / bugList.HealthTotal) * 360 + 90), true);
         ctx.stroke();
@@ -853,7 +858,7 @@ function shopHandle(x, y, index, thumbnail) {
                 shop[index][4] = 1;
                 
                 if(date.getDay() < 3){
-                    shop[index][0] = shop[index][3][2];
+                    shop[index][0] = shop[index][3][0];
                     
                     //Randomizes trait for the week
                     if (date.getDay() == 1) {  
@@ -862,7 +867,7 @@ function shopHandle(x, y, index, thumbnail) {
                 } else if(date.getDay() < 5){
                     shop[index][0] = shop[index][3][1];
                 } else {
-                    shop[index][0] = shop[index][3][0];
+                    shop[index][0] = shop[index][3][2];
                 }
                 
             } else if(index == 2) {
@@ -912,8 +917,9 @@ function shopHandle(x, y, index, thumbnail) {
         textMaker("@" + (shop[index][2] - 1 - Math.floor((date - shop[index][1]) / 3600000)) + ":" + ("0" + (60 - Math.ceil((date - shop[index][1]) % 3600000 / 60000))).slice(-2), x, y + 10, 15, true);
         
         if (index == 3){
-            textMaker(shop[index][4]+"/1   Trait:", 528/2-30, y + 180, 15, true);
-            textMaker(traitDescp[shop[index][5]][0], 528/2+30, y + 180, 15, true, traitDescp[shop[index][5]][1]);
+            textMaker(shop[index][4]+"/1", x + 190, y + 100, 15, true);
+            textMaker("Trait:", 528/2 - 30, y + 180, 15, true);
+            textMaker(traitDescp[shop[index][5]][0], 528/2 + 20, y + 180, 15, true, traitDescp[shop[index][5]][1]);
         }
 
     } else {
@@ -1020,8 +1026,17 @@ function tutorial() {
         textInfo.push(["Teresa", "Termite", "We gathered enough water to make a Water Dome - if you have aquatic bugs\nthis is a perfect place to heal up!", 0], ["Teresa", "Termite", "That was a strange turn of events. On a mission I met tarantulas talking\nabout primordial power? Let's visit their lair...", 0]);
         rooms.push(new facilityBuild(8, 9));
         save();
+    } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] > 14 && !bugStats["Aphid"].obtained) {
+        textInfo.push(["Teresa", "Termite", "I would've never of thought there would be a day, I, a mercenary consultant,\ncould be standing before... them.", 0], ["Teresa", "Termite", "I'm so grateful for the adventures we had, but before I go on, Queen Blackjacket\nhas gifted us with an aphid!", 0], ["Teresa", "Termite", "I'm sure you could put them to good use. Well then, farewell? It'll be some time\nbefore we can see eachother again...", 0], ["Teresa", "Termite", "Perhaps, the Nectarne colony has once again risen to its former glory.", 0], ["Teresa", "Termite", "The queen would be so happy...", 0], ["Teresa", "Termite", "...", 0]);
+        bugs.push(new bugBuild("Healing Reserves " + Math.floor(Math.random() * 999 + 1), -50, 268, "Aphid", 270, false, 0));
+        bugs[bugs.length - 1].defects.evolution = 1;
+        bugs[bugs.length - 1].Gender = "Male";
+        bugs[bugs.length - 1].Trait = 1;
+        bugs[bugs.length - 1].Immortal = true;
+        bugs[bugs.length - 1].Story = bugs[bugs.length - 1].Story.split("\nFather").join(" from Teresa\nFather");
+        save();
     }
-    
+     
     //Pointer arrows
     if (rooms.length == 3 && rooms[0].MissionList.length == 0 && bugs.length > 0 && bugSelected == -1 && bugs[bugs.length - 1].Story.split(" from Teresa").length == 1){
         arrowMaker(bugs[0].X-scrollx, bugs[0].Y-40, 0, false);
@@ -1030,8 +1045,7 @@ function tutorial() {
         arrowMaker(496.5, 65, 180, false);
     } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 0) {
         arrowMaker(245, 60, 180, false);
-    }
-    
+    } 
 }
 
 function save(key = null, value = null) {
@@ -1076,11 +1090,11 @@ function load(deleteFile = false) {
         if(boxSelector == "" && music.src.split("muzak/")[1] !== "MainTheme.mp3"){
             music.pause();
             music = new Audio("muzak/MainTheme.mp3");
-            music.volume = 0.7;
             music.loop = true;
             music.play();
+            music.volume = 0;
         }
-        
+
         //resets battles
         battleEnemies = [];
         battleInfo = rooms[0].MissionList[rooms[0].MissionSelect];
@@ -1121,7 +1135,12 @@ function load(deleteFile = false) {
             const quantityChecker = JSON.parse(localStorage.getItem("Items"));
             items[itemIndex].quantity = quantityChecker[itemIndex].quantity;
         }
-             
+        
+        territs = 99999;
+        items[6].quantity = 99;
+        boxSelector = "Bug Compendium";
+        loadCheck = true;
+        
     } else {
         localStorage.clear();
         scrollx = 0;
@@ -1140,8 +1159,8 @@ function load(deleteFile = false) {
         ["Ant", new Date(0), 1, ["Ant", "Termite", "Fly", "Wriggler", "Water_Tiger"]],
         ["Glowworm", new Date(0), 6, ["Glowworm", "Caterpillar", "Pondskater", "Bed_Bug", "Bee"]],
         ["Scorpion", new Date(0), 24, ["Weta", "Mantis", "Scorpion", "Spider", "Millipede"]],
-        ["Ant", new Date(0), 24, ["Centipede", "Giant_Water_Bug", "Mantis"], 0, 0],
-        ["Ant", 0, "rgb(179,255,179,0.85)"],
+        ["Ant", new Date(0), 24, ["Backswimmer", "Water_Scorpion", "Tiger_Larva"], 0, Math.floor(Math.random()*7)+1],
+        ["Ant", 2, "rgb(179,255,179,0.85)"],
         ];
         textInfo = [new Image()]
     }

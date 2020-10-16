@@ -60,6 +60,21 @@ function ageScale(bugList){
     return (bugList.Age / 150 + 0.5);
 }
 
+//Compendium and bug portrait maker
+function imageCrop(image, cropY){
+    //Top/Forehead
+    ctx.drawImage(image, image.width / 6 - 150, cropY, 150, 105, 7, 18, 50, 35);
+    
+    //Center Top/Mouth
+    ctx.drawImage(image, image.width / 6 - 138, cropY + 105, 135, 24, 11, 53, 45, 8);
+    
+    //Center Bottom/Chin
+    ctx.drawImage(image, image.width / 6 - 120, cropY + 129, 120, 18, 17, 61, 40, 6);
+    
+    //Bottom/Neck
+    ctx.drawImage(image, image.width / 6 - 99, cropY + 147, 90, 12, 24, 67, 30, 4);
+}
+
 bugBuild.prototype.bugCollision = function(index, hitBox = false) {
     if (!hitBox) {
         //Coils halve a hit box
@@ -164,6 +179,11 @@ bugBuild.prototype.collision = function(collisionIndex) {
                 if (this.Enemy && (battleBugs.length == 0 || (bugStats[battleBugs[0].Species].skillName == "Specialized Ambush" && battleBugs[0].Fury >= 0.98))) {
                     this.Scale *= -1
                 }
+                
+                //Walls weaken dashes
+                if (bugStats[this.Species].skillName == "Dart Ambush" || bugStats[this.Species].skillName == "Specialized Ambush"){
+                    this.Fury = Math.min(0.5, this.Fury);
+                }
 
             } else if (collisionIndex[4][1] + 1 < battleMap[0].length && battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1] + 1)] !== 1 && collision(collisionIndex[0] + collisionIndex[2] - 1, collisionIndex[1], 1, collisionIndex[3], this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
                 this.X = collisionIndex[0] + collisionIndex[2] + (this.Image.width / 144 * ageScale(this));
@@ -173,9 +193,13 @@ bugBuild.prototype.collision = function(collisionIndex) {
                 }
 
                 if (this.Enemy && (battleBugs.length == 0 || (bugStats[battleBugs[0].Species].skillName == "Specialized Ambush" && battleBugs[0].Fury >= 0.98))) {
-                    this.Scale *= -1
+                    this.Scale *= -1;
                 }
-
+                
+                //Walls weaken dashes
+                if (bugStats[this.Species].skillName == "Dart Ambush" || bugStats[this.Species].skillName == "Specialized Ambush"){
+                    this.Fury = Math.min(0.5, this.Fury);
+                }
             }
 
         }
@@ -395,7 +419,7 @@ bugBuild.prototype.skill = function(victim) {
 
         case "Life Meal":
             if (this.Fury > 0.5) {
-                this.Health = Math.min(this.HealthTotal, this.Health + Math.floor(damageCalc));
+                this.Health = Math.min(this.HealthTotal, this.Health + Math.round(damageCalc));
                 this.defects.hurt = [-Math.round(damageCalc), 1];
             }
 
@@ -437,7 +461,7 @@ bugBuild.prototype.skill = function(victim) {
             break;
 
         case "Venomous Ambush":
-            victim.Health -= Math.floor(damageCalc);
+            victim.Health -= Math.round(damageCalc);
             victim.defects.hurt = [damageCalc, 1];
             victim.defects.poison = Math.max(this.Fury > 0.5 ? this.Trait == 6 ? 6 : 3 : 0, victim.defects.poison == undefined ? 0 : victim.defects.poison);
             this.defects.ambushLength = 0;
@@ -470,7 +494,7 @@ bugBuild.prototype.skill = function(victim) {
             this.Attack /= 2;
         }
         soundeffect((bugStats[this.Species].skillName.split(" ").join("")) + ".mp3");
-    } else if (victim && bugStats[this.Species].skillName !== "Specialized Ambush") {
+    } else if (victim && bugStats[this.Species].skillName !== "Power Grab" && bugStats[this.Species].skillName !== "Nectarne Nourishment" && bugStats[this.Species].skillName !== "Venomous Ambush" && bugStats[this.Species].skillName !== "Horrendous Ambush" && bugStats[this.Species].skillName !== "Specialized Ambush") {
         this.Fury = Math.min(1, this.Fury + 0.5);
     }
 
@@ -534,14 +558,17 @@ bugBuild.prototype.combat = function() {
     if (this.Animation < 3 && bugStats[this.Species].skillName.split("Ambush").length > 1) {
         //Venomous Ambush users can hold their jumps
         if ((bugStats[this.Species].skillName == "Venomous Ambush" || bugStats[this.Species].skillName == "Horrendous Ambush") && this.Hold && this.Animation <= 0.5) {
-            this.Fury = Math.max(0, this.Fury - 0.2);
-            this.defects.ambushLength = 7 + (this.Fury * 5);
+            this.defects.ambushLength = 6 + (this.Fury * 4);
             this.Jump = this.defects.ambushLength;
             soundeffect((bugStats[this.Species].skillName.split(" ").join("")) + ".mp3");
         }
+        
+        //Water bubbles for dashes
         if (this.Swimming) {
             this.bubbleCreate(bugStats[this.Species].swimAble ? 15 : 10);
         }
+        
+        //Albino bubbles for dashes
         if (this.Albino && this.X - scrollx > -10 && this.X < 540 + scrollx) {
             this.bubbleCreate(3, 1);
         }
@@ -574,6 +601,19 @@ bugBuild.prototype.combat = function() {
                     this.skill(bugEnemiesOnScreen[enemyLoad]);
                     return;
                 }
+            }
+            
+            //Nectarne Nourishment healing only triggers if no enemy is found
+            if (bugStats[this.Species].skillName == "Nectarne Nourishment" && this.Fury > 0.5) {
+                let damageCalc = this.Attack * (this.AlignmentsText[2] / 100) <= 0 ? 1 : this.Attack * (this.AlignmentsText[2] / 100);
+                
+                for (let partyHeal in battleBugs) {
+                    battleBugs[partyHeal].Health = Math.min(battleBugs[partyHeal].HealthTotal, battleBugs[partyHeal].Health + Math.round(damageCalc))
+                }
+
+                this.defects.hurt = [-Math.round(damageCalc), 1];
+                this.Fury = 0;
+                soundeffect((bugStats[this.Species].skillName.split(" ").join("")) + ".mp3");
             }
 
         } else if (this.bugCollision(battleBugs[0]) && battleBugs[0].Health > 0) {
@@ -618,10 +658,10 @@ bugBuild.prototype.keyDown = function(event) {
 
 bugBuild.prototype.stats = function() {
     ctx.globalAlpha = 1;
-
+    
     if (boxSelector == "") {
         ctx.beginPath();
-        ctx.strokeStyle = "#ffff66";
+        ctx.strokeStyle = "rgb("+ (2 * Math.floor(this.AlignmentsText[2]) + 55) +", " + (2 * Math.floor(this.AlignmentsText[0]) + 55) +", " + (2 * Math.ceil(this.AlignmentsText[1]) + 55) + ", 0.85)";
         ctx.lineWidth = 4;
         ctx.arc(this.X - this.Image.width / 576 * ageScale(this) - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 144 * ageScale(this), this.Image.width / 84 * ageScale(this) + (date.getMilliseconds() / 25), 0, 2 * Math.PI);
         ctx.stroke();
@@ -779,8 +819,9 @@ bugBuild.prototype.draw = function() {
         ctx.scale(this.Scale, 1);
         ctx.rotate(this.Rotate * (Math.PI / 180));
 
-        if ((this.Alignments > 0 && this.Alignments < 360) || this.Albino || this.defects.evolution) {
-            ctx.filter = "hue-rotate(" + (this.Albino ? Math.abs(180 - this.Alignments) : this.Alignments) + "deg) brightness(" + ((this.Albino ? 200 : 100) * (this.defects.evolution ? this.defects.evolution + 1 : 1)) + "%)";
+        //Albinos have double brightness and flipped colors
+        if (this.Albino) {
+            ctx.filter = "hue-rotate(" + Math.abs(180 - this.Alignments) + "deg) brightness(" + (this.Albino ? 200 : 100) + "%)";
         }
 
         ctx.drawImage(this.Image, Math.floor(this.Animation + (this.Attacking ? 3 : 0)) * (this.Image.width / 6), (bugStats[this.Species].swimAble && this.Swimming ? 2 : bugStats[this.Species].flyAble && this.Jump > 0 && !this.Swimming ? 1 : 0) * (this.Image.height / 3), this.Image.width / 6, this.Image.height / 3, -this.Image.width / 144 * ageScale(this), -this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this));
@@ -825,8 +866,8 @@ bugBuild.prototype.draw = function() {
     if (boxSelector == "" && battleMode && this.defects.poison > 0) {
         this.defects.poison -= 1 / 30;
         if (this.defects.poison % 1 < 1 / 30 && this.defects.poison > 0) {
-            this.defects.hurt = [2, 1];
-            this.Health -= 2;
+            this.defects.hurt = [5, 1];
+            this.Health = Math.max(0, this.Health - 5);
         }
     }
 
@@ -837,9 +878,9 @@ bugBuild.prototype.draw = function() {
     if (boxSelector == "" && this.Health > 0 && (this.Health < this.HealthTotal || this.Fury > 0 || this.defects.poison > 0 || this.defects.slowDown > 0 || this.defects.intimidate > 0)) {
 
         if (this.Fury > 1) {
-            this.Fury = 1
+            this.Fury = 1;
         }
-        if (this.Fury > 0) {
+        if (this.Fury > 0 && (!this.Attacking || bugStats[this.Species].skillName.split("Ambush").length > 1)) {
             this.Fury = Math.max(0, this.Fury - 1 / 120)
         }
 
@@ -1019,13 +1060,13 @@ bugBuild.prototype.draw = function() {
     } else {
         //6 health per second by standing still (Neutrality)
         if (boxSelector == "" && !this.Enemy && this.Health > 0 && this.Hold && !this.Attacking && this.Trait == 0) {
-            this.Health = Math.min(this.HealthTotal, this.Health + 0.2)
+            this.Health = Math.min(this.HealthTotal, this.Health + 1 / 3)
             if (this.Health % 1 <= 1 / 30 && this.Health < this.HealthTotal) {
                 this.defects.hurt = [-1, 1];
             }
         }
 
-        if (boxSelector == "" && this.Health > 0 && this.Attacking) {
+        if (boxSelector == "" && !battleMode && this.Health > 0 && this.Attacking) {
             this.defects.slowDown = 0;
             this.defects.intimidate = 0;
             this.defects.poison = 0;
@@ -1093,11 +1134,11 @@ bugBuild.prototype.draw = function() {
     }
 
     //Non enemies can jump with up arrow keys or shadow hightail/player drone, they can attack if they have range with Venom Spray or Ambush
-    if (boxSelector == "" && !this.Attacking && this.Health > 0 && (this.Jump == 0 || bugStats[this.Species].flyAble) && ((battleBugs.length > 0 && this.Enemy && !this.defects.droneType && this.bugCollision(battleBugs[0])) || (!this.Enemy && (this.keyUp[32] || (bugStats[this.Species].skillName == "Shadow Hightail" && this.defects.speedMax && this.bugCollision(bugSelected)))) || (this.Enemy && this.defects.droneType && this.defects.speedMax && this.bugCollision(bugSelected)) || (this.Enemy && battleBugs.length > 0 && bugStats[this.Species].skillName == "Venom Spray" && Math.abs(this.X - battleBugs[0].X) <= 110 && this.Y == battleBugs[0].Y) || (this.Enemy && battleBugs.length > 0 && (bugStats[this.Species].skillName == "Venomous Ambush" || bugStats[this.Species].skillName == "Horrendous Ambush") && this.Fury < 1 && Math.abs(this.X - battleBugs[0].X) <= 110))) {
+    if (boxSelector == "" && !this.Attacking && this.Health > 0 && (this.Jump == 0 || bugStats[this.Species].flyAble) && ((battleBugs.length > 0 && this.Enemy && !this.defects.droneType && this.bugCollision(battleBugs[0])) || (!this.Enemy && (this.keyUp[32] || (bugStats[this.Species].skillName == "Shadow Hightail" && this.defects.speedMax && this.bugCollision(bugSelected)))) || (this.Enemy && this.defects.droneType && this.defects.speedMax && this.bugCollision(bugSelected)) || (this.Enemy && battleBugs.length > 0 && bugStats[this.Species].skillName == "Venom Spray" && Math.abs(this.X - battleBugs[0].X) <= 110 && this.Y == battleBugs[0].Y) || (this.Enemy && battleBugs.length > 0 && (bugStats[this.Species].skillName == "Venomous Ambush" || bugStats[this.Species].skillName == "Horrendous Ambush") && this.Fury < 1 && Math.abs(this.X - battleBugs[0].X) <= 165))) {
         this.Attacking = true;
         this.Animation = 0;
     } else if (boxSelector == "" && this.Attacking && battleBugs.length > 0 && this.Health > 0) {
-        if (this.Hold && (bugStats[this.Species].skillName == "Venomous Ambush" || bugStats[this.Species].skillName == "Horrendous Ambush") && (this.keyUp[32] || (this.Enemy && this.Fury < 0.98 && Math.abs(this.X - battleBugs[0].X) >= this.Fury * 110)) && this.Animation <= 0.375) {
+        if (this.Hold && (bugStats[this.Species].skillName == "Power Grab" || bugStats[this.Species].skillName == "Nectarne Nourishment" || bugStats[this.Species].skillName == "Venomous Ambush" || bugStats[this.Species].skillName == "Horrendous Ambush") && (this.keyUp[32] || (this.Enemy && this.Fury < 0.98 && (bugStats[this.Species].skillName == "Power Grab" || bugStats[this.Species].skillName == "Nectarne Nourishment" || ((bugStats[this.Species].skillName == "Venomous Ambush" || bugStats[this.Species].skillName == "Horrendous Ambush") && Math.abs(this.X - battleBugs[0].X) >= this.Fury * 165)))) && this.Animation <= 0.375) {
             this.Fury += 1.25 / 30;
         } else {
             this.combat();
