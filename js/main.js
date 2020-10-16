@@ -111,15 +111,16 @@ mainGame = function() {
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
-                if (miscAudio[loadAudio].readyState == 4) { 
+                if (miscAudio[loadAudio].readyState >= 3) { 
                     loadCount += 1;
                 }
             }
 
-            if (document.readyState == "loaded" || document.readyState == "complete") {
+            //Waits till fonts are loaded
+            if (document.fonts.check("1em TovariSans")) {
             textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 150, 25, true);
-            }    
-                
+            } 
+
             ctx.restore();
             return;
         } else if(document.readyState == "complete" && loadCount == miscAudio.length){
