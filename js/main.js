@@ -107,20 +107,22 @@ mainGame = function() {
             if (document.fonts.check("1px TovariSans")) {
             textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);  
             }
+            
+            fullScreen(false);
             ctx.restore();
             return;
         } else if(document.readyState !== "complete" || loadCount !== miscAudio.length){
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
-                if (miscAudio[loadAudio].readyState == "4") { 
+                if (miscAudio[loadAudio].readyState >= 0) { 
                     loadCount += 1;
                 }
             }
 
             //Waits till fonts are loaded
             if (document.fonts.check("1px TovariSans")) {
-            textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 150, 25, true);
+            textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 140, 25, true);
             } 
 
             ctx.restore();
