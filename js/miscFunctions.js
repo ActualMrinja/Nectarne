@@ -760,18 +760,18 @@ function fullScreen(screenFit = true) {
 
     let hs = Math.floor(ws / (528 / 297));
     
-    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitIsFullscreen && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement) {
+    if (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {
         //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
 
-            if (nectarneCanvas.webkitRequestFullscreen && screenFit) {
+            if (screenFit && nectarneCanvas.webkitRequestFullscreen) {
                 /* Chrome, Safari and Opera */
                 nectarneCanvas.webkitRequestFullscreen();
-            } else if (nectarneCanvas.requestFullscreen && screenFit) {
+            } else if (screenFit && nectarneCanvas.requestFullscreen) {
                 nectarneCanvas.requestFullscreen();
-            } else if (nectarneCanvas.mozRequestFullScreen && screenFit) {
+            } else if (screenFit && nectarneCanvas.mozRequestFullScreen) {
                 /* Firefox */
                 nectarneCanvas.mozRequestFullScreen();
-            } else if (nectarneCanvas.msRequestFullscreen && screenFit) {
+            } else if (screenFit && nectarneCanvas.msRequestFullscreen) {
                 /* IE/Edge */
                 nectarneCanvas.msRequestFullscreen();
             }
