@@ -1136,11 +1136,6 @@ function load(deleteFile = false) {
             items[itemIndex].quantity = quantityChecker[itemIndex].quantity;
         }
         
-        territs = 99999;
-        items[6].quantity = 99;
-        boxSelector = "Bug Compendium";
-        loadCheck = true;
-        
     } else {
         localStorage.clear();
         scrollx = 0;
