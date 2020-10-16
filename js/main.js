@@ -100,11 +100,11 @@ mainGame = function() {
     ctx.save();
     ctx.translate(0, 0);
     ctx.scale(nectarneCanvas.height / 297, nectarneCanvas.height / 297);
-
+    
     //Vertical & loading check
     if (window.innerWidth < window.innerHeight || !loadCheck) {
         if (window.innerWidth < window.innerHeight) {
-            if (navigateCheck() || document.fonts.check("1px TovariSans")) {
+            if (document.readyState == "complete") {
             textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);  
             }
             
@@ -118,15 +118,14 @@ mainGame = function() {
                     loadCount += 1;
                 }
             }
-
-            //Waits till fonts are loaded
-            if (navigateCheck() || document.fonts.check("1px TovariSans")) {
+             
+            if (document.readyState == "complete") {
             textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 140, 25, true);
-            } 
-
+            }
+            
             ctx.restore();
             return;
-        } else if(loadCount == miscAudio.length){
+        } else if(document.readyState == "complete" && loadCount == miscAudio.length){
             textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
             if(mousedown) { music.play(); music.volume = musicvolume; loadCheck = true; mousedown = false; fullScreen(); } 
             
