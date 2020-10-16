@@ -108,7 +108,6 @@ mainGame = function() {
             textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);  
             }
             
-            fullScreen(false);
             ctx.restore();
             return;
         } else if(document.readyState !== "complete" || loadCount !== miscAudio.length){
@@ -130,6 +129,7 @@ mainGame = function() {
         } else if(document.readyState == "complete" && loadCount == miscAudio.length){
             textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
             if(mousedown) { music.play(); music.volume = musicvolume; fullScreen(); loadCheck = true; } 
+            
             ctx.restore();
             return;
         }
