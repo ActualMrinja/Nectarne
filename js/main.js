@@ -110,7 +110,7 @@ mainGame = function() {
             
             ctx.restore();
             return;
-        } else if(loadCount !== miscAudio.length){
+        } else if(document.readyState !== "complete" || loadCount !== miscAudio.length){
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
@@ -121,6 +121,7 @@ mainGame = function() {
              
             if (document.readyState == "complete") {
             textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 140, 25, true);
+            } else {
             }
             
             ctx.restore();
@@ -331,40 +332,40 @@ mainGame = function() {
         /**Dome Display**/
 
         /**Colony Info**/
-            ctx.drawImage(miscImg[13], 10, uiDrop() + 10, miscImg[13].width / 3, miscImg[13].height / 3);
-            ctx.drawImage(miscImg[13], 120, uiDrop() + 10, miscImg[13].width / 3, miscImg[13].height / 3);
-            ctx.drawImage(miscImg[13], 230, uiDrop() + 10, miscImg[13].width / 3, miscImg[13].height / 3);
+            ctx.drawImage(miscImg[13], 10, 10, miscImg[13].width / 3, miscImg[13].height / 3);
+            ctx.drawImage(miscImg[13], 120, 10, miscImg[13].width / 3, miscImg[13].height / 3);
+            ctx.drawImage(miscImg[13], 230, 10, miscImg[13].width / 3, miscImg[13].height / 3);
             territs = Math.min(99999, territs);
             food = Math.min(99999, food);
-            textMaker("" + Math.floor(territs), 45, uiDrop() + 36, 20, false);
-            textMaker("" + bugs.length + "/" + (rooms.length * 8), 155, uiDrop() + 35, 20, false, (bugs.length < rooms.length * 8) ? "white" : "crimson");
-            textMaker("" + Math.ceil(food), 264, uiDrop() + 36, 20, false, netFood > 0 ? "springGreen" : netFood == 0 ? "white" : "crimson");
+            textMaker("" + Math.floor(territs), 45, 36, 20, false);
+            textMaker("" + bugs.length + "/" + (rooms.length * 8), 155, 35, 20, false, (bugs.length < rooms.length * 8) ? "white" : "crimson");
+            textMaker("" + Math.ceil(food), 264, 36, 20, false, netFood > 0 ? "springGreen" : netFood == 0 ? "white" : "crimson");
             ctx.save();
-            collision(mousex, mousey, 0, 0, 10, uiDrop() + 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
+            collision(mousex, mousey, 0, 0, 10, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
                 boxSelector = "Shop";
                 page = 0;
                 mousedown = false;
             }
-            ctx.drawImage(miscImg[23], 10, uiDrop() + 15, 30, 30);
+            ctx.drawImage(miscImg[23], 10, 15, 30, 30);
             ctx.restore();
             ctx.save();
-            collision(mousex, mousey, 0, 0, 120, uiDrop() + 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
+            collision(mousex, mousey, 0, 0, 120, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
                 page = 0;
                 boxSelector = "Bug Selector Full";
                 mousedown = false;
             }
-            ctx.drawImage(miscImg[24], 120, uiDrop() + 15, 30, 30);
+            ctx.drawImage(miscImg[24], 120, 15, 30, 30);
             ctx.restore();
             ctx.save();
-            collision(mousex, mousey, 0, 0, 230, uiDrop() + 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
+            collision(mousex, mousey, 0, 0, 230, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
                 page = 0;
                 boxSelector = "Select Facility " + Math.floor(scrollx / 528);
                 mousedown = false;
             }
-            ctx.drawImage(miscImg[25], 230, uiDrop() + 15, 30, 30);
+            ctx.drawImage(miscImg[25], 230, 15, 30, 30);
             ctx.restore();
         /** Colony Info **/
 
@@ -389,17 +390,17 @@ mainGame = function() {
         }
 
         ctx.globalAlpha = weather[0] == "Sunny" ? 1 : (Math.abs(2.5 - weather[1]) / 2.5);
-        ctx.drawImage(weather[0] == "Snowstorm" && weather[1] > 2.5 ? miscImg[31] : weather[0] == "Drizzle" && weather[1] > 2.5 ? miscImg[29] : weather[0] == "Thunderstorm" && weather[1] > 2.5 ? miscImg[30] : miscImg[28], 5, 245 - uiDrop(false), 50, 50);
+        ctx.drawImage(weather[0] == "Snowstorm" && weather[1] > 2.5 ? miscImg[31] : weather[0] == "Drizzle" && weather[1] > 2.5 ? miscImg[29] : weather[0] == "Thunderstorm" && weather[1] > 2.5 ? miscImg[30] : miscImg[28], 5, 245, 50, 50);
         ctx.globalAlpha = 1;
     }
 
-    ctx.globalAlpha = circleCollision(470, uiDrop() + 5, 25) ? 1 : 0.85;
+    ctx.globalAlpha = circleCollision(470, 5, 25) ? 1 : 0.85;
     if (textInfo.length == 1 && boxSelector == "" && ctx.globalAlpha == 1 && mousedown) {
         boxSelector = "Pause";
         boxAnimation = 0;
     }
     
-    ctx.drawImage(miscImg[51], 470, uiDrop() + 5, 50, 50);
+    ctx.drawImage(miscImg[51], 470, 5, 50, 50);
 
     if (!battleMode && boxSelector == "" && (collision(mousex, mousey, 0, 0, 0, 0, 30, 500) | (keyUp == 37 || keyUp == 65)) && scrollx > 0) {
         scrollx = Math.max(0, scrollx - 30);
@@ -528,6 +529,26 @@ mainGame = function() {
                         mousedown = false;
                     } else if(filterSelected) {
                         keyboardMaker(14, 100, nameFilterContainer);
+                        
+                        //Cheat Code #1 - Max Territs
+                        if(nameFilterContainer == "Terriblits") { 
+                            territs = 99999;
+                            nameFilterContainer = "";
+                            filterSelected = false;
+                            page = 0;
+                            boxSelector = "";
+                            textInfo.push(["Teresa", "Termite", "My my, it seems like one of us knows our ancient lore? The riches of\nNectarne is not for one bug and one bug alone, remember that.", 0]);
+                        }
+                        
+                        //Cheat Code #2 - Max Food
+                        if(nameFilterContainer == "Small Head Big Body") { 
+                            food = 99999;
+                            nameFilterContainer = "";
+                            filterSelected = false;
+                            page = 0;
+                            boxSelector = "";
+                            textInfo.push(["Teresa", "Termite", "Those words - it's been a while since I heard them coming from a bug. Your\nfields are blessed. This is a jubilee!", 0]);
+                        }
                     }
                     
                     if (boxSelector == "Bug Selector Full") {

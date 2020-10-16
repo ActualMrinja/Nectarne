@@ -764,17 +764,6 @@ function navigateCheck(navigate="Apple"){
     }
 }
 
-//Handles inconsistencies from full screen
-function uiDrop(upDown=true){
-    
-    if (upDown){
-        return Math.abs(nectarneCanvas.getBoundingClientRect().top)/2;
-    } else {
-        return Math.abs(nectarneCanvas.height - nectarneCanvas.getBoundingClientRect().bottom)/2;
-    }
-    
-}
-
 function fullScreen(screenFit = true) {
     let ws = (window.innerWidth && document.documentElement.clientWidth) ?
             Math.min(window.innerWidth, document.documentElement.clientWidth) :
@@ -1071,9 +1060,9 @@ function tutorial() {
         arrowMaker(bugs[0].X-scrollx, bugs[0].Y-40, 0, false);
         arrowMaker(bugs[1].X-scrollx, bugs[1].Y-40, 0, false);
     } else if(rooms[0].MissionList.length == 0 && rooms[0].MissionList.length == 0 && bugs.length > 0 && bugs[bugs.length - 1].Story.split(" from Teresa").length > 1) {
-        arrowMaker(496.5, uiDrop() + 65, 180, false);
+        arrowMaker(496.5, 65, 180, false);
     } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 0) {
-        arrowMaker(245, uiDrop() + 60, 180, false);
+        arrowMaker(245, 60, 180, false);
     } 
 }
 
