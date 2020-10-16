@@ -4,6 +4,7 @@ ctx = nectarneCanvas.getContext("2d");
 date = new Date();
 months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 loadCheck = false;
+loadCount = 0;
 
 //References other items
 bugCompendium = ["Ant", "Termite", "Fly", "Wriggler", "Mosquito", "Water_Tiger", "Diving_Beetle", "Aphid", "Glowworm", "Firefly", "Caterpillar", "Butterfly", "Pondskater", "Backswimmer", "Bed_Bug", "Bee", "Weta", "Mantis", "Scorpion", "Spider", "Water_Scorpion", "Millipede", "Centipede", "Tarantula", "Wasp", "Giant_Water_Bug", "Dragonfly_Nymph", "Dragonfly", "Tiger_Larva", "Tiger_Beetle"];
@@ -101,21 +102,34 @@ mainGame = function() {
     ctx.scale(nectarneCanvas.height / 297, nectarneCanvas.height / 297);
 
     //Vertical & loading check
-    if (window.innerWidth < window.innerHeight){
-        textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);
-        ctx.restore();
-        return;
-    } else if(document.readyState !== "complete"){
-        textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "..."), 264, 150, 25, true);
-        ctx.restore();
-        return;
-    } else if(document.readyState == "complete" && !loadCheck){
-        textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
-        ctx.restore();
-        if(mousedown){ music.play(); music.volume = musicvolume; fullScreen(); loadCheck = true; } 
-        return;
+    if (window.innerWidth < window.innerHeight || !loadCheck) {
+            if (window.innerWidth < window.innerHeight) {
+            textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);
+            ctx.restore();
+            return;
+        } else if(document.readyState !== "complete" || loadCount !== miscAudio.length){
+            loadCount = 0;
+
+            for (let loadAudio in miscAudio) {
+                if (miscAudio[loadAudio].readyState == 4) { 
+                    loadCount += 1;
+                }
+            }
+
+            if (document.readyState == "loaded" || document.readyState == "complete") {
+            textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 150, 25, true);
+            }    
+                
+            ctx.restore();
+            return;
+        } else if(document.readyState == "complete" && loadCount == miscAudio.length){
+            textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
+            if(mousedown) { music.play(); music.volume = musicvolume; fullScreen(); loadCheck = true; } 
+            ctx.restore();
+            return;
+        }
     }
-    
+
     grd = ctx.createLinearGradient(530 / 2, 0, 530 / 2, 300);
 
     if (!battleMode || (battleMode && (missions[battleInfo[0]].type == "Skies" || missions[battleInfo[0]].type == "Pond" || missions[battleInfo[0]].type == "Prairie"))) {
@@ -758,7 +772,6 @@ mainGame = function() {
     }
 
     ctx.restore();
-    
 }
 
 nectarneCanvas.addEventListener("mousemove", mousemake);

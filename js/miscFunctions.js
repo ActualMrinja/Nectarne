@@ -676,15 +676,20 @@ function mousemake(event, clickAddOn=false) {
         mousedown = true;
     }
     
-    if(event.touches !== undefined){
+    if (event.touches !== undefined) {
         //2nd finger check for mobile, resets to first finger
         if(event.touches.length > 1){
         mousex = (event.touches[event.touches.length-1].clientX - nectarneCanvas.getBoundingClientRect().left) / (nectarneCanvas.height / 297);
         mousey = (event.touches[event.touches.length-1].clientY - nectarneCanvas.getBoundingClientRect().top) / (nectarneCanvas.height / 297);
-            if(circleCollision(470, 245, 50)) { 
+            if(battleMode && circleCollision(470, 245, 50)) { 
                 battleBugs[0].keyDown(32); 
                 battleBugs[0].keyUp["skillCheck"] = true;
              }
+        }
+        
+        //Disables movement clicks when not in battles
+        if (!battleMode && !clickAddOn) {
+            mousedown = false;
         }
             
         event = event.touches[0];
@@ -755,7 +760,7 @@ function fullScreen(screenFit = true) {
 
     let hs = Math.floor(ws / (528 / 297));
     
-    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement) {
+    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitIsFullscreen && !document.msFullscreenElement && !document.webkitCurrentFullScreenElement) {
         //If both are supported choose the lesser, if not choose the one that is supported. This helps with mobile support
 
             if (nectarneCanvas.webkitRequestFullscreen && screenFit) {
