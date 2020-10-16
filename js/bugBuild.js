@@ -63,7 +63,7 @@ function ageScale(bugList){
 //Compendium and bug portrait maker
 function imageCrop(image, cropY){
     //Top/Forehead
-    ctx.drawImage(image, image.width / 6 - 150, cropY, 150, 105, 7, navigateCheck() ? 21 : 18, 50, 35);
+    ctx.drawImage(image, image.width / 6 - 150, cropY, 150, 105, 7, navigateCheck() ? 20 : 18, 50, 35);
     
     //Center Top/Mouth
     ctx.drawImage(image, image.width / 6 - 138, cropY + 105, 135, 24, 11, 53, 45, 8);

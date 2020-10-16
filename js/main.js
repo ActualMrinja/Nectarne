@@ -262,17 +262,29 @@ mainGame = function() {
             textMaker("3", 80, 15, 10, true);
         }
         if (battleBugs.length > 0) {
-            ctx.globalAlpha = circleCollision(460, 225, 60) ? 1 : 0.85;
+            //Skill button
+            ctx.globalAlpha = circleCollision(400, 240, 30) ? 1 : 0.85;
             if(mousedown && ctx.globalAlpha == 1 && battleBugs[0].Health > 0) { 
                 battleBugs[0].keyDown(32); 
                 battleBugs[0].keyUp["skillCheck"] = true;
-             } else if(battleBugs[0].keyUp["skillCheck"] && battleBugs[0].Health > 0) {
+            } else if(battleBugs[0].keyUp["skillCheck"] && battleBugs[0].Health > 0) {
                 battleBugs[0].keyUp[32] = false; 
                 battleBugs[0].keyUp["skillCheck"] = false; 
-             }
+            }
+            ctx.drawImage(miscImg[bugStats[battleBugs[0].Species].skillBubble], 400, 240, 60, 60);
             
-            ctx.drawImage(miscImg[bugStats[battleBugs[0].Species].skillBubble], 460, 225, 60, 60);
+            //Up/Fly button
+            ctx.globalAlpha = circleCollision(460, 200, 30) ? 1 : 0.85;
+            if(mousedown && ctx.globalAlpha == 1 && battleBugs[0].Health > 0) { 
+                battleBugs[0].keyDown(38);
+                battleBugs[0].keyUp["jumpCheck"] = true;
+            } else if(battleBugs[0].keyUp["jumpCheck"] && battleBugs[0].Health > 0) {
+                battleBugs[0].keyUp[38] = false;
+                battleBugs[0].keyUp["jumpCheck"] = false;
+            }
+            ctx.drawImage(miscImg[8], 460, 200, 60, 60);
             
+            //Bottom left keys
             arrowMaker(60, 215, 180, [38,"upCheck"]);
             arrowMaker(90, 245, -90, [39,"rightCheck"]);
             arrowMaker(60, 275, 0, [40,"downCheck"]); 
@@ -320,40 +332,40 @@ mainGame = function() {
         /**Dome Display**/
 
         /**Colony Info**/
-            ctx.drawImage(miscImg[13], 10, 10, miscImg[13].width / 3, miscImg[13].height / 3);
-            ctx.drawImage(miscImg[13], 120, 10, miscImg[13].width / 3, miscImg[13].height / 3);
-            ctx.drawImage(miscImg[13], 230, 10, miscImg[13].width / 3, miscImg[13].height / 3);
+            ctx.drawImage(miscImg[13], 10, uiDrop() + 10, miscImg[13].width / 3, miscImg[13].height / 3);
+            ctx.drawImage(miscImg[13], 120, uiDrop() + 10, miscImg[13].width / 3, miscImg[13].height / 3);
+            ctx.drawImage(miscImg[13], 230, uiDrop() + 10, miscImg[13].width / 3, miscImg[13].height / 3);
             territs = Math.min(99999, territs);
             food = Math.min(99999, food);
-            textMaker("" + Math.floor(territs), 45, 36, 20, false);
-            textMaker("" + bugs.length + "/" + (rooms.length * 8), 155, 35, 20, false, (bugs.length < rooms.length * 8) ? "white" : "crimson");
-            textMaker("" + Math.ceil(food), 264, 36, 20, false, netFood > 0 ? "springGreen" : netFood == 0 ? "white" : "crimson");
+            textMaker("" + Math.floor(territs), 45, uiDrop() + 36, 20, false);
+            textMaker("" + bugs.length + "/" + (rooms.length * 8), 155, uiDrop() + 35, 20, false, (bugs.length < rooms.length * 8) ? "white" : "crimson");
+            textMaker("" + Math.ceil(food), 264, uiDrop() + 36, 20, false, netFood > 0 ? "springGreen" : netFood == 0 ? "white" : "crimson");
             ctx.save();
-            collision(mousex, mousey, 0, 0, 10, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
+            collision(mousex, mousey, 0, 0, 10, uiDrop() + 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
                 boxSelector = "Shop";
                 page = 0;
                 mousedown = false;
             }
-            ctx.drawImage(miscImg[23], 10, 15, 30, 30);
+            ctx.drawImage(miscImg[23], 10, uiDrop() + 15, 30, 30);
             ctx.restore();
             ctx.save();
-            collision(mousex, mousey, 0, 0, 120, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
+            collision(mousex, mousey, 0, 0, 120, uiDrop() + 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
                 page = 0;
                 boxSelector = "Bug Selector Full";
                 mousedown = false;
             }
-            ctx.drawImage(miscImg[24], 120, 15, 30, 30);
+            ctx.drawImage(miscImg[24], 120, uiDrop() + 15, 30, 30);
             ctx.restore();
             ctx.save();
-            collision(mousex, mousey, 0, 0, 230, 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
+            collision(mousex, mousey, 0, 0, 230, uiDrop() + 15, 30, 30) && rooms[0].MissionList.length > 0 ? ctx.filter = "brightness(150%)" : ctx.filter = "";
             if (boxSelector == "" && ctx.filter == "brightness(150%)" && mousedown) {
                 page = 0;
                 boxSelector = "Select Facility " + Math.floor(scrollx / 528);
                 mousedown = false;
             }
-            ctx.drawImage(miscImg[25], 230, 15, 30, 30);
+            ctx.drawImage(miscImg[25], 230, uiDrop() + 15, 30, 30);
             ctx.restore();
         /** Colony Info **/
 
@@ -378,16 +390,17 @@ mainGame = function() {
         }
 
         ctx.globalAlpha = weather[0] == "Sunny" ? 1 : (Math.abs(2.5 - weather[1]) / 2.5);
-        ctx.drawImage(weather[0] == "Snowstorm" && weather[1] > 2.5 ? miscImg[31] : weather[0] == "Drizzle" && weather[1] > 2.5 ? miscImg[29] : weather[0] == "Thunderstorm" && weather[1] > 2.5 ? miscImg[30] : miscImg[28], 5, 245, 50, 50);
+        ctx.drawImage(weather[0] == "Snowstorm" && weather[1] > 2.5 ? miscImg[31] : weather[0] == "Drizzle" && weather[1] > 2.5 ? miscImg[29] : weather[0] == "Thunderstorm" && weather[1] > 2.5 ? miscImg[30] : miscImg[28], 5, 245 - uiDrop(false), 50, 50);
         ctx.globalAlpha = 1;
     }
 
-    ctx.globalAlpha = circleCollision(470, 5, 25) ? 1 : 0.85;
+    ctx.globalAlpha = circleCollision(470, uiDrop() + 5, 25) ? 1 : 0.85;
     if (textInfo.length == 1 && boxSelector == "" && ctx.globalAlpha == 1 && mousedown) {
         boxSelector = "Pause";
         boxAnimation = 0;
     }
-    ctx.drawImage(miscImg[51], 470, 5, 50, 50);
+    
+    ctx.drawImage(miscImg[51], 470, uiDrop() + 5, 50, 50);
 
     if (!battleMode && boxSelector == "" && (collision(mousex, mousey, 0, 0, 0, 0, 30, 500) | (keyUp == 37 || keyUp == 65)) && scrollx > 0) {
         scrollx = Math.max(0, scrollx - 30);
@@ -779,6 +792,7 @@ mainGame = function() {
     ctx.restore();
 }
 
+//Canvas listeners
 nectarneCanvas.addEventListener("mousemove", mousemake);
 nectarneCanvas.addEventListener("mousedown", clickMake => mousedown = true);
 nectarneCanvas.addEventListener("mouseup", clickMake => mousedown = false);
@@ -787,5 +801,8 @@ nectarneCanvas.addEventListener("touchstart", mousehandle => mousemake(event, tr
 nectarneCanvas.addEventListener("touchend", clickMake => event.touches.length > 0 ? "" : mousedown = false);
 nectarneCanvas.addEventListener("keydown", keydownMake => battleMode && battleBugs.length > 0 ? battleBugs[0].keyDown(event) : keydownmisc(event));
 nectarneCanvas.addEventListener("keyup", keyupmake);
+
+//Window listeners
+window.addEventListener("resize", screenChange => fullScreen(false));
 
 setInterval(mainGame, 1000 / 30);
