@@ -132,7 +132,7 @@ mainGame = function() {
                 loadCheck = true; 
             } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
                 fullScreen();
-            } else if ((document.body.clientHeight !== 345 || !navigateCheck()) && (document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement)) {
+            } else if ((document.body.clientHeight !== 345 && !navigateCheck()) && (document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement)) {
                 music.play(); 
                 music.volume = musicvolume; 
                 loadCheck = true; 
