@@ -147,7 +147,7 @@ mainGame = function() {
         }
     }
 
-    grd = ctx.createLinearGradient(nectarneCanvas.width / 2, 0, nectarneCanvas.width / 2, nectarneCanvas.height);
+    grd = ctx.createLinearGradient(530, 0, 530, 300);
 
     if (!battleMode || (battleMode && (missions[battleInfo[0]].type == "Skies" || missions[battleInfo[0]].type == "Pond" || missions[battleInfo[0]].type == "Prairie"))) {
         grd.addColorStop(0, "hsl(200, " + (100 - (weather[0] == "Drizzle" ? 5 * weather[1] : weather[0] == "Thunderstorm" ? 10 * weather[1] : weather[0] == "Snowstorm" ? 15 * weather[1] : 5 * weather[1])) + "%, " + (70 - Math.abs(12 - date.getHours()) * 4 - (date.getMinutes() / 15)) + "%)");
@@ -165,7 +165,7 @@ mainGame = function() {
 
     ctx.globalAlpha = 1;
     ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, nectarneCanvas.width, nectarneCanvas.height);
+    ctx.fillRect(0, 0, nectarneCanvas.width / (nectarneCanvas.height / 297), nectarneCanvas.height);
 
     if (battleMode) {
 
