@@ -120,14 +120,28 @@ mainGame = function() {
             }
              
             textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 140, 25, true);
-            
             ctx.restore();
             return;
         } else if(document.readyState == "complete" && loadCount == miscAudio.length){
             textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
             
-            if(mousedown) { music.play(); music.volume = musicvolume; loadCheck = true; mousedown = false; fullScreen(); } 
+            //Loadcheck on for non-supported devices
+            if (mousedown && document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled)) {
+                music.play(); 
+                music.volume = musicvolume; 
+                loadCheck = true; 
+            } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
+                    fullScreen();
+            }
+                
+            //Full screen check before passing into next stage
+            if(document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement) {
+                music.play(); 
+                music.volume = musicvolume; 
+                loadCheck = true; 
+            }
             
+            mousedown = false; 
             ctx.restore();
             return;
         }
@@ -308,7 +322,7 @@ mainGame = function() {
         if (bugs.length < 2 && territs < 25) {
             territs = 25;
             food = Math.max(food, 500);
-            textInfo.push(["Teresa", "Termite", "It seems as though you're in a sticky situation! Here's some territs.", 0]);
+            textInfo.push(["Teresa", "Termite", "It seems as though you're in a sticky situation! Here's some territs.", 999]);
         }
 
         if (boxSelector == "") {
@@ -529,23 +543,23 @@ mainGame = function() {
                         keyboardMaker(14, 100, nameFilterContainer);
                         
                         //Cheat Code #1 - Max Territs
-                        if(nameFilterContainer == "Terriblits") { 
+                        if(nameFilterContainer.toUpperCase() == "TERRIBLITS") { 
                             territs = 99999;
                             nameFilterContainer = "";
                             filterSelected = false;
                             page = 0;
                             boxSelector = "";
-                            textInfo.push(["Teresa", "Termite", "My my, it seems like one of us knows our ancient lore? The riches of\nNectarne is not for one bug and one bug alone, remember that.", 0]);
+                            textInfo.push(["Teresa", "Termite", "My my, it seems like one of us knows our ancient lore? The riches of\nNectarne is not for one bug and one bug alone, remember that.", 999]);
                         }
                         
                         //Cheat Code #2 - Max Food
-                        if(nameFilterContainer == "Small Head Big Body") { 
+                        if(nameFilterContainer.toUpperCase() == "SMALL HEAD BIG BODY") { 
                             food = 99999;
                             nameFilterContainer = "";
                             filterSelected = false;
                             page = 0;
                             boxSelector = "";
-                            textInfo.push(["Teresa", "Termite", "Those words - it's been a while since I heard them coming from a bug. Your\nfields are blessed. This is a jubilee!", 0]);
+                            textInfo.push(["Teresa", "Termite", "Those words - it's been a while since I heard them coming from a bug. Your\nfields are blessed. This is a jubilee!", 999]);
                         }
                     }
                     
@@ -557,9 +571,11 @@ mainGame = function() {
                 } else if (boxSelector == "Bug Selector Item") {
                     for (let itemsDraw = 0; itemsDraw < 10; itemsDraw++) {
                         ctx.save();
-                        ctx.filter = items[itemsDraw].quantity > 0 ? "brightness(75%)" : "brightness(50%)";
+                        ctx.filter = circleCollision((itemsDraw % 5 * 100 + 26), (100 + Math.floor(itemsDraw / 5) * 100), 37.5) ? "brightness(100%)" : items[itemsDraw].quantity > 0 ? "brightness(75%)" : "brightness(50%)";
+                        ctx.drawImage(miscImg[itemsDraw + 32], itemsDraw % 5 * 100 + 26, 100 + Math.floor(itemsDraw / 5) * 100, 75, 75);
+                        ctx.restore();
+                        
                         if (circleCollision((itemsDraw % 5 * 100 + 26), (100 + Math.floor(itemsDraw / 5) * 100), 37.5)) {
-                            ctx.filter = "brightness(" + (Number(ctx.filter.split("(")[1].split("%)")[0]) + 25) + "%)"
                             textMaker(items[itemsDraw].name, 264, 30, 35, true);
                             textMaker(items[itemsDraw].descp, 264, 50, 15, true);
                             if (((items[itemsDraw].bulk == undefined && items[itemsDraw].quantity > 0) || items[itemsDraw].bulk > 0) && mousedown) {
@@ -567,6 +583,7 @@ mainGame = function() {
                                     boxSelector = "";
                                     food += items[itemsDraw].bulk * (itemsDraw == 0 ? 100 : 1000)
                                     items[itemsDraw].quantity -= items[itemsDraw].bulk;
+                                    items[itemsDraw].bulk = 0;
                                     mousedown = false;
                                     save();
                                 } else {
@@ -574,12 +591,10 @@ mainGame = function() {
                                     mousedown = false;
                                 }
                             }
-                        }
-
-                        ctx.drawImage(miscImg[itemsDraw + 32], itemsDraw % 5 * 100 + 26, 100 + Math.floor(itemsDraw / 5) * 100, 75, 75);
-                        ctx.restore();
+                         }
+                        
                         textMaker("x" + (items[itemsDraw].quantity - (itemsDraw < 2 ? items[itemsDraw].bulk : 0)), itemsDraw % 5 * 100 + 26, 165 + Math.floor(itemsDraw / 5) * 100, 25);
-
+                        
                         if (itemsDraw < 2 && items[itemsDraw].quantity > 0) {
                             textMaker("" + items[itemsDraw].bulk, itemsDraw % 5 * 100 + 96, 145 + Math.floor(itemsDraw / 5) * 100, 25, true);
                         }

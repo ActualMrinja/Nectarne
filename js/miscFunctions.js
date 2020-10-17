@@ -699,11 +699,6 @@ function mousemake(event, clickAddOn=false) {
                 battleBugs[0].keyUp["jumpCheck"] = true;
             }
         }
-        
-        //Disables movement clicks when not in battles
-        if (!battleMode && !clickAddOn) {
-            mousedown = false;
-        }
             
         event = event.touches[0];
     }
