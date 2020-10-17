@@ -131,16 +131,13 @@ mainGame = function() {
                 music.volume = musicvolume; 
                 loadCheck = true; 
             } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
-                    fullScreen();
-            }
-                
-            //Full screen check before passing into next stage
-            if(document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement) {
+                fullScreen();
+            } else if ((document.body.clientHeight !== 345 || !navigateCheck() || document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled) && (document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement)) {
                 music.play(); 
                 music.volume = musicvolume; 
                 loadCheck = true; 
             }
-            
+                
             mousedown = false; 
             ctx.restore();
             return;
