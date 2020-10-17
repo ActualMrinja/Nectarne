@@ -114,7 +114,7 @@ mainGame = function() {
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
-                if (navigateCheck() || miscAudio[loadAudio].readyState == 4) { 
+                if (miscAudio[loadAudio].readyState == 4) { 
                     loadCount += 1;
                 }
             }
