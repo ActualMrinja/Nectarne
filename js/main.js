@@ -25,9 +25,10 @@ shop = [
 miscNm = ["bugHeader.png", "bugImgHeader.png", "Health.png", "Attack.png", "Speed.png", "Age.png", "CommandCenter.png", "Swim.png", "Fly.png", "Mandible.png", "Albino.png", "MaleSm.png", "FemaleSm.png", "ButtonHeader.png", "MudBlock.png", "SalivaSalvo.png", "HiveBlock.png", "WoodBlock.png", "StoneBlock.png", "DartAmbush.png", "PrairieBlock.png", "PoisonSting.png", "BoxContainer.png", "Territs.png", "Population.png", "Food.png", "RainDroplet.png", "Snowflake.png", "Sunny.png", "Drizzle.png", "Thunderstorm.png", "Snowstorm.png", "NectarStick.png", "NectarBranch.png", "ThornstumpFruit.png", "TwinbearBerry.png", "PorousScreecher.png", "HealingClover.png", "AgingClover.png", "TraitModifier.png", "GeneModifier.png", "SlouchingMiracle.png", "ImmortalHealth.png", "Mission.png", "LoveField.png", "TerritStronghold.png", "ShadowHightail.png", "NectarGrove.png", "ParasiticSting.png", "VenomSpray.png", "VenomousAmbush.png", "Settings.png", "LuminescentCavern.png", "Soundwave.png", "StridulatingRetreat.png", "WaterDome.png", "DefensiveCoil.png", "SpecializedAmbush.png", "AirDome.png", "SmugglerJunkyard.png", "LifeField.png", "LifeMeal.png", "NoxiousWhimper.png", "VitalityField.png", "Time.png", "CommonBanner.png", "RareBanner.png", "EpicBanner.png", "SpecialBanner.png", "HorrendousAmbush.png", "Trait.png", "DifficultyNormal.png", "DifficultyHard.png", "DifficultyImpossible.png", "Arrow.png", "WeekdayBanner.png", "PowerGrab.png", "NectarneNourishment.png"];
 miscImg = [];
 
-audioNm = ["MissionComplete.mp3", "MissionFail.mp3", "SpecializedAmbush.mp3", "Death.mp3", "VenomousAmbush.mp3", "NoxiousWhimper.mp3", "LifeMeal.mp3", "DefensiveCoil.mp3", "StridulatingRetreat.mp3", "Hatch.mp3", "Territ.mp3", "HorrendousAmbush.mp3", "ParasiticSting.mp3", "VenomSpray.mp3", "ShadowHightail.mp3", "Thunder.mp3", "Rain.mp3", "PoisonSting.mp3", "Dialogue.mp3", "DartAmbush.mp3", "Splash.mp3", "GateClose.mp3", "Zap.mp3", "FlyStart.mp3", "FlyEnd.mp3", "MandiblePress.mp3", "SalivaSalvo.mp3", "PowerGrab.mp3", "NectarneNourishment.mp3"];
+audioNm = ["MainTheme.mp3", "NestTheme.mp3", "HiveTheme.mp3", "PondTheme.mp3", "SkiesTheme.mp3", "PrairieTheme.mp3", "QueenTheme.mp3", "MissionComplete.mp3", "MissionFail.mp3", "SpecializedAmbush.mp3", "Death.mp3", "VenomousAmbush.mp3", "NoxiousWhimper.mp3", "LifeMeal.mp3", "DefensiveCoil.mp3", "StridulatingRetreat.mp3", "Hatch.mp3", "Territ.mp3", "HorrendousAmbush.mp3", "ParasiticSting.mp3", "VenomSpray.mp3", "ShadowHightail.mp3", "Thunder.mp3", "Rain.mp3", "PoisonSting.mp3", "Dialogue.mp3", "DartAmbush.mp3", "Splash.mp3", "GateClose.mp3", "Zap.mp3", "FlyStart.mp3", "FlyEnd.mp3", "MandiblePress.mp3", "SalivaSalvo.mp3", "PowerGrab.mp3", "NectarneNourishment.mp3"];
 miscAudio = [];
 
+/**Cache friendly**/
 for (let miscImgLoad = 0; miscImgLoad < miscNm.length; miscImgLoad++) {
     miscImg.push(new Image());
     miscImg[miscImg.length - 1].src = "images/ui/" + miscNm[miscImgLoad];
@@ -35,8 +36,9 @@ for (let miscImgLoad = 0; miscImgLoad < miscNm.length; miscImgLoad++) {
 
 for (let miscAudioLoad = 0; miscAudioLoad < audioNm.length; miscAudioLoad++) {
     miscAudio.push(new Audio());
-    miscAudio[miscAudio.length - 1].src = "sounds/" + audioNm[miscAudioLoad];
+    miscAudio[miscAudio.length - 1].src = (miscAudioLoad < 7 ? "muzak/" : "sounds/") + audioNm[miscAudioLoad];
 }
+/**Cache friendly**/
 
 bugs = [];
 bugs.push();
@@ -59,7 +61,7 @@ mousedown = false;
 keyUp = -1;
 scrollx = 0;
 
-music = new Audio("muzak/MainTheme.mp3");
+music = miscAudio[audioNm.indexOf("MainTheme.mp3")].cloneNode();
 musicvolume = 0.7;
 music.loop = true;
 music.volume = 0.7;
@@ -104,9 +106,7 @@ mainGame = function() {
     //Vertical & loading check
     if (window.innerWidth < window.innerHeight || !loadCheck) {
         if (window.innerWidth < window.innerHeight) {
-            if (document.readyState == "complete") {
             textMaker("Please Rotate Your Device To Play", 264, 150, 25, true);  
-            }
             
             ctx.restore();
             return;
@@ -119,15 +119,13 @@ mainGame = function() {
                 }
             }
              
-            if (document.readyState == "complete") {
             textMaker("Game Loading"+(date.getMilliseconds() < 250 ? "." : date.getMilliseconds() < 500 ? ".." : "...")+"\n"+Math.floor((loadCount/miscAudio.length)*100)+"%", 264, 140, 25, true);
-            } else {
-            }
             
             ctx.restore();
             return;
         } else if(document.readyState == "complete" && loadCount == miscAudio.length){
             textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
+            
             if(mousedown) { music.play(); music.volume = musicvolume; loadCheck = true; mousedown = false; fullScreen(); } 
             
             ctx.restore();

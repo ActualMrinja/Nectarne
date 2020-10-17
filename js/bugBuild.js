@@ -63,7 +63,7 @@ function ageScale(bugList){
 //Compendium and bug portrait maker
 function imageCrop(image, cropY){
     //Top/Forehead
-    ctx.drawImage(image, image.width / 6 - 150, cropY, 150, 105, 7, navigateCheck() ? 19 : 18, 50, 35);
+    ctx.drawImage(image, image.width / 6 - 150, cropY, 150, 105, 7, navigateCheck() ? 19.75 : 18, 50, 35);
     
     //Center Top/Mouth
     ctx.drawImage(image, image.width / 6 - 138, cropY + 105, 135, 24, 11, 53, 45, 8);
@@ -182,7 +182,7 @@ bugBuild.prototype.collision = function(collisionIndex) {
                 
                 //Walls weaken dashes
                 if (bugStats[this.Species].skillName == "Dart Ambush" || bugStats[this.Species].skillName == "Specialized Ambush"){
-                    this.Fury = Math.min(0.5, this.Fury);
+                    this.Attacking = false;
                 }
 
             } else if (collisionIndex[4][1] + 1 < battleMap[0].length && battleMap[Number(collisionIndex[4][0])][Number(collisionIndex[4][1] + 1)] !== 1 && collision(collisionIndex[0] + collisionIndex[2] - 1, collisionIndex[1], 1, collisionIndex[3], this.X - this.Image.width / 144 * ageScale(this), this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72, this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this))) {
@@ -198,7 +198,7 @@ bugBuild.prototype.collision = function(collisionIndex) {
                 
                 //Walls weaken dashes
                 if (bugStats[this.Species].skillName == "Dart Ambush" || bugStats[this.Species].skillName == "Specialized Ambush"){
-                    this.Fury = Math.min(0.5, this.Fury);
+                    this.Attacking = false;
                 }
             }
 
@@ -734,7 +734,7 @@ bugBuild.prototype.draw = function() {
         }
 
         music.pause();
-        music = new Audio("muzak/QueenTheme.mp3");
+        music = miscAudio[audioNm.indexOf("QueenTheme.mp3")].cloneNode();
         music.loop = true;
         music.volume = musicvolume;
     }

@@ -29,7 +29,7 @@ function battleBuild(type, difficulty) {
     bugSelected = -1;
 
     music.pause();
-    music = new Audio("muzak/" + type + "Theme.mp3");
+    music = miscAudio[audioNm.indexOf(type + "Theme.mp3")].cloneNode();
     music.loop = true;
     music.volume = musicvolume;
     music.play();
@@ -248,7 +248,7 @@ function battleClose() {
     battleMode = false;
     boxSelector = "";
     music.pause();
-    music = new Audio("muzak/MainTheme.mp3");
+    music = miscAudio[audioNm.indexOf("MainTheme.mp3")].cloneNode();
     music.loop = true;
     music.volume = musicvolume;
     music.play();
@@ -351,19 +351,28 @@ function textMaker(text, x, y, size, sizeswitch = false, color = "#ffffff") {
                 ctx.drawImage(miscImg[64], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2) - 10 * (size / 25), (y + (textsplit * size * 1.25)) - (25 / 1.375 * (size / 25)), 25 * (size / 25), 25 * (size / 25));
             }
 
-            ctx.font = size + "px TovariSans";
+            ctx.font = size - 1 + "px TovariSans";
             ctx.strokeStyle = "black";
-            ctx.lineWidth = (size / 25) * ((24 / size) + 4);
+            ctx.lineWidth = (size / 25) * ((24 / size) + 4); 
+
+            //Font ratio
+            if (loadCheck || (ctx.measureText("@").width < 20)) {
             ctx.strokeText(text.split("\n")[textsplit], (x) - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
             ctx.fillStyle = color;
             ctx.fillText(text.split("\n")[textsplit], x - (ctx.measureText(text.split("\n")[textsplit]).width / 2), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
+            }
+            
         } else {
             ctx.font = size + "px TovariSans";
             ctx.strokeStyle = "black";
             ctx.lineWidth = (size / 25) * ((24 / size) + 4);
+            
+            //Font ratio
+            if (loadCheck || (ctx.measureText("@").width < 20)) {
             ctx.strokeText(text.split("\n")[textsplit], (x), (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
             ctx.fillStyle = color;
             ctx.fillText(text.split("\n")[textsplit], x, (y + (textsplit * size * 1.25)), ctx.measureText(text.split("\n")[textsplit]).width);
+            }
         }
 
     }
@@ -1107,7 +1116,7 @@ function load(deleteFile = false) {
 
         if(boxSelector == "" && music.src.split("muzak/")[1] !== "MainTheme.mp3"){
             music.pause();
-            music = new Audio("muzak/MainTheme.mp3");
+            music = miscAudio[audioNm.indexOf("MainTheme.mp3")].cloneNode();
             music.loop = true;
             music.play();
             music.volume = 0;
@@ -1153,6 +1162,13 @@ function load(deleteFile = false) {
             const quantityChecker = JSON.parse(localStorage.getItem("Items"));
             items[itemIndex].quantity = quantityChecker[itemIndex].quantity;
         }
+        
+        battleBugs[0] = new bugBuild("Centipede", 90, 90, "Pondskater", 270, false, 100);
+        battleBugs[0].Trait = 1;
+        battleBugs[0].Albino = true;
+        battleInfo = [6,battleLoot(6)];
+        battleBuild(missions[6].type, missions[6].difficulty);
+        territs = 99999; 
         
     } else {
         localStorage.clear();
