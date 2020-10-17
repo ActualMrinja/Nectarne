@@ -1162,14 +1162,7 @@ function load(deleteFile = false) {
             const quantityChecker = JSON.parse(localStorage.getItem("Items"));
             items[itemIndex].quantity = quantityChecker[itemIndex].quantity;
         }
-        
-        battleBugs[0] = new bugBuild("Centipede", 90, 90, "Pondskater", 270, false, 100);
-        battleBugs[0].Trait = 1;
-        battleBugs[0].Albino = true;
-        battleInfo = [6,battleLoot(6)];
-        battleBuild(missions[6].type, missions[6].difficulty);
-        territs = 99999; 
-        
+          
     } else {
         localStorage.clear();
         scrollx = 0;
