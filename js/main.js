@@ -61,7 +61,7 @@ mousedown = false;
 keyUp = -1;
 scrollx = 0;
 
-music = new Audio("muzak/MainTheme.mp3")
+music = miscAudio[audioNm.indexOf("MainTheme.mp3")].cloneNode();
 musicvolume = 0.7;
 music.loop = true;
 music.volume = 0.7;
@@ -143,6 +143,8 @@ mainGame = function() {
             return;
         }
     }
+    
+    music.play();
 
     grd = ctx.createLinearGradient(530, 0, 530, 300);
 
