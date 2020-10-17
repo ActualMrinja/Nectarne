@@ -699,6 +699,11 @@ function mousemake(event, clickAddOn=false) {
                 battleBugs[0].keyUp["jumpCheck"] = true;
             }
         }
+        
+        //Disables movement clicks when not in battles
+        if (!battleMode && !clickAddOn) {
+            mousedown = false;
+        }
             
         event = event.touches[0];
     }
@@ -774,6 +779,10 @@ function fullScreen(screenFit = true) {
             window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth;
+    
+   if(window.innerWidth > window.innerHeight && ws / window.innerHeight < 1.5){
+       ws = document.body.clientHeight;
+   }
 
     let hs = Math.floor(ws / (528 / 297));
 
