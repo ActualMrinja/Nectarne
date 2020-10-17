@@ -61,7 +61,7 @@ mousedown = false;
 keyUp = -1;
 scrollx = 0;
 
-music = miscAudio[audioNm.indexOf("MainTheme.mp3")].cloneNode();
+music = new Audio("muzak/MainTheme.mp3")
 musicvolume = 0.7;
 music.loop = true;
 music.volume = 0.7;
@@ -114,7 +114,7 @@ mainGame = function() {
             loadCount = 0;
 
             for (let loadAudio in miscAudio) {
-                if (miscAudio[loadAudio].readyState == 4) { 
+                if (navigateCheck() || miscAudio[loadAudio].readyState == 4) { 
                     loadCount += 1;
                 }
             }
