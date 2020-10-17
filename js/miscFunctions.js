@@ -780,6 +780,7 @@ function fullScreen(screenFit = true) {
             document.documentElement.clientWidth ||
             document.body.clientWidth;
     
+    //Task bar fitter
     if (!screenFit && (ws / (528 / 297)) > window.innerHeight) {
         ws = window.innerHeight * (528 / 297);
     }
@@ -1001,11 +1002,11 @@ function tutorial() {
     } else if (rooms.length < 3 && textInfo.length == 1 && textInfo[0].src.split("/")[textInfo[0].src.split("/").length - 1] == "Termite.png") {
         //Albino lock
         rooms.push(new facilityBuild(6, 2));
-        bugs.push(new bugBuild("Antonio", -50, 268, "Ant", 270, false, 50));
+        bugs.push(new bugBuild("Antonio", -50, 268, "Ant", 270, false, 75));
         bugs[bugs.length - 1].defects.evolution = 1;
         bugs[bugs.length - 1].Gender = "Male";
         bugs[bugs.length - 1].Immortal = true;
-        bugs.push(new bugBuild("Venus", -25, 268, "Fly", 0, false, 50));
+        bugs.push(new bugBuild("Venus", -25, 268, "Fly", 0, false, 75));
         bugs[bugs.length - 1].defects.evolution = 1;
         bugs[bugs.length - 1].Gender = "Female";
         bugs[bugs.length - 1].Immortal = true;
@@ -1026,7 +1027,7 @@ function tutorial() {
     } else if (rooms[0].MissionList.length !== 0 && rooms[0].MissionList[0][0] == 2 && rooms.length < 4 && textInfo.length == 1) {
         textInfo.push(["Teresa", "Termite", "Interesting. I'm impressed. Sadly, I have to go, see you around.", 0], ["Teresa", "Termite", "Before I go, I would like to mention a Love Field has been built! Annie would\nlike to help your colony as well. Maybe you can show her around?", 0], ["Teresa", "Termite", "She's good at working these things out. I suggest a blind date. With who?\nI'll leave that up to you to decide!", 0]);
         rooms.push(new facilityBuild(5, 3));
-        bugs.push(new bugBuild("Annie", -50, 268, "Ant", 90, false, 75));
+        bugs.push(new bugBuild("Annie", -50, 268, "Ant", 90, false, 100));
         bugs[bugs.length - 1].defects.evolution = 1;
         bugs[bugs.length - 1].Gender = "Female";
         bugs[bugs.length - 1].Trait = 4;
