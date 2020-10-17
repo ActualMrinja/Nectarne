@@ -165,7 +165,7 @@ mainGame = function() {
 
     ctx.globalAlpha = 1;
     ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, nectarneCanvas.width, nectarneCanvas.height);
+    ctx.fillRect(0, 0, nectarneCanvas.width * nectarneCanvas.height / 297, nectarneCanvas.height);
 
     if (battleMode) {
 
