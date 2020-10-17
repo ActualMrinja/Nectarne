@@ -779,11 +779,6 @@ function fullScreen(screenFit = true) {
             window.innerWidth ||
             document.documentElement.clientWidth ||
             document.body.clientWidth;
-    
-   if(window.innerWidth > window.innerHeight && ws / window.innerHeight < 1.5){
-       ws = document.body.clientHeight;
-   }
-
     let hs = Math.floor(ws / (528 / 297));
 
     if (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement) {

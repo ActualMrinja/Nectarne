@@ -669,8 +669,7 @@ bugBuild.prototype.stats = function() {
     }
 
     if (!collision(mousex, mousey, 0, 0, this.X - this.Image.width / 144 * ageScale(this) - scrollx, this.Y - this.Image.height / 36 * ageScale(this) - this.Image.height / 72 * ageScale(this), this.Image.width / 72 * ageScale(this), this.Image.height / 36 * ageScale(this)) && mousedown && textInfo.length == 1) {
-        bugSelected = -1;
-        mousedown = false;
+        bugSelected = -1;   
         return;
     }
 
