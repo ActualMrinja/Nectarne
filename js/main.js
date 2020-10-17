@@ -126,7 +126,7 @@ mainGame = function() {
             textMaker("Game Loaded\nClick To Start", 264, 140, 25, true);
             
             //Loadcheck on for non-supported devices
-            if (mousedown && document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled)) {
+            if (mousedown && (document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled))) {
                 music.play(); 
                 music.volume = musicvolume; 
                 loadCheck = true; 
