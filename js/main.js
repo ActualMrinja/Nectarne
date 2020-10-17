@@ -553,13 +553,13 @@ mainGame = function() {
                         }
                         
                         //Cheat Code #2 - Max Food
-                        if(nameFilterContainer.toUpperCase() == "SMALL HEAD BIG BODY") { 
+                        if(nameFilterContainer.toUpperCase() == "HEMOLYMPH!") { 
                             food = 99999;
                             nameFilterContainer = "";
                             filterSelected = false;
                             page = 0;
                             boxSelector = "";
-                            textInfo.push(["Teresa", "Termite", "Those words - it's been a while since I heard them coming from a bug. Your\nfields are blessed. This is a jubilee!", 999]);
+                            textInfo.push(["Teresa", "Termite", "Those words - it's been a while since I heard them coming from a bug. Your\nfields have been blessed. Blessed Hemolymph, goddess of the harvest.", 999]);
                         }
                     }
                     
