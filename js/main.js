@@ -36,7 +36,7 @@ for (let miscImgLoad = 0; miscImgLoad < miscNm.length; miscImgLoad++) {
 
 for (let miscAudioLoad = 0; miscAudioLoad < audioNm.length; miscAudioLoad++) {
     miscAudio.push(new Audio());
-    miscAudio[miscAudio.length - 1].src = "https://actualmrinja.github.io/Nectarne/" + (miscAudioLoad < 7 ? "muzak/" : "sounds/") + audioNm[miscAudioLoad];
+    miscAudio[miscAudio.length - 1].src = (miscAudioLoad < 7 ? "muzak/" : "sounds/") + audioNm[miscAudioLoad];
 }
 /**Cache friendly**/
 
