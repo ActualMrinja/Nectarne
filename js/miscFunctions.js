@@ -680,14 +680,16 @@ function dialogueMaker() {
 
 //Apple interaction check
 function soundOn() {
-    for (let soundEffectOn = 0; soundEffectOn < 10; soundEffectOn++) {
-        if (sounds[soundEffectOn] !== 0) {
-            sounds[soundEffectOn].play();
-            sounds[soundEffectOn] = 0;
-        }
+    if (soundeffectvolume > 0) {
+        for (let soundEffectOn = 0; soundEffectOn < 10; soundEffectOn++) {
+            if (sounds[soundEffectOn] !== 0) {
+                sounds[soundEffectOn].play();
+                sounds[soundEffectOn] = 0;
+            }
+        }  
     }
     
-    if (!(textInfo.length > 1 && music.src.split("/")[music.src.split("/").length - 1] == "QueenTheme.mp3")) {
+    if (musicvolume > 0 && !(textInfo.length > 1 && music.src.split("/")[music.src.split("/").length - 1] == "QueenTheme.mp3")) {
     music.play(); 
     }
 }
