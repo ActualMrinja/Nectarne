@@ -833,6 +833,8 @@ nectarneCanvas.addEventListener("keydown", keydownMake => battleMode && battleBu
 nectarneCanvas.addEventListener("keyup", keyupmake);
 
 //Window listeners
+if (!navigateCheck()) {
 window.addEventListener("resize", screenChange => fullScreen(false));
+}
 
 setInterval(mainGame, 1000 / 30);
