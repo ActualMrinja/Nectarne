@@ -127,8 +127,14 @@ mainGame = function() {
             
             //Loadcheck on for non-supported devices
             if (mousedown && (document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled))) {
-                music.play(); 
-                music.volume = musicvolume; 
+                
+                try {
+                    music.play(); 
+                    music.volume = musicvolume; 
+                } catch (err) {
+                    alert(err);
+                }
+                
                 loadCheck = true; 
             } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
                 fullScreen();
@@ -820,8 +826,6 @@ mainGame = function() {
     }
 
     ctx.restore();
-    
-    music.play();
 }
 
 //Canvas listeners
