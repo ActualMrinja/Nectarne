@@ -36,7 +36,7 @@ for (let miscImgLoad = 0; miscImgLoad < miscNm.length; miscImgLoad++) {
 
 for (let miscAudioLoad = 0; miscAudioLoad < audioNm.length; miscAudioLoad++) {
     miscAudio.push(new Audio());
-    miscAudio[miscAudio.length - 1].src = "https://actualmrinja.github.io/Nectarne/" + (miscAudioLoad < 7 ? "muzak/" : "sounds/") + audioNm[miscAudioLoad];
+    miscAudio[miscAudio.length - 1].src = (miscAudioLoad < 7 ? "muzak/" : "sounds/") + audioNm[miscAudioLoad];
 }
 /**Cache friendly**/
 
@@ -129,10 +129,7 @@ mainGame = function() {
             if (mousedown && (document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled))) {
                 music.play(); 
                 music.volume = musicvolume; 
-                
-                if (!music.paused) {
                 loadCheck = true; 
-                }
             } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
                 fullScreen();
             } else if ((document.body.clientHeight !== 345 && !navigateCheck()) && (document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement)) {
