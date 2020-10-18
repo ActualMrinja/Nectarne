@@ -127,10 +127,14 @@ mainGame = function() {
             
             //Loadcheck on for non-supported devices
             if (mousedown && (document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled))) {
+                music.play(); 
+                music.volume = musicvolume;
                 loadCheck = true; 
             } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
                 fullScreen();
             } else if ((document.body.clientHeight !== 345 && !navigateCheck()) && (document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement)) {
+                music.play(); 
+                music.volume = musicvolume;
                 loadCheck = true; 
             }
                 
@@ -373,7 +377,6 @@ mainGame = function() {
             ctx.drawImage(miscImg[25], 230, 15, 30, 30);
             ctx.restore();
         /** Colony Info **/
-
         if (weather[0] !== "Sunny") {
             weatherDraw()
         } else {
@@ -820,10 +823,10 @@ mainGame = function() {
 
 //Canvas listeners
 nectarneCanvas.addEventListener("mousemove", mousemake);
-nectarneCanvas.addEventListener("mousedown", clickMake => [soundOn(), mousedown = true]);
+nectarneCanvas.addEventListener("mousedown", clickMake => [navigateCheck() ? soundOn() : "", mousedown = true]);
 nectarneCanvas.addEventListener("mouseup", clickMake => mousedown = false);
 nectarneCanvas.addEventListener("touchmove", mousemake);
-nectarneCanvas.addEventListener("touchstart", mousehandle => [soundOn(), mousemake(event, true)]);
+nectarneCanvas.addEventListener("touchstart", mousehandle => [navigateCheck() ? soundOn() : "", mousemake(event, true)]);
 nectarneCanvas.addEventListener("touchend", clickMake => event.touches.length > 0 ? "" : mousedown = false);
 nectarneCanvas.addEventListener("keydown", keydownMake => battleMode && battleBugs.length > 0 ? battleBugs[0].keyDown(event) : keydownmisc(event));
 nectarneCanvas.addEventListener("keyup", keyupmake);

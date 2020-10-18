@@ -687,7 +687,9 @@ function soundOn() {
         }
     }
     
+    if (!(textInfo.length > 1 && music.src.split("/")[music.src.split("/").length - 1] == "QueenTheme.mp3")) {
     music.play(); 
+    }
 }
 
 //Mouse follower, switches to touch move for mobile
