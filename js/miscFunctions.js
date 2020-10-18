@@ -683,6 +683,8 @@ function dialogueMaker() {
 function mousemake(event, clickAddOn=false) {
     if(clickAddOn){
         mousedown = true;
+        music.play(); 
+        music.volume = musicvolume; 
     }
     
     if (event.touches !== undefined) {

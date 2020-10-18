@@ -127,14 +127,8 @@ mainGame = function() {
             
             //Loadcheck on for non-supported devices
             if (mousedown && (document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled))) {
-                
-                try {
-                    music.play(); 
-                    music.volume = musicvolume; 
-                } catch (err) {
-                    alert(err);
-                }
-                
+                music.play(); 
+                music.volume = musicvolume; 
                 loadCheck = true; 
             } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
                 fullScreen();
