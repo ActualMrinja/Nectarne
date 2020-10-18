@@ -129,7 +129,10 @@ mainGame = function() {
             if (mousedown && (document.body.clientHeight == 345 || navigateCheck() || !(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled))) {
                 music.play(); 
                 music.volume = musicvolume; 
+                
+                if (!music.paused) {
                 loadCheck = true; 
+                }
             } else if (mousedown && (!document.fullscreenElement && !document.msFullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement)) {
                 fullScreen();
             } else if ((document.body.clientHeight !== 345 && !navigateCheck()) && (document.fullscreenElement || document.msFullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement)) {
@@ -143,9 +146,7 @@ mainGame = function() {
             return;
         }
     }
-    
-    music.play();
-
+   
     grd = ctx.createLinearGradient(530, 0, 530, 300);
 
     if (!battleMode || (battleMode && (missions[battleInfo[0]].type == "Skies" || missions[battleInfo[0]].type == "Pond" || missions[battleInfo[0]].type == "Prairie"))) {
