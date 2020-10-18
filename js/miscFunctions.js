@@ -671,20 +671,28 @@ function dialogueMaker() {
 
     buttonMaker("Next", 420, 220, 1, action => [mousedown = false, textInfo.splice(1, 1)]);
     buttonMaker("Skip", 470, 220, 1, action => textInfo.splice(1, textInfo.length - 1));
-
+    
     //Paused music plays after all dialogue is finished
     if (textInfo.length == 1) {
         music.play();
     }
-
 }
 
-//mouse follower, switches to touch move for mobile
+//Apple interaction check
+function soundOn() {
+    for (let soundEffectOn = 0; soundEffectOn < 10; soundEffectOn++) {
+        if (sounds[soundEffectOn] !== 0) {
+            sounds[soundEffectOn].play();
+        }
+    }
+    
+    music.play(); 
+}
+
+//Mouse follower, switches to touch move for mobile
 function mousemake(event, clickAddOn=false) {
     if(clickAddOn){
         mousedown = true;
-        music.play(); 
-        music.volume = musicvolume; 
     }
     
     if (event.touches !== undefined) {
