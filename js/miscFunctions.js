@@ -683,6 +683,7 @@ function soundOn() {
     for (let soundEffectOn = 0; soundEffectOn < 10; soundEffectOn++) {
         if (sounds[soundEffectOn] !== 0) {
             sounds[soundEffectOn].play();
+            sounds[soundEffectOn] = 0;
         }
     }
     
