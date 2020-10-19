@@ -680,20 +680,18 @@ function dialogueMaker() {
 
 //Apple interaction check
 function soundOn() {
-    if (soundeffectvolume > 0) {
-        for (let soundEffectOn = 0; soundEffectOn < 10; soundEffectOn++) {
-            if (sounds[soundEffectOn] !== 0) {
-                sounds[soundEffectOn].play();
-                sounds[soundEffectOn].volume = soundeffectvolume;
-                sounds[soundEffectOn] = 0;
-            }
-        }  
-    }
+   soundeffect();
+    for (let soundEffectOn = 0; soundEffectOn < 10; soundEffectOn++) {
+        if (sounds[soundEffectOn] !== 0) {
+            sounds[soundEffectOn] = 0;
+        }
+    }  
     
     if (musicvolume > 0 && !(textInfo.length > 1 && music.src.split("/")[music.src.split("/").length - 1] == "QueenTheme.mp3")) {
-    music.play(); 
-    music.volume = musicvolume;
+    music.play();    
     }
+    
+    music.volume = musicvolume;
 }
 
 //Mouse follower, switches to touch move for mobile
