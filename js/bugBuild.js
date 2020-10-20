@@ -397,7 +397,7 @@ bugBuild.prototype.constants = function(multFactor) {
     //Time skipping balancing
     this.Health = Math.min(this.Health, this.HealthTotal);
     this.Age = Math.max(this.Age, 0);
-    this.Attacking = false;
+    this.keyUp = {};
 }
 
 bugBuild.prototype.skill = function(victim) {
