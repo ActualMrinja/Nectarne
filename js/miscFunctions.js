@@ -683,15 +683,18 @@ function soundOn() {
    soundeffect();
     for (let soundEffectOn = 0; soundEffectOn < 10; soundEffectOn++) {
         if (sounds[soundEffectOn] !== 0) {
+            sounds[soundEffectOn].play();
             sounds[soundEffectOn] = 0;
         }
     }  
     
-    if (musicvolume > 0 && !(textInfo.length > 1 && music.src.split("/")[music.src.split("/").length - 1] == "QueenTheme.mp3")) {
-    music.play();    
-    }
-    
     music.volume = musicvolume;
+    
+    if (musicvolume > 0 && !(textInfo.length > 1 && music.src.split("/")[music.src.split("/").length - 1] == "QueenTheme.mp3")) {
+        music.play();    
+    } else {
+        music.pause();
+    }
 }
 
 //Mouse follower, switches to touch move for mobile
