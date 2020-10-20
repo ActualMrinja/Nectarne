@@ -895,7 +895,7 @@ function price(bugData, buy = true, albino = false) {
 
 function shopHandle(x, y, index, thumbnail) {
     if (index < 4) {
-        if ((date - shop[index][1]) >= shop[index][2] * 3600000) {
+        if ((date - shop[index][1]) >= shop[index][2] * 3600000 || (date - shop[index][1]) < 0) {
             let randomizer = Math.floor(Math.random() * shop[index][3].length);
             while (shop[index][0] == shop[index][3][randomizer] && index !== 3) {
                 randomizer = Math.floor(Math.random() * shop[index][3].length);
