@@ -218,7 +218,7 @@ bugBuild.prototype.collision = function(collisionIndex) {
 //multFactor is dependent on date difference
 bugBuild.prototype.constants = function(multFactor) {
     if (!bugStats[this.Species].obtained) {
-        bugStats[this.Species].obtained = true
+        bugStats[this.Species].obtained = true;
     }
 
     if (bugStats[this.Species].evolve && this.Age >= 50) {
@@ -393,6 +393,10 @@ bugBuild.prototype.constants = function(multFactor) {
     if (food <= 0 && this.Trait !== 5 && multFactor <= 1) {
         this.Health = Math.max(0, this.Health - (5 / 1800 * multFactor));
     }
+    
+    //Time skipping balancing
+    this.Health = Math.min(this.Health, this.HealthTotal);
+    this.Age = Math.max(this.Age, 0);
 }
 
 bugBuild.prototype.skill = function(victim) {
@@ -743,7 +747,7 @@ bugBuild.prototype.draw = function() {
         this.DateRecord = date;
         save();
     }
-
+    
     ctx.globalAlpha = 1;
     if (battleMode && bugStats[this.Species].skillName == "Specialized Ambush") {
         ctx.globalAlpha = 1 - this.Fury;
