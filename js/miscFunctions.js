@@ -1142,7 +1142,7 @@ function load(deleteFile = false) {
             music = miscAudio[audioNm.indexOf("MainTheme.mp3")].cloneNode();
             music.loop = true;
             music.play();
-            music.volume = 0;
+            music.volume = musicvolume.
         }
 
         //resets battles
