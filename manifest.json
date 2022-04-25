@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Collect, raise, breed, and battle with bugs to create the best colony there is and ever will be.",
   "permissions": ["activeTab","storage"],
-  "browser_action": {
+  "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "images/favicon/favicon16.png",
